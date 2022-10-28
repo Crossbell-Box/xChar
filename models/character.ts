@@ -22,3 +22,9 @@ export const getFollowers = (characterId: number) => {
     limit: 0,
   })
 }
+
+export const getAchievement = (characterId: number) => {
+  return indexer.getAchievement(characterId, {
+    status: ["MINTED"],
+  })
+}

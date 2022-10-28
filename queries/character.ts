@@ -36,3 +36,12 @@ export const useGetFollowers = (characterId: number) => {
     return characterModel.getFollowers(characterId)
   })
 }
+
+export const useGetAchievement = (characterId: number) => {
+  return useQuery(["getAchievement", characterId], async () => {
+    if (!characterId) {
+      return null
+    }
+    return characterModel.getAchievement(characterId)
+  })
+}

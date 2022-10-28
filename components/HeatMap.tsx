@@ -79,7 +79,7 @@ export const HeatMap: React.FC<{
         {calendar.calendar.map((week: any, index: number) => (
           <div className="flex gap-1 flex-col" key={index}>
             {week.map((day: any) => (
-              <div key={day.dayjs.toString()} className={"w-2 h-2 bg-gray-200 cursor-pointer " + (day.count === 0 ? "bg-gray-200" : (day.count > 0 && day.count < 2 ? "bg-blue-200" : (day.count >= 2 && day.count < 5 ? "bg-blue-400" : (day.count >= 5 && day.count < 10 ? "bg-blue-600" : "bg-blue-900"))))}></div>
+              <div key={day.dayjs.toString()} className={"w-2 h-2 cursor-pointer " + (day.count === 0 ? "bg-gray-100" : (day.count > 0 && day.count < 2 ? "bg-blue-200" : (day.count >= 2 && day.count < 5 ? "bg-blue-400" : (day.count >= 5 && day.count < 10 ? "bg-blue-600" : "bg-blue-900"))))}></div>
             ))}
           </div>
         ))}
