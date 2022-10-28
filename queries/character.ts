@@ -45,3 +45,12 @@ export const useGetAchievement = (characterId: number) => {
     return characterModel.getAchievement(characterId)
   })
 }
+
+export const useGetSync = (characterId: number) => {
+  return useQuery(["getSync", characterId], async () => {
+    if (!characterId) {
+      return null
+    }
+    return characterModel.getSync(characterId)
+  })
+}

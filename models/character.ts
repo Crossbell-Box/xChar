@@ -1,4 +1,5 @@
 import { indexer } from "../lib/crossbell"
+import axios from "axios"
 
 export const getCharacter = (handle: string) => {
   return indexer.getCharacterByHandle(handle)
@@ -27,4 +28,8 @@ export const getAchievement = (characterId: number) => {
   return indexer.getAchievement(characterId, {
     status: ["MINTED"],
   })
+}
+
+export const getSync = (characterId: number) => {
+  return axios.get(`https://test-opsync.crossbell.io/v1/${characterId}/account`)
 }
