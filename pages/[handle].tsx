@@ -65,7 +65,7 @@ export default function HandlePage() {
       icon: "./substack.svg",
       url: "https://{username}.substack.com/",
     },
-    mediam: {
+    medium: {
       name: 'Mediam',
       icon: "./medium.svg",
       url: "https://medium.com/@{username}",
@@ -191,7 +191,7 @@ export default function HandlePage() {
                 )
                 .humanize()}{" "}
               ago</div>
-              {note.metadata?.content?.title && <div className="line-clamp-1 font-medium text-lg">{note.metadata?.content?.title}</div>}
+              {note.metadata?.content?.title && <div className="line-clamp-1 font-medium text-lg my-2">{note.metadata?.content?.title}</div>}
               <div className="line-clamp-3 relative">{note.metadata?.content?.content}</div>
             </Link>
             <div className="flex justify-between items-center">
