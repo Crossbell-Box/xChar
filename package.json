@@ -6,12 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
     "@floating-ui/react-dom-interactions": "^0.12.0",
     "@heroicons/react": "^2.0.13",
     "@tanstack/react-query": "^4.18.0",
+    "antd": "^5.0.3",
     "axios": "^1.2.0",
     "clsx": "^1.2.1",
     "crossbell.js": "^0.11.5",
@@ -30,7 +35,10 @@
     "autoprefixer": "^10.4.13",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.4",
     "postcss": "^8.4.19",
+    "prettier": "^2.8.0",
     "tailwindcss": "^3.2.4",
     "typescript": "4.9.3"
   }

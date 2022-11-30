@@ -1,7 +1,7 @@
 import { useGetNotes } from "../queries/character"
-import dayjs from 'dayjs'
-import dayOfYear from 'dayjs/plugin/dayOfYear'
-import weekOfYear from 'dayjs/plugin/weekOfYear'
+import dayjs from "dayjs"
+import dayOfYear from "dayjs/plugin/dayOfYear"
+import weekOfYear from "dayjs/plugin/weekOfYear"
 import { useState, useEffect } from "react"
 import { Tooltip } from "./Tooltip"
 
@@ -14,61 +14,63 @@ export const HeatMap: React.FC<{
   const notes = useGetNotes(characterId || 0)
 
   const getYearCalendar = (year: number) => {
-    const length = year % 4 === 0 ? 366 : 365;
-    const calendar: any = [];
+    const length = year % 4 === 0 ? 366 : 365
+    const calendar: any = []
     for (let i = 1; i < length + 1; i++) {
-      const day = dayjs(year + '').dayOfYear(i);
+      const day = dayjs(year + "").dayOfYear(i)
       if (day.diff(dayjs()) > 0) {
-        break;
+        break
       }
-      let week = day.week();
+      let week = day.week()
       if (i > 7 && week === 1) {
         if (calendar[calendar.length - 1].length === 7) {
-          week = calendar.length + 1;
+          week = calendar.length + 1
         } else {
-          week = calendar.length;
+          week = calendar.length
         }
       }
       if (!calendar[week - 1]) {
-        calendar[week - 1] = [];
+        calendar[week - 1] = []
       }
       calendar[week - 1].push({
         dayjs: day,
         count: 0,
-      });
+      })
     }
-    return calendar;
-  };
+    return calendar
+  }
 
-  const currentYear = dayjs().year();
+  const currentYear = dayjs().year()
 
   const [calendar, setCalendar] = useState({
     year: currentYear,
     calendar: getYearCalendar(currentYear),
     count: 0,
-  });
+  })
 
   useEffect(() => {
     if (notes.data && notes.data.list && !calendar.count) {
       for (let i = 0; i < notes.data.list.length; i++) {
-        const day = dayjs(notes.data.list[i].createdAt);
-        let week = day.week();
+        const day = dayjs(notes.data.list[i].createdAt)
+        let week = day.week()
         if (day.year() === currentYear) {
-          const list = calendar.calendar;
+          const list = calendar.calendar
           if (day.dayOfYear() > 7 && week === 1) {
             if (list[list.length - 1].length === 7) {
-              week = list.length + 1;
+              week = list.length + 1
             } else {
-              week = list.length;
+              week = list.length
             }
           }
-          const result = list[week - 1].find((item: any) => item.dayjs.isSame(day, 'day'))
-          result.count++;
-          calendar.count++;
+          const result = list[week - 1].find((item: any) =>
+            item.dayjs.isSame(day, "day"),
+          )
+          result.count++
+          calendar.count++
           setCalendar({
             ...calendar,
             calendar: list,
-          });
+          })
         }
       }
     }
@@ -80,8 +82,27 @@ export const HeatMap: React.FC<{
         {calendar.calendar.map((week: any, index: number) => (
           <div className="flex gap-1 flex-col" key={index}>
             {week.map((day: any) => (
-              <Tooltip key={day.dayjs.toString()} label={day.count + " notes on " + day.dayjs.format('MMM DD, YYYY')} placement="top">
-                <div className={"w-[10px] h-[10px] cursor-pointer " + (day.count === 0 ? "bg-gray-100" : (day.count > 0 && day.count < 2 ? "bg-blue-200" : (day.count >= 2 && day.count < 5 ? "bg-blue-400" : (day.count >= 5 && day.count < 10 ? "bg-blue-600" : "bg-blue-900"))))}></div>
+              <Tooltip
+                key={day.dayjs.toString()}
+                label={
+                  day.count + " notes on " + day.dayjs.format("MMM DD, YYYY")
+                }
+                placement="top"
+              >
+                <div
+                  className={
+                    "w-[10px] h-[10px] cursor-pointer " +
+                    (day.count === 0
+                      ? "bg-gray-100"
+                      : day.count > 0 && day.count < 2
+                      ? "bg-blue-200"
+                      : day.count >= 2 && day.count < 5
+                      ? "bg-blue-400"
+                      : day.count >= 5 && day.count < 10
+                      ? "bg-blue-600"
+                      : "bg-blue-900")
+                  }
+                ></div>
               </Tooltip>
             ))}
           </div>
