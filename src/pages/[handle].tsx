@@ -7,16 +7,15 @@ import {
   useGetSync,
 } from "../queries/character"
 import { useAccount } from "wagmi"
-import { useEffect } from "react"
 import { useRouter } from "next/router"
 import { HeatMap } from "../components/HeatMap"
-import Image from "next/image"
-import { IPFS_GATEWAY } from "../lib/constant"
+import { Image } from "~/components/ui/Image"
 import Tilt from "react-parallax-tilt"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
-import Link from "next/link"
+import { Avatar } from "~/components/ui/Avatar"
+import { UniLink } from "~/components/ui/UniLink"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -54,32 +53,32 @@ export default function HandlePage() {
   } = {
     tg_channel: {
       name: "Telegram Channel",
-      icon: "./telegram.svg",
+      icon: "/logos/telegram.svg",
       url: "https://t.me/{username}",
     },
     twitter: {
       name: "Twitter",
-      icon: "./twitter.svg",
+      icon: "/logos/twitter.svg",
       url: "https://twitter.com/{username}",
     },
     pixiv: {
       name: "Pixiv",
-      icon: "./pixiv.svg",
+      icon: "/logos/pixiv.svg",
       url: "https://www.pixiv.net/users/{username}",
     },
     substack: {
       name: "Substack",
-      icon: "./substack.svg",
+      icon: "/logos/substack.svg",
       url: "https://{username}.substack.com/",
     },
     medium: {
       name: "Mediam",
-      icon: "./medium.svg",
+      icon: "/logos/medium.svg",
       url: "https://medium.com/@{username}",
     },
     xlog: {
       name: "xLog",
-      icon: "./xlog.svg",
+      icon: "/logos/xlog.svg",
       url: "https://{username}.xlog.app/",
     },
   }
@@ -140,17 +139,11 @@ export default function HandlePage() {
           </div>
           <div className="w-32 text-center mr-4 flex flex-col items-center justify-between">
             {character.data?.metadata?.content?.avatars && (
-              <img
+              <Avatar
                 className="rounded-full inline-block"
-                alt={handle}
-                src={
-                  character.data?.metadata?.content?.avatars?.[0]?.replace(
-                    "ipfs://",
-                    IPFS_GATEWAY,
-                  ) || ""
-                }
-                width={80}
-                height={80}
+                name={handle}
+                images={character.data?.metadata?.content?.avatars}
+                size={80}
               />
             )}
             <div className="mt-2 font-bold text-2xl">
@@ -160,13 +153,12 @@ export default function HandlePage() {
               <div className="text-xs">
                 Blockchain Address
                 <br />
-                <Link
-                  target="_blank"
+                <UniLink
                   href={`https://scan.crossbell.io/address/${character.data?.owner}`}
                 >
                   {character.data?.owner.slice(0, 5)}...
                   {character.data?.owner.slice(-4)}
-                </Link>
+                </UniLink>
               </div>
             </div>
           </div>
@@ -179,23 +171,16 @@ export default function HandlePage() {
               {character.data?.metadata?.content?.bio}
             </p>
             <div className="space-x-5 mt-2">
-              <Link
-                href={`https://crossbell.io/@${handle}/followers`}
-                target="_blank"
-              >
+              <UniLink href={`https://crossbell.io/@${handle}/followers`}>
                 {followers.data?.count} Followers
-              </Link>
-              <Link
-                href={`https://crossbell.io/@${handle}/following`}
-                target="_blank"
-              >
+              </UniLink>
+              <UniLink href={`https://crossbell.io/@${handle}/following`}>
                 {followings.data?.count} Following
-              </Link>
+              </UniLink>
               <span>{notes.data?.count} Notes</span>
             </div>
             <div className="text-gray-500 mt-2 text-sm">
-              <Link
-                target="_blank"
+              <UniLink
                 href={`https://scan.crossbell.io/tx/${character.data?.transactionHash}`}
               >
                 Joined{" "}
@@ -206,17 +191,21 @@ export default function HandlePage() {
                   )
                   .humanize()}{" "}
                 ago
-              </Link>
+              </UniLink>
             </div>
             <div className="mt-3 text-[0px]">
               {achievement.data?.list[0]?.groups?.map((group) => {
                 const achievement = group.items[group.items.length - 1].info
                 return (
                   <span className="mr-4 inline-flex" key={achievement.tokenId}>
-                    <img
-                      className="w-10 h-10 inline-block mr-2"
-                      src={achievement.media.replace("ipfs://", IPFS_GATEWAY)}
-                    />
+                    <span className="inline-block w-10 h-10 mr-2">
+                      <Image
+                        width={40}
+                        height={40}
+                        alt="achievement"
+                        src={achievement.media}
+                      />
+                    </span>
                     <span className="inline-flex flex-col justify-around">
                       <span className="capitalize text-sm">
                         {group.info.title}
@@ -241,9 +230,8 @@ export default function HandlePage() {
           <span className="align-middle">
             I am owning these social contents on Crossbell
           </span>
-          <Link
+          <UniLink
             href="https://crossbell.io/sync"
-            target="_blank"
             className="align-middle ml-2 inline-flex justify-center"
           >
             <svg
@@ -260,45 +248,45 @@ export default function HandlePage() {
                 d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
               />
             </svg>
-          </Link>
+          </UniLink>
         </div>
         <div className="mb-4">
           {sourceList.xlog && (
-            <Link
+            <UniLink
               className="mr-6 inline-flex"
-              target="_blank"
               href={syncMap["xlog"].url.replace("{username}", handle)}
             >
-              <img
+              <Image
                 className="rounded-full w-9 h-9 inline-block mr-2"
                 src={syncMap["xlog"].icon}
+                alt="xLog"
               />
               <span className="inline-flex flex-col justify-around">
                 <span className="text-sm">{syncMap["xlog"].name}</span>
                 <span className="text-xs">@{handle}</span>
               </span>
-            </Link>
+            </UniLink>
           )}
           {sync.data?.data?.result?.map((item: any) => {
             return (
-              <Link
+              <UniLink
                 className="mr-6 inline-flex"
                 key={item.platform}
-                target="_blank"
                 href={syncMap[item.platform].url.replace(
                   "{username}",
                   item.username,
                 )}
               >
-                <img
+                <Image
                   className="rounded-full w-9 h-9 inline-block mr-2"
                   src={syncMap[item.platform].icon}
+                  alt={item.platform}
                 />
                 <span className="inline-flex flex-col justify-around">
                   <span className="text-sm">{syncMap[item.platform].name}</span>
                   <span className="text-xs">@{item.username}</span>
                 </span>
-              </Link>
+              </UniLink>
             )
           })}
         </div>
@@ -318,14 +306,13 @@ export default function HandlePage() {
               key={note.noteId}
               className="mx-auto relative py-6 space-y-2 overflow-hidden"
             >
-              <Link
+              <UniLink
                 href={
                   note.metadata?.content?.sources?.includes("xlog") &&
                   note.metadata?.content?.external_urls?.[0]
                     ? note.metadata?.content?.external_urls?.[0]
                     : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
                 }
-                target="_blank"
               >
                 <div className="text-gray-400 relative">
                   {dayjs
@@ -344,14 +331,11 @@ export default function HandlePage() {
                 <div className="line-clamp-3 relative">
                   {note.metadata?.content?.content}
                 </div>
-              </Link>
+              </UniLink>
               <div className="flex justify-between items-center">
                 <div className="text-xs relative">
                   {note.metadata?.content?.external_urls?.[0] && (
-                    <Link
-                      href={note.metadata?.content?.external_urls?.[0]}
-                      target="_blank"
-                    >
+                    <UniLink href={note.metadata?.content?.external_urls?.[0]}>
                       {note.metadata?.content?.sources?.map((source) => (
                         <span
                           className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
@@ -360,7 +344,7 @@ export default function HandlePage() {
                           {source}
                         </span>
                       ))}
-                    </Link>
+                    </UniLink>
                   )}
                   {!note.metadata?.content?.external_urls?.[0] &&
                     note.metadata?.content?.sources?.map((source) => (
@@ -373,13 +357,12 @@ export default function HandlePage() {
                     ))}
                 </div>
                 <div className="mr-1 text-gray-400 relative">
-                  <Link
-                    target="_blank"
+                  <UniLink
                     href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
                   >
                     #{note.noteId} {note.updatedTransactionHash.slice(0, 5)}...
                     {note.updatedTransactionHash.slice(-4)}
-                  </Link>
+                  </UniLink>
                 </div>
               </div>
             </div>

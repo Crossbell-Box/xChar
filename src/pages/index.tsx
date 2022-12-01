@@ -64,7 +64,7 @@ export default function Home() {
         <h1>
           <Image
             alt="xChar"
-            src="/crossbell.svg"
+            src="/logos/crossbell.svg"
             className="w-250px h-68px"
             width={250}
             height={68}
