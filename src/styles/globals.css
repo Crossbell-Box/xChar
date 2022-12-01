@@ -13,15 +13,3 @@ body {
   height: 100%;
   width: 100%;
 }
-
-body {
-  /* @apply bg-gray-200; */
-}
-
-.parallax-effect {
-  transform-style: preserve-3d;
-}
-
-.inner-element {
-  transform: translateZ(60px);
-}
