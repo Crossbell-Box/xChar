@@ -37,12 +37,12 @@ export const useGetFollowers = (characterId: number) => {
   })
 }
 
-export const useGetAchievement = (characterId: number) => {
-  return useQuery(["getAchievement", characterId], async () => {
+export const useGetAchievements = (characterId: number) => {
+  return useQuery(["getAchievements", characterId], async () => {
     if (!characterId) {
       return null
     }
-    return characterModel.getAchievement(characterId)
+    return characterModel.getAchievements(characterId)
   })
 }
 

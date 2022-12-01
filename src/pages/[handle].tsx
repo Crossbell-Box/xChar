@@ -3,9 +3,17 @@ import {
   useGetFollowers,
   useGetFollowings,
   useGetNotes,
-  useGetAchievement,
+  useGetAchievements,
   useGetSync,
 } from "../queries/character"
+import {
+  fetchGetCharacter,
+  prefetchGetFollowers,
+  prefetchGetFollowings,
+  prefetchGetNotes,
+  prefetchGetAchievements,
+  prefetchGetSync,
+} from "../queries/character.server"
 import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
 import { HeatMap } from "../components/HeatMap"
@@ -20,9 +28,33 @@ import {
   ChevronRightIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline"
+import { dehydrate, QueryClient } from "@tanstack/react-query"
+import { GetServerSideProps } from "next"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const queryClient = new QueryClient()
+
+  const character = await fetchGetCharacter(
+    ctx.params!.handle as string,
+    queryClient,
+  )
+  await Promise.all([
+    prefetchGetFollowers(character.characterId, queryClient),
+    prefetchGetFollowings(character.characterId, queryClient),
+    prefetchGetNotes(character.characterId, queryClient),
+    prefetchGetAchievements(character.characterId, queryClient),
+    prefetchGetSync(character.characterId, queryClient),
+  ])
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  }
+}
 
 export default function HandlePage() {
   const router = useRouter()
@@ -31,7 +63,7 @@ export default function HandlePage() {
   const followers = useGetFollowers(character.data?.characterId || 0)
   const followings = useGetFollowings(character.data?.characterId || 0)
   const notes = useGetNotes(character.data?.characterId || 0)
-  const achievement = useGetAchievement(character.data?.characterId || 0)
+  const achievement = useGetAchievements(character.data?.characterId || 0)
   const sync = useGetSync(character.data?.characterId || 0)
 
   const sourceList: {
@@ -88,7 +120,7 @@ export default function HandlePage() {
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen py-20">
+    <div className="relative flex flex-col items-center min-h-screen py-20">
       <div className="fixed left-1/2 -translate-x-1/2 top-16 w-[1000px] h-[272px]">
         <Image
           alt="xChar"
@@ -136,12 +168,14 @@ export default function HandlePage() {
             </p>
             <div className="space-x-5 mt-2">
               <UniLink href={`https://crossbell.io/@${handle}/followers`}>
-                {followers.data?.count} Followers
+                <strong>{followers.data?.count}</strong> Followers
               </UniLink>
               <UniLink href={`https://crossbell.io/@${handle}/following`}>
-                {followings.data?.count} Following
+                <strong>{followings.data?.count}</strong> Following
               </UniLink>
-              <span>{notes.data?.count} Notes</span>
+              <span>
+                <strong>{notes.data?.count}</strong> Notes
+              </span>
             </div>
             <div className="text-gray-500 mt-2 text-sm">
               <UniLink
@@ -160,65 +194,60 @@ export default function HandlePage() {
           </div>
         </div>
       </Tilt>
-      <div className="w-[800px] text-sm mt-8 relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md">
-        <div className="bg-white opacity-80 py-6 px-8">
-          <div className="font-medium text-base mb-4">✨ Achievements</div>
-          <div className="relative">
-            <div className="overflow-x-scroll">
-              <div className="space-x-5 whitespace-nowrap mr-10 w-fit">
-                {achievement.data?.list?.map((series) =>
-                  series.groups?.map((group) => {
-                    const achievement = group.items[group.items.length - 1].info
-                    return (
-                      <span className="inline-flex" key={achievement.tokenId}>
-                        <span className="inline-block w-10 h-10 mr-2">
-                          <Image
-                            width={40}
-                            height={40}
-                            alt="achievement"
-                            src={achievement.media}
-                          />
+      <div className="w-[800px] text-sm mt-8 relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
+        <div className="relative font-medium text-xl mb-4">✨ Achievements</div>
+        <div className="relative">
+          <div className="overflow-x-scroll">
+            <div className="space-x-5 whitespace-nowrap mr-10 w-fit">
+              {achievement.data?.list?.map((series) =>
+                series.groups?.map((group) => {
+                  const achievement = group.items[group.items.length - 1].info
+                  return (
+                    <span className="inline-flex" key={achievement.tokenId}>
+                      <span className="inline-block w-10 h-10 mr-2">
+                        <Image
+                          width={40}
+                          height={40}
+                          alt="achievement"
+                          src={achievement.media}
+                        />
+                      </span>
+                      <span className="inline-flex flex-col justify-around">
+                        <span className="capitalize text-sm">
+                          {group.info.title}
                         </span>
-                        <span className="inline-flex flex-col justify-around">
-                          <span className="capitalize text-sm">
-                            {group.info.title}
-                          </span>
-                          <span className="text-xs">
-                            {
-                              achievement.attributes.find(
-                                (attribute) => attribute.trait_type === "tier",
-                              )?.value
-                            }
-                          </span>
+                        <span className="text-xs">
+                          {
+                            achievement.attributes.find(
+                              (attribute) => attribute.trait_type === "tier",
+                            )?.value
+                          }
                         </span>
                       </span>
-                    )
-                  }),
-                )}
-              </div>
+                    </span>
+                  )
+                }),
+              )}
             </div>
-            <UniLink
-              href={`${handle}/achievements`}
-              className="absolute right-0 top-0 bottom-0 flex items-center bg-gradient-to-r from-transparent via-white to-white w-10 justify-end cursor-pointer"
-            >
-              <ChevronRightIcon className="w-4 h-4" />
-            </UniLink>
           </div>
+          <UniLink
+            href={`${handle}/achievements`}
+            className="absolute right-0 top-0 bottom-0 flex items-center bg-gradient-to-r from-transparent via-white to-white w-10 justify-end cursor-pointer"
+          >
+            <ChevronRightIcon className="w-4 h-4" />
+          </UniLink>
         </div>
       </div>
       <div className="w-[800px] text-sm mt-8 relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
-        <div className="font-medium text-base mb-4">
-          <span className="align-middle">
-            I am owning these social contents on Crossbell
-          </span>
-          <UniLink
-            href="https://crossbell.io/sync"
-            className="align-middle ml-2 inline-flex justify-center"
-          >
-            <QuestionMarkCircleIcon className="w-4 h-4" />
-          </UniLink>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
+        <div className="relative font-medium text-xl mb-4">
+          <span className="align-middle">🎼 Notes</span>
         </div>
-        <div className="mb-4">
+        <div className="relative flex justify-center w-full">
+          <HeatMap characterId={character.data?.characterId} />
+        </div>
+        <div className="relative mt-4">
           {sourceList.xlog && (
             <UniLink
               className="mr-6 inline-flex"
@@ -238,7 +267,7 @@ export default function HandlePage() {
               </span>
             </UniLink>
           )}
-          {sync.data?.data?.result?.map((item: any) => {
+          {sync?.data?.result?.map((item: any) => {
             return (
               <UniLink
                 className="mr-6 inline-flex"
@@ -264,15 +293,19 @@ export default function HandlePage() {
             )
           })}
         </div>
-        <HeatMap characterId={character.data?.characterId} />
-        {/* <div className="text-xs mt-4 leading-snug">{Object.keys(sourceList).sort((a, b) => sourceList[b] - sourceList[a]).map((source) => {
-          return <span className="bg-gray-200 rounded-3xl px-2 inline-block mt-1 mr-1" key={source}>{source + " " + sourceList[source]}</span>
-        })}</div> */}
-      </div>
-      <div className="w-[800px] text-sm mt-8 relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
-        <div className="absolute top-0 left-0 w-full h-full bg-white opacity-70"></div>
-        <div className="font-medium text-base relative">
-          My on-chain social contents
+        <div className="relative text-xs mt-4 leading-snug">
+          {Object.keys(sourceList)
+            .sort((a, b) => sourceList[b] - sourceList[a])
+            .map((source) => {
+              return (
+                <span
+                  className="bg-gray-200 rounded-3xl px-2 inline-block mt-1 mr-1"
+                  key={source}
+                >
+                  {source + " " + sourceList[source]}
+                </span>
+              )
+            })}
         </div>
         {notes.data?.list.map((note) => {
           return (

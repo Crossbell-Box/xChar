@@ -24,12 +24,16 @@ export const getFollowers = (characterId: number) => {
   })
 }
 
-export const getAchievement = (characterId: number) => {
+export const getAchievements = (characterId: number) => {
   return indexer.getAchievement(characterId, {
     status: ["MINTED"],
   })
 }
 
-export const getSync = (characterId: number) => {
-  return axios.get(`https://test-opsync.crossbell.io/v1/${characterId}/account`)
+export const getSync = async (characterId: number) => {
+  return (
+    await axios.get(
+      `https://test-opsync.crossbell.io/v1/${characterId}/account`,
+    )
+  )?.data
 }
