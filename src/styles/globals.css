@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./tailwind.css";
+
+:root {
+  --theme-color: theme("colors.yellow.500");
+}
+
 html,
 body {
   height: 100%;

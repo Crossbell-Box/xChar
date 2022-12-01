@@ -1,0 +1,37 @@
+.input {
+  @apply border;
+  @apply outline-none;
+  @apply rounded-lg;
+  @apply px-3;
+  @apply h-10;
+  @apply inline-flex;
+  @apply items-center;
+  @apply focus:ring-1;
+  --tw-ring-color: var(--theme-color);
+}
+
+.input.is-block {
+  @apply w-full;
+}
+
+.input.has-prefix {
+  @apply pl-11;
+}
+.input.has-addon {
+  @apply rounded-r-none;
+}
+
+textarea.input {
+  @apply h-auto;
+  @apply py-3;
+  @apply px-3;
+}
+
+.form-label {
+  @apply block;
+  @apply mb-2;
+  @apply text-sm;
+  @apply font-bold;
+  @apply text-gray-700;
+  @apply capitalize;
+}
