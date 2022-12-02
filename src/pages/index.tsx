@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { Image } from "~/components/ui/Image"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { indexer } from "../lib/crossbell"
 import { useCombobox } from "downshift"
 import { Input } from "../components/ui/Input"
@@ -15,30 +15,28 @@ export default function Home() {
   const [items, setItems] = useState<CharacterEntity[]>([])
 
   const searchChar = useMemo(() => {
-    return debounce(async (inputValue?: string) => {
-      if (!inputValue || inputValue.length < 3) {
-        setItems([])
-      } else {
-        const result = await indexer.searchCharacters(inputValue, {
-          limit: 8,
-        })
-        setItems(result.list)
-      }
-    }, 400)
+    return debounce(async (inputValue: string) => {
+      const result = await indexer.searchCharacters(inputValue, {
+        limit: 8,
+      })
+      setItems(result.list)
+    }, 300)
   }, [])
 
   const {
     isOpen,
-    getToggleButtonProps,
-    getLabelProps,
     getMenuProps,
     getInputProps,
     highlightedIndex,
     getItemProps,
-    selectedItem,
+    inputValue,
   } = useCombobox({
     async onInputValueChange({ inputValue }) {
-      searchChar(inputValue)
+      if (!inputValue || inputValue.length < 3) {
+        setItems([])
+      } else {
+        searchChar(inputValue)
+      }
     },
     items,
     itemToString(item) {
@@ -80,7 +78,13 @@ export default function Home() {
             <Input
               className="w-full focus:border-gray-300 focus:ring-0 border-0 rounded-none"
               prefix={<MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />}
-              {...(getInputProps() as any)}
+              {...getInputProps({
+                onKeyDown: (event) => {
+                  if (event.key === "Enter" && !items.length) {
+                    Router.push(`/${inputValue}`)
+                  }
+                },
+              })}
             />
             <>
               {isOpen && !!items.length && (
