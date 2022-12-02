@@ -11,6 +11,7 @@ import {
   prefetchGetFollowings,
   prefetchGetNotes,
   prefetchGetAchievements,
+  prefetchGetCalendar,
 } from "../queries/character.server"
 import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
@@ -42,8 +43,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await Promise.all([
     prefetchGetFollowers(character.characterId, queryClient),
     prefetchGetFollowings(character.characterId, queryClient),
-    prefetchGetNotes(character.characterId, queryClient),
+    prefetchGetNotes(
+      {
+        characterId: character.characterId,
+        limit: 20,
+      },
+      queryClient,
+    ),
     prefetchGetAchievements(character.characterId, queryClient),
+    prefetchGetCalendar(character.characterId, queryClient),
   ])
 
   return {
@@ -59,7 +67,10 @@ export default function HandlePage() {
   const character = useGetCharacter(handle)
   const followers = useGetFollowers(character.data?.characterId || 0)
   const followings = useGetFollowings(character.data?.characterId || 0)
-  const notes = useGetNotes(character.data?.characterId || 0)
+  const notes = useGetNotes({
+    characterId: character.data?.characterId || 0,
+    limit: 20,
+  })
   const achievement = useGetAchievements(character.data?.characterId || 0)
 
   const sourceList: {

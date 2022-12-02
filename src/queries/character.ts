@@ -10,12 +10,14 @@ export const useGetCharacter = (handle: string) => {
   })
 }
 
-export const useGetNotes = (characterId: number) => {
-  return useQuery(["getNotes", characterId], async () => {
-    if (!characterId) {
+export const useGetNotes = (
+  options: Parameters<typeof characterModel.getNotes>[0],
+) => {
+  return useQuery(["getNotes", options.characterId, options], async () => {
+    if (!options.characterId) {
       return null
     }
-    return characterModel.getNotes(characterId)
+    return characterModel.getNotes(options)
   })
 }
 
@@ -43,5 +45,16 @@ export const useGetAchievements = (characterId: number) => {
       return null
     }
     return characterModel.getAchievements(characterId)
+  })
+}
+
+export const useGetCalendar = (characterId: number) => {
+  return useQuery(["getCalendar", characterId], async () => {
+    if (!characterId) {
+      return null
+    }
+    return fetch(`/api/calendar?characterId=${characterId}`).then((res) =>
+      res.json(),
+    )
   })
 }

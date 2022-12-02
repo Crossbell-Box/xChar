@@ -1,15 +1,15 @@
 import { indexer } from "../lib/crossbell"
-import axios from "axios"
 
 export const getCharacter = (handle: string) => {
   return indexer.getCharacterByHandle(handle)
 }
 
-export const getNotes = (characterId: number) => {
-  return indexer.getNotes({
-    characterId: characterId,
-    limit: 1000,
-  })
+export const getNotes = (options: {
+  characterId: number
+  limit: number
+  cursor?: string
+}) => {
+  return indexer.getNotes(options)
 }
 
 export const getFollowings = (characterId: number) => {

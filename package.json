@@ -16,7 +16,6 @@
     "@floating-ui/react-dom-interactions": "^0.12.0",
     "@heroicons/react": "^2.0.13",
     "@tanstack/react-query": "^4.19.0",
-    "axios": "^1.2.0",
     "clsx": "^1.2.1",
     "crossbell.js": "^0.11.5",
     "dayjs": "^1.11.6",

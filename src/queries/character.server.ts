@@ -1,6 +1,7 @@
 import * as characterModel from "../models/character"
 import { QueryClient } from "@tanstack/react-query"
 import { cacheGet } from "~/lib/redis.server"
+import { getCalendar } from "~/lib/calendar"
 
 export const fetchGetCharacter = async (
   handle: string,
@@ -16,15 +17,15 @@ export const fetchGetCharacter = async (
 }
 
 export const prefetchGetNotes = async (
-  characterId: number,
+  options: Parameters<typeof characterModel.getNotes>[0],
   queryClient: QueryClient,
 ) => {
-  if (!characterId) {
+  if (!options.characterId) {
     return null
   }
-  const key = ["getNotes", characterId]
+  const key = ["getNotes", options.characterId, options]
   await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => characterModel.getNotes(characterId))
+    return cacheGet(key, () => characterModel.getNotes(options))
   })
 }
 
@@ -64,5 +65,18 @@ export const prefetchGetAchievements = async (
   const key = ["getAchievements", characterId]
   await queryClient.prefetchQuery(key, async () => {
     return cacheGet(key, () => characterModel.getAchievements(characterId))
+  })
+}
+
+export const prefetchGetCalendar = async (
+  characterId: number,
+  queryClient: QueryClient,
+) => {
+  if (!characterId) {
+    return null
+  }
+  const key = ["getCalendar", characterId]
+  await queryClient.prefetchQuery(key, async () => {
+    return cacheGet(key, () => getCalendar(characterId))
   })
 }
