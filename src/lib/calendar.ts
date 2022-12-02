@@ -92,7 +92,12 @@ export const getCalendar = async (characterId: number) => {
   return {
     calendar: Object.keys(response.calendar)
       .sort()
-      .map((key) => response.calendar[key]),
+      .map((key) =>
+        response.calendar[key].map((item: any) => {
+          item.day = item.day.toString()
+          return item
+        }),
+      ),
     count: response.count,
   }
 }

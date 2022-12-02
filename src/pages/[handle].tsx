@@ -2,7 +2,7 @@ import {
   useGetCharacter,
   useGetFollowers,
   useGetFollowings,
-  useGetNotes,
+  useGetPagesBySiteLite,
   useGetAchievements,
 } from "../queries/character"
 import {
@@ -67,7 +67,7 @@ export default function HandlePage() {
   const character = useGetCharacter(handle)
   const followers = useGetFollowers(character.data?.characterId || 0)
   const followings = useGetFollowings(character.data?.characterId || 0)
-  const notes = useGetNotes({
+  const notes = useGetPagesBySiteLite({
     characterId: character.data?.characterId || 0,
     limit: 20,
   })
@@ -76,7 +76,7 @@ export default function HandlePage() {
   const sourceList: {
     [key: string]: number
   } = {}
-  notes.data?.list.map((note) => {
+  notes.data?.pages?.[0]?.list.map((note) => {
     if (note.metadata?.content?.sources) {
       note.metadata.content.sources.map((source) => {
         if (!sourceList[source]) {
@@ -157,7 +157,7 @@ export default function HandlePage() {
                 <strong>{followings.data?.count}</strong> Following
               </UniLink>
               <span>
-                <strong>{notes.data?.count}</strong> Notes
+                <strong>{notes.data?.pages?.[0]?.count}</strong> Notes
               </span>
             </div>
             <div className="text-gray-500 mt-2 text-sm">
@@ -270,74 +270,99 @@ export default function HandlePage() {
               )
             })}
         </div>
-        {notes.data?.list.map((note) => {
-          return (
-            <div
-              key={note.noteId}
-              className="mx-auto relative py-6 space-y-2 overflow-hidden"
-            >
-              <UniLink
-                href={
-                  note.metadata?.content?.sources?.includes("xlog") &&
-                  note.metadata?.content?.external_urls?.[0]
-                    ? note.metadata?.content?.external_urls?.[0]
-                    : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
-                }
-              >
-                <div className="text-gray-400 relative">
-                  {dayjs
-                    .duration(
-                      dayjs(note.updatedAt).diff(dayjs(), "minute"),
-                      "minute",
-                    )
-                    .humanize()}{" "}
-                  ago
-                </div>
-                {note.metadata?.content?.title && (
-                  <div className="line-clamp-1 font-medium text-lg my-2">
-                    {note.metadata?.content?.title}
-                  </div>
-                )}
-                <div className="line-clamp-3 relative">
-                  {note.metadata?.content?.content}
-                </div>
-              </UniLink>
-              <div className="flex justify-between items-center">
-                <div className="text-xs relative">
-                  {note.metadata?.content?.external_urls?.[0] && (
-                    <UniLink href={note.metadata?.content?.external_urls?.[0]}>
-                      {note.metadata?.content?.sources?.map((source) => (
-                        <span
-                          className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
-                          key={source}
-                        >
-                          {source}
-                        </span>
-                      ))}
-                    </UniLink>
-                  )}
-                  {!note.metadata?.content?.external_urls?.[0] &&
-                    note.metadata?.content?.sources?.map((source) => (
-                      <span
-                        className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
-                        key={source}
-                      >
-                        {source}
-                      </span>
-                    ))}
-                </div>
-                <div className="mr-1 text-gray-400 relative">
+        {!!notes.data?.pages?.[0]?.count &&
+          notes.data?.pages?.map((page) =>
+            page?.list.map((note) => {
+              return (
+                <div
+                  key={note.noteId}
+                  className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed"
+                >
                   <UniLink
-                    href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
+                    href={
+                      note.metadata?.content?.sources?.includes("xlog") &&
+                      note.metadata?.content?.external_urls?.[0]
+                        ? note.metadata?.content?.external_urls?.[0]
+                        : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
+                    }
                   >
-                    #{note.noteId} {note.updatedTransactionHash.slice(0, 5)}...
-                    {note.updatedTransactionHash.slice(-4)}
+                    <div className="w-full">
+                      <div className="text-gray-400 relative">
+                        {dayjs
+                          .duration(
+                            dayjs(note.updatedAt).diff(dayjs(), "minute"),
+                            "minute",
+                          )
+                          .humanize()}{" "}
+                        ago
+                      </div>
+                      <div className="flex my-2">
+                        {note.cover && (
+                          <div className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
+                            <Image
+                              className="object-cover rounded"
+                              src={note.cover}
+                              fill={true}
+                              alt="cover"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          {note.metadata?.content?.title && (
+                            <div className="line-clamp-1 font-medium text-lg">
+                              {note.metadata?.content?.title}
+                            </div>
+                          )}
+                          <div
+                            className="line-clamp-3 relative my-2"
+                            dangerouslySetInnerHTML={{
+                              __html: note.metadata?.content?.summary || "",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
                   </UniLink>
+                  <div className="flex justify-between items-center">
+                    <div className="text-xs relative">
+                      {note.metadata?.content?.external_urls?.[0] && (
+                        <UniLink
+                          href={note.metadata?.content?.external_urls?.[0]}
+                        >
+                          {note.metadata?.content?.sources?.map((source) => (
+                            <span
+                              className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
+                              key={source}
+                            >
+                              {source}
+                            </span>
+                          ))}
+                        </UniLink>
+                      )}
+                      {!note.metadata?.content?.external_urls?.[0] &&
+                        note.metadata?.content?.sources?.map((source) => (
+                          <span
+                            className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
+                            key={source}
+                          >
+                            {source}
+                          </span>
+                        ))}
+                    </div>
+                    <div className="mr-1 text-gray-400 relative">
+                      <UniLink
+                        href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
+                      >
+                        #{note.noteId} {note.updatedTransactionHash.slice(0, 5)}
+                        ...
+                        {note.updatedTransactionHash.slice(-4)}
+                      </UniLink>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          )
-        })}
+              )
+            }),
+          )}
       </div>
     </div>
   )

@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query"
 import * as characterModel from "../models/character"
 
 export const useGetCharacter = (handle: string) => {
@@ -56,5 +61,26 @@ export const useGetCalendar = (characterId: number) => {
     return fetch(`/api/calendar?characterId=${characterId}`).then((res) =>
       res.json(),
     )
+  })
+}
+
+export const useGetPagesBySiteLite = (
+  input: Parameters<typeof characterModel.getPagesBySite>[0],
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getPagesBySite", input.characterId, input],
+    queryFn: async ({ pageParam }) => {
+      const result: ReturnType<typeof characterModel.getPagesBySite> = await (
+        await fetch(
+          "/api/pages?" +
+            new URLSearchParams({
+              ...input,
+              ...(pageParam && { cursor: pageParam }),
+            } as any),
+        )
+      ).json()
+      return result
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor,
   })
 }
