@@ -4,7 +4,6 @@ import {
   useGetFollowings,
   useGetNotes,
   useGetAchievements,
-  useGetSync,
 } from "../queries/character"
 import {
   fetchGetCharacter,
@@ -12,7 +11,6 @@ import {
   prefetchGetFollowings,
   prefetchGetNotes,
   prefetchGetAchievements,
-  prefetchGetSync,
 } from "../queries/character.server"
 import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
@@ -24,10 +22,7 @@ import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
-import {
-  ChevronRightIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/24/outline"
+import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
@@ -48,7 +43,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     prefetchGetFollowings(character.characterId, queryClient),
     prefetchGetNotes(character.characterId, queryClient),
     prefetchGetAchievements(character.characterId, queryClient),
-    prefetchGetSync(character.characterId, queryClient),
   ])
 
   return {
@@ -66,7 +60,6 @@ export default function HandlePage() {
   const followings = useGetFollowings(character.data?.characterId || 0)
   const notes = useGetNotes(character.data?.characterId || 0)
   const achievement = useGetAchievements(character.data?.characterId || 0)
-  const sync = useGetSync(character.data?.characterId || 0)
 
   const sourceList: {
     [key: string]: number

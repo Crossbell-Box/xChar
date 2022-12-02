@@ -66,16 +66,3 @@ export const prefetchGetAchievements = async (
     return cacheGet(key, () => characterModel.getAchievements(characterId))
   })
 }
-
-export const prefetchGetSync = async (
-  characterId: number,
-  queryClient: QueryClient,
-) => {
-  if (!characterId) {
-    return null
-  }
-  const key = ["getSync", characterId]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => characterModel.getSync(characterId))
-  })
-}
