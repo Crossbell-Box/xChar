@@ -32,8 +32,6 @@ export const getAchievements = (characterId: number) => {
 
 export const getSync = async (characterId: number) => {
   return (
-    await axios.get(
-      `https://test-opsync.crossbell.io/v1/${characterId}/account`,
-    )
+    await axios.get(`https://opsync.crossbell.io/v1/${characterId}/account`)
   )?.data
 }

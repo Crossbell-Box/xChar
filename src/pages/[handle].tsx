@@ -87,6 +87,11 @@ export default function HandlePage() {
       url: string
     }
   } = {
+    telegram: {
+      name: "Telegram",
+      icon: "/logos/telegram.svg",
+      url: "https://t.me/{username}",
+    },
     tg_channel: {
       name: "Telegram Channel",
       icon: "/logos/telegram.svg",
@@ -117,11 +122,21 @@ export default function HandlePage() {
       icon: "/logos/xlog.svg",
       url: "https://{username}.xlog.app/",
     },
+    github: {
+      name: "GitHub",
+      icon: "/logos/github.svg",
+      url: "https://github.com/{username}",
+    },
+    jike: {
+      name: "Jike",
+      icon: "/logos/jike.svg",
+      url: "https://web.okjike.com/u/{username}",
+    },
   }
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
-      <div className="fixed left-1/2 -translate-x-1/2 top-16 w-[1000px] h-[272px]">
+      <div className="fixed left-1/2 -translate-x-1/2 top-14 w-[1000px] h-[272px]">
         <Image
           alt="xChar"
           src="/logos/crossbell.svg"
@@ -242,18 +257,15 @@ export default function HandlePage() {
       <div className="w-[800px] text-sm mt-8 relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
         <div className="relative font-medium text-xl mb-4">
-          <span className="align-middle">🎼 Notes</span>
+          🪐 Social Platforms
         </div>
-        <div className="relative flex justify-center w-full">
-          <HeatMap characterId={character.data?.characterId} />
-        </div>
-        <div className="relative mt-4">
+        <div className="relative mt-4 grid grid-cols-6 gap-4">
           {sourceList.xlog && (
             <UniLink
-              className="mr-6 inline-flex"
+              className="inline-flex"
               href={syncMap["xlog"].url.replace("{username}", handle)}
             >
-              <span className="rounded-full w-9 h-9 inline-block mr-2">
+              <span className="rounded-full w-9 h-9 inline-block mr-2 overflow-hidden">
                 <Image
                   width={36}
                   height={36}
@@ -261,37 +273,57 @@ export default function HandlePage() {
                   alt="xLog"
                 />
               </span>
-              <span className="inline-flex flex-col justify-around">
-                <span className="text-sm">{syncMap["xlog"].name}</span>
-                <span className="text-xs">@{handle}</span>
+              <span className="inline-flex flex-col justify-around flex-1 min-w-0">
+                <span className="text-sm truncate">{syncMap["xlog"].name}</span>
+                <span className="text-xs truncate">@{handle}</span>
               </span>
             </UniLink>
           )}
-          {sync?.data?.result?.map((item: any) => {
-            return (
-              <UniLink
-                className="mr-6 inline-flex"
-                key={item.platform}
-                href={syncMap[item.platform].url.replace(
-                  "{username}",
-                  item.username,
-                )}
-              >
-                <span className="rounded-full w-9 h-9 inline-block mr-2">
-                  <Image
-                    width={36}
-                    height={36}
-                    src={syncMap[item.platform].icon}
-                    alt={item.platform}
-                  />
-                </span>
-                <span className="inline-flex flex-col justify-around">
-                  <span className="text-sm">{syncMap[item.platform].name}</span>
-                  <span className="text-xs">@{item.username}</span>
-                </span>
-              </UniLink>
-            )
-          })}
+          {character.data?.metadata?.content?.connected_accounts?.map(
+            (connected_account) => {
+              const match = connected_account.match(/csb:\/\/account:(.*)@(.*)/)
+              if (!match) {
+                return null
+              }
+              const username = match[1]
+              const platform = match[2]
+              return (
+                <UniLink
+                  className="inline-flex"
+                  key={platform}
+                  href={syncMap[platform]?.url.replace("{username}", username)}
+                >
+                  <span className="rounded-full w-9 h-9 inline-block mr-2 overflow-hidden">
+                    {syncMap[platform]?.icon ? (
+                      <Image
+                        width={36}
+                        height={36}
+                        src={syncMap[platform]?.icon}
+                        alt={platform}
+                      />
+                    ) : (
+                      <span className="w-9 h-9 bg-orange-200 inline-block"></span>
+                    )}
+                  </span>
+                  <span className="inline-flex flex-col justify-around flex-1 min-w-0">
+                    <span className="text-sm truncate">
+                      {syncMap[platform]?.name || platform}
+                    </span>
+                    <span className="text-xs truncate">@{username}</span>
+                  </span>
+                </UniLink>
+              )
+            },
+          )}
+        </div>
+      </div>
+      <div className="w-[800px] text-sm mt-8 relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
+        <div className="relative font-medium text-xl mb-4">
+          <span className="align-middle">🎼 Notes</span>
+        </div>
+        <div className="relative flex justify-center w-full">
+          <HeatMap characterId={character.data?.characterId} />
         </div>
         <div className="relative text-xs mt-4 leading-snug">
           {Object.keys(sourceList)
