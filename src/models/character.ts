@@ -2,7 +2,9 @@ import { indexer } from "../lib/crossbell"
 import { Notes, Note } from "~/lib/types"
 
 const expandPage = async (note: Note) => {
-  note.cover = note?.metadata?.content?.attachments?.[0].address
+  note.cover = note?.metadata?.content?.attachments?.find((attachment) =>
+    attachment.mime_type?.startsWith("image/"),
+  )?.address
 
   if (note.metadata?.content?.content) {
     const { renderPageContent } = await import("~/markdown")

@@ -23,6 +23,11 @@ const syncMap: {
     icon: "/logos/twitter.svg",
     url: "https://twitter.com/{username}",
   },
+  twitter_id: {
+    name: "Twitter",
+    icon: "/logos/twitter.svg",
+    url: "https://twitter.com/i/user/{username}",
+  },
   pixiv: {
     name: "Pixiv",
     icon: "/logos/pixiv.svg",

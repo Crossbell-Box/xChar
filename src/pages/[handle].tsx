@@ -231,7 +231,9 @@ export default function HandlePage() {
           {sourceList.xlog && <Platform platform="xlog" username={handle} />}
           {character.data?.metadata?.content?.connected_accounts?.map(
             (connected_account) => {
-              const match = connected_account.match(/csb:\/\/account:(.*)@(.*)/)
+              const match = (
+                (connected_account as any).uri || connected_account
+              ).match(/csb:\/\/account:(.*)@(.*)/)
               if (!match) {
                 return null
               }
@@ -307,14 +309,14 @@ export default function HandlePage() {
                             />
                           </div>
                         )}
-                        <div className="flex-1">
+                        <div className="flex-1 space-y-2">
                           {note.metadata?.content?.title && (
                             <div className="line-clamp-1 font-medium text-lg">
                               {note.metadata?.content?.title}
                             </div>
                           )}
                           <div
-                            className="line-clamp-3 relative my-2"
+                            className="line-clamp-3 relative"
                             dangerouslySetInnerHTML={{
                               __html: note.metadata?.content?.summary || "",
                             }}
