@@ -30,6 +30,8 @@ import {
 } from "@heroicons/react/24/outline"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
+import { toGateway } from "~/lib/ipfs-parser"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -136,6 +138,21 @@ export default function HandlePage() {
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
+      <Head>
+        <title>
+          {character.data?.metadata?.content?.name || character.data?.handle}
+        </title>
+        <meta
+          name="description"
+          content={character.data?.metadata?.content?.bio}
+        />
+        <link
+          rel="icon"
+          href={toGateway(
+            character.data?.metadata?.content?.avatars?.[0] || "/favicon.ico",
+          )}
+        />
+      </Head>
       <div className="fixed left-1/2 -translate-x-1/2 top-14 w-[1000px] h-[272px]">
         <Image
           alt="xChar"
