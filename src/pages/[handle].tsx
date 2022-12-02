@@ -27,6 +27,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
+import { Platform } from "~/components/Platform"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -74,60 +75,6 @@ export default function HandlePage() {
       })
     }
   })
-
-  const syncMap: {
-    [key: string]: {
-      name: string
-      icon: string
-      url: string
-    }
-  } = {
-    telegram: {
-      name: "Telegram",
-      icon: "/logos/telegram.svg",
-      url: "https://t.me/{username}",
-    },
-    tg_channel: {
-      name: "Telegram Channel",
-      icon: "/logos/telegram.svg",
-      url: "https://t.me/{username}",
-    },
-    twitter: {
-      name: "Twitter",
-      icon: "/logos/twitter.svg",
-      url: "https://twitter.com/{username}",
-    },
-    pixiv: {
-      name: "Pixiv",
-      icon: "/logos/pixiv.svg",
-      url: "https://www.pixiv.net/users/{username}",
-    },
-    substack: {
-      name: "Substack",
-      icon: "/logos/substack.svg",
-      url: "https://{username}.substack.com/",
-    },
-    medium: {
-      name: "Mediam",
-      icon: "/logos/medium.svg",
-      url: "https://medium.com/@{username}",
-    },
-    xlog: {
-      name: "xLog",
-      icon: "/logos/xlog.svg",
-      url: "https://{username}.xlog.app/",
-    },
-    github: {
-      name: "GitHub",
-      icon: "/logos/github.svg",
-      url: "https://github.com/{username}",
-    },
-    jike: {
-      name: "Jike",
-      icon: "/logos/jike.svg",
-      url: "https://web.okjike.com/u/{username}",
-    },
-  }
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
@@ -270,25 +217,7 @@ export default function HandlePage() {
           🪐 Social Platforms
         </div>
         <div className="relative mt-4 grid grid-cols-6 gap-4">
-          {sourceList.xlog && (
-            <UniLink
-              className="inline-flex"
-              href={syncMap["xlog"].url.replace("{username}", handle)}
-            >
-              <span className="rounded-full w-9 h-9 inline-block mr-2 overflow-hidden">
-                <Image
-                  width={36}
-                  height={36}
-                  src={syncMap["xlog"].icon}
-                  alt="xLog"
-                />
-              </span>
-              <span className="inline-flex flex-col justify-around flex-1 min-w-0">
-                <span className="text-sm truncate">{syncMap["xlog"].name}</span>
-                <span className="text-xs truncate">@{handle}</span>
-              </span>
-            </UniLink>
-          )}
+          {sourceList.xlog && <Platform platform="xlog" username={handle} />}
           {character.data?.metadata?.content?.connected_accounts?.map(
             (connected_account) => {
               const match = connected_account.match(/csb:\/\/account:(.*)@(.*)/)
@@ -298,30 +227,11 @@ export default function HandlePage() {
               const username = match[1]
               const platform = match[2]
               return (
-                <UniLink
-                  className="inline-flex"
+                <Platform
                   key={platform}
-                  href={syncMap[platform]?.url.replace("{username}", username)}
-                >
-                  <span className="rounded-full w-9 h-9 inline-block mr-2 overflow-hidden">
-                    {syncMap[platform]?.icon ? (
-                      <Image
-                        width={36}
-                        height={36}
-                        src={syncMap[platform]?.icon}
-                        alt={platform}
-                      />
-                    ) : (
-                      <span className="w-9 h-9 bg-orange-200 inline-block"></span>
-                    )}
-                  </span>
-                  <span className="inline-flex flex-col justify-around flex-1 min-w-0">
-                    <span className="text-sm truncate">
-                      {syncMap[platform]?.name || platform}
-                    </span>
-                    <span className="text-xs truncate">@{username}</span>
-                  </span>
-                </UniLink>
+                  platform={platform}
+                  username={username}
+                />
               )
             },
           )}
