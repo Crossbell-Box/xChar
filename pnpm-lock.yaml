@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@ctrl/tinycolor': ^3.4.1
   '@floating-ui/react-dom-interactions': ^0.12.0
   '@heroicons/react': ^2.0.13
   '@tailwindcss/line-clamp': ^0.4.2
@@ -52,6 +53,7 @@ specifiers:
   wagmi: ^0.8.9
 
 dependencies:
+  '@ctrl/tinycolor': 3.4.1
   '@floating-ui/react-dom-interactions': 0.12.0_ib3m5ricvtkl2cll7qpr2f6lvq
   '@heroicons/react': 2.0.13_react@18.2.0
   '@tanstack/react-query': 4.19.0_biqbaboplfbrettd7655fr4n2y
@@ -232,6 +234,11 @@ packages:
       - react-native
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@ctrl/tinycolor/3.4.1:
+    resolution: {integrity: sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw==}
+    engines: {node: '>=10'}
     dev: false
 
   /@eslint/eslintrc/1.3.3:

@@ -29,6 +29,7 @@ import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Platform } from "~/components/Platform"
+import { Source } from "~/components/Source"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -324,29 +325,9 @@ export default function HandlePage() {
                   </UniLink>
                   <div className="flex justify-between items-center">
                     <div className="text-xs relative">
-                      {note.metadata?.content?.external_urls?.[0] && (
-                        <UniLink
-                          href={note.metadata?.content?.external_urls?.[0]}
-                        >
-                          {note.metadata?.content?.sources?.map((source) => (
-                            <span
-                              className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
-                              key={source}
-                            >
-                              {source}
-                            </span>
-                          ))}
-                        </UniLink>
-                      )}
-                      {!note.metadata?.content?.external_urls?.[0] &&
-                        note.metadata?.content?.sources?.map((source) => (
-                          <span
-                            className="bg-gray-300 rounded-3xl px-2 inline-block mt-1 mr-1"
-                            key={source}
-                          >
-                            {source}
-                          </span>
-                        ))}
+                      {note.metadata?.content?.sources?.map((source) => (
+                        <Source key={source} name={source} />
+                      ))}
                     </div>
                     <div className="mr-1 text-gray-400 relative">
                       <UniLink
