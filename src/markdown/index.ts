@@ -9,7 +9,6 @@ import rehypeRaw from "rehype-raw"
 import { refractor } from "refractor"
 import rehypePrismGenerator from "rehype-prism-plus/generator"
 import { rehypeImage } from "./rehype-image"
-import { remarkExcerpt } from "./remark-excerpt"
 import { rehypeTable } from "./rehype-table"
 import { remarkCallout } from "./remark-callout"
 import { rehypeExternalLink } from "./rehyper-external-link"
@@ -23,6 +22,7 @@ import remarkDirectiveRehype from "remark-directive-rehype"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 import type { Root } from "hast"
+import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 
 export type MarkdownEnv = {
   excerpt: string
@@ -75,7 +75,6 @@ export const renderPageContent = (
         }
       })
       .use(remarkGfm, {})
-      .use(remarkExcerpt, { env })
       .use(remarkCallout)
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
@@ -92,6 +91,9 @@ export const renderPageContent = (
       .use(rehypeTable)
       .use(rehypeExternalLink)
       .use(rehypeWrapCode)
+      .use(rehypeInferDescriptionMeta, {
+        truncateSize: 280,
+      })
       .use(html ? () => (tree: any) => {} : rehypeReact, {
         createElement: createElement,
         components: {
@@ -110,7 +112,7 @@ export const renderPageContent = (
   return {
     contentHTML,
     element: result?.result,
-    excerpt: env.excerpt,
+    excerpt: result?.data.meta.description,
     frontMatter: env.frontMatter,
     cover: env.cover,
     tree: env.tree,

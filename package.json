@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-parallax-tilt": "^1.7.72",
     "refractor": "^4.8.0",
+    "rehype-infer-description-meta": "^1.1.0",
     "rehype-prism-plus": "^1.5.0",
     "rehype-raw": "^6.1.1",
     "rehype-react": "^7.1.1",

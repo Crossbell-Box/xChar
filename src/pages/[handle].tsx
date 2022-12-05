@@ -315,12 +315,9 @@ export default function HandlePage() {
                               {note.metadata?.content?.title}
                             </span>
                           )}
-                          <span
-                            className="line-clamp-3 relative"
-                            dangerouslySetInnerHTML={{
-                              __html: note.metadata?.content?.summary || "",
-                            }}
-                          ></span>
+                          <span className="line-clamp-3 relative">
+                            {note.metadata?.content?.summary}
+                          </span>
                         </span>
                       </span>
                     </span>
