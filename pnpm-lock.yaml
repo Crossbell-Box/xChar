@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@ctrl/tinycolor': ^3.4.1
-  '@floating-ui/react-dom-interactions': ^0.12.0
+  '@floating-ui/react-dom-interactions': ^0.13.0
   '@heroicons/react': ^2.0.13
   '@tailwindcss/line-clamp': ^0.4.2
   '@tanstack/react-query': ^4.19.0
@@ -54,7 +54,7 @@ specifiers:
 
 dependencies:
   '@ctrl/tinycolor': 3.4.1
-  '@floating-ui/react-dom-interactions': 0.12.0_ib3m5ricvtkl2cll7qpr2f6lvq
+  '@floating-ui/react-dom-interactions': 0.13.0_ib3m5ricvtkl2cll7qpr2f6lvq
   '@heroicons/react': 2.0.13_react@18.2.0
   '@tanstack/react-query': 4.19.0_biqbaboplfbrettd7655fr4n2y
   clsx: 1.2.1
@@ -583,8 +583,8 @@ packages:
       '@floating-ui/core': 1.0.2
     dev: false
 
-  /@floating-ui/react-dom-interactions/0.12.0_ib3m5ricvtkl2cll7qpr2f6lvq:
-    resolution: {integrity: sha512-UBC37z3BvAZ4r3QzD6pDBn8v1S0xSNGLiqdueDM2Tgl/E1bPvEiSpu71uwOTm5qXM22mDGmohJfX/SXF/nQ8nw==}
+  /@floating-ui/react-dom-interactions/0.13.0_ib3m5ricvtkl2cll7qpr2f6lvq:
+    resolution: {integrity: sha512-R+jXsv3eJ8LQn879NMO9ONvk9Hy0XQiPvBWK+wdWADZsrvu7FmmlSq5xG/qid745g+uNs3xvhf+lNnCIlEZpEA==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
