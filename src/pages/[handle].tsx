@@ -30,6 +30,7 @@ import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Platform } from "~/components/Platform"
 import { Source } from "~/components/Source"
+import { Button } from "~/components/ui/Button"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -47,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     prefetchGetNotes(
       {
         characterId: character.characterId,
-        limit: 20,
+        limit: 10,
       },
       queryClient,
     ),
@@ -70,7 +71,7 @@ export default function HandlePage() {
   const followings = useGetFollowings(character.data?.characterId || 0)
   const notes = useGetNotes({
     characterId: character.data?.characterId || 0,
-    limit: 20,
+    limit: 10,
   })
   const achievement = useGetAchievements(character.data?.characterId || 0)
 
@@ -87,6 +88,8 @@ export default function HandlePage() {
       })
     }
   })
+
+  let currentLength = 0
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
@@ -259,8 +262,8 @@ export default function HandlePage() {
         <div className="relative flex justify-center w-full">
           <HeatMap characterId={character.data?.characterId} />
         </div>
-        <div className="relative text-xs mt-4 leading-snug">
-          {/* {Object.keys(sourceList)
+        {/* <div className="relative text-xs mt-4 leading-snug">
+          {Object.keys(sourceList)
             .sort((a, b) => sourceList[b] - sourceList[a])
             .map((source) => {
               return (
@@ -271,78 +274,93 @@ export default function HandlePage() {
                   {source + " " + sourceList[source]}
                 </span>
               )
-            })} */}
-        </div>
-        {!!notes.data?.pages?.[0]?.count &&
-          notes.data?.pages?.map((page) =>
-            page?.list.map((note) => {
-              return (
-                <div
-                  key={note.noteId}
-                  className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed"
-                >
-                  <UniLink
-                    href={
-                      note.metadata?.content?.sources?.includes("xlog") &&
-                      note.metadata?.content?.external_urls?.[0]
-                        ? note.metadata?.content?.external_urls?.[0]
-                        : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
-                    }
+            })}
+        </div> */}
+        <div>
+          {!!notes.data?.pages?.[0]?.count &&
+            notes.data?.pages?.map((page) =>
+              page?.list.map((note) => {
+                currentLength++
+                return (
+                  <div
+                    key={note.noteId}
+                    className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed last:border-b-0"
                   >
-                    <span className="w-full">
-                      <span className="text-gray-400 relative">
-                        {dayjs
-                          .duration(
-                            dayjs(note.updatedAt).diff(dayjs(), "minute"),
-                            "minute",
-                          )
-                          .humanize()}{" "}
-                        ago
-                      </span>
-                      <span className="flex my-2">
-                        {note.cover && (
-                          <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
-                            <Image
-                              className="object-cover rounded"
-                              src={note.cover}
-                              fill={true}
-                              alt="cover"
-                            />
-                          </span>
-                        )}
-                        <span className="flex-1 space-y-2">
-                          {note.metadata?.content?.title && (
-                            <span className="line-clamp-1 font-medium text-lg">
-                              {note.metadata?.content?.title}
+                    <UniLink
+                      href={
+                        note.metadata?.content?.sources?.includes("xlog") &&
+                        note.metadata?.content?.external_urls?.[0]
+                          ? note.metadata?.content?.external_urls?.[0]
+                          : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
+                      }
+                    >
+                      <span className="w-full">
+                        <span className="text-gray-400 relative">
+                          {dayjs
+                            .duration(
+                              dayjs(note.updatedAt).diff(dayjs(), "minute"),
+                              "minute",
+                            )
+                            .humanize()}{" "}
+                          ago
+                        </span>
+                        <span className="flex my-2">
+                          {note.cover && (
+                            <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
+                              <Image
+                                className="object-cover rounded"
+                                src={note.cover}
+                                fill={true}
+                                alt="cover"
+                              />
                             </span>
                           )}
-                          <span className="line-clamp-3 relative">
-                            {note.metadata?.content?.summary}
+                          <span className="flex-1 space-y-2">
+                            {note.metadata?.content?.title && (
+                              <span className="line-clamp-1 font-medium text-lg">
+                                {note.metadata?.content?.title}
+                              </span>
+                            )}
+                            <span className="line-clamp-3 relative">
+                              {note.metadata?.content?.summary}
+                            </span>
                           </span>
                         </span>
                       </span>
-                    </span>
-                  </UniLink>
-                  <div className="flex justify-between items-center">
-                    <div className="text-xs relative">
-                      {note.metadata?.content?.sources?.map((source) => (
-                        <Source key={source} name={source} />
-                      ))}
-                    </div>
-                    <div className="mr-1 text-gray-400 relative">
-                      <UniLink
-                        href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
-                      >
-                        #{note.noteId} {note.updatedTransactionHash.slice(0, 5)}
-                        ...
-                        {note.updatedTransactionHash.slice(-4)}
-                      </UniLink>
+                    </UniLink>
+                    <div className="flex justify-between items-center">
+                      <div className="text-xs relative">
+                        {note.metadata?.content?.sources?.map((source) => (
+                          <Source key={source} name={source} />
+                        ))}
+                      </div>
+                      <div className="mr-1 text-gray-400 relative">
+                        <UniLink
+                          href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
+                        >
+                          #{note.noteId}{" "}
+                          {note.updatedTransactionHash.slice(0, 5)}
+                          ...
+                          {note.updatedTransactionHash.slice(-4)}
+                        </UniLink>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            }),
-          )}
+                )
+              }),
+            )}
+        </div>
+        {notes.hasNextPage && (
+          <Button
+            className="relative mt-4 w-full hover:bg-zinc-100 bg-zinc-50 transition-colors text-sm"
+            variant="text"
+            onClick={notes.fetchNextPage as () => void}
+            isLoading={notes.isFetchingNextPage}
+            aria-label="load more"
+          >
+            Load more
+          </Button>
+        )}
       </div>
     </div>
   )

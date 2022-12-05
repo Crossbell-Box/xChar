@@ -35,3 +35,149 @@ textarea.input {
   @apply text-gray-700;
   @apply capitalize;
 }
+
+.button {
+  @apply inline-flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply h-8;
+  @apply px-5;
+  @apply min-w-[100px];
+  /* @apply shadow-button; */
+  @apply whitespace-nowrap;
+  @apply font-medium;
+  @apply transition-colors;
+}
+
+.button.is-auto-width {
+  @apply min-w-[auto];
+}
+
+.button.is-loading {
+  @apply opacity-50;
+}
+
+.button.button.button[disabled] {
+  @apply opacity-50;
+  @apply cursor-not-allowed;
+}
+
+.button.is-loading:before {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 9999px;
+  border-width: 2px;
+  content: "";
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: currentColor;
+  border-right-color: currentColor;
+  @apply animate-spin;
+}
+
+.button.is-block {
+  @apply w-full;
+}
+
+.button.is-primary {
+  --shadow-color-button: var(--theme-color-emphasis);
+  @apply text-white;
+  @apply fill-accent;
+  @apply bg-accent;
+  opacity: 0.9;
+}
+
+.button.is-primary:hover {
+  opacity: 1;
+  @apply bg-accent;
+}
+
+.button.is-primary:focus {
+  opacity: 1;
+  @apply bg-accent;
+}
+
+.button.is-secondary {
+  @apply bg-gray-50 hover:bg-gray-100;
+  @apply text-gray-500;
+  @apply fill-gray-500;
+}
+
+.button.is-text {
+  @apply shadow-none p-0;
+  @apply min-w-0;
+}
+
+.button.is-like {
+  @apply shadow-none p-0;
+  @apply text-gray-500 fill-gray-500;
+}
+.button.is-like:hover {
+  color: #f91880;
+  fill: #f91880;
+}
+.button.is-like.active {
+  color: #f91880;
+  fill: #f91880;
+}
+
+.button.is-collect {
+  @apply shadow-none p-0;
+  @apply text-gray-500 fill-gray-500;
+}
+.button.is-collect:hover {
+  color: #ffcf55;
+  fill: #ffcf55;
+}
+.button.is-collect.active {
+  color: #ffcf55;
+  fill: #ffcf55;
+}
+
+.button.is-crossbell {
+  background-color: #fff5e1;
+  fill: #e5b65a;
+  color: #e5b65a;
+}
+
+.button.is-green {
+  --shadow-color-button: theme("colors.green.700");
+  @apply bg-green-500 hover:bg-green-600 focus:bg-green-700;
+}
+
+.button.is-red {
+  --shadow-color-button: theme("colors.red.700");
+  @apply bg-red-500 hover:bg-red-600 focus:bg-red-700;
+}
+
+.button.is-gray {
+  --shadow-color-button: theme("colors.gray.700");
+  @apply bg-gray-500 hover:bg-gray-600 focus:bg-gray-700;
+}
+
+.button.is-sm {
+  @apply h-7;
+  @apply px-3;
+  @apply text-sm;
+  @apply min-w-[auto];
+}
+
+.button.is-xl {
+  @apply h-10;
+  @apply px-6;
+  @apply text-xl;
+  @apply min-w-[auto];
+}
+
+.button-group {
+  @apply flex items-center;
+}
+
+.button-group .button:not(:first-child) {
+  @apply rounded-l-none;
+}
+
+.button-group .button:not(:last-child) {
+  @apply rounded-r-none;
+}
