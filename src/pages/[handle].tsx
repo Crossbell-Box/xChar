@@ -2,7 +2,7 @@ import {
   useGetCharacter,
   useGetFollowers,
   useGetFollowings,
-  useGetPagesBySiteLite,
+  useGetNotes,
   useGetAchievements,
 } from "../queries/character"
 import {
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   }
 }
@@ -67,7 +67,7 @@ export default function HandlePage() {
   const character = useGetCharacter(handle)
   const followers = useGetFollowers(character.data?.characterId || 0)
   const followings = useGetFollowings(character.data?.characterId || 0)
-  const notes = useGetPagesBySiteLite({
+  const notes = useGetNotes({
     characterId: character.data?.characterId || 0,
     limit: 20,
   })
@@ -259,7 +259,7 @@ export default function HandlePage() {
           <HeatMap characterId={character.data?.characterId} />
         </div>
         <div className="relative text-xs mt-4 leading-snug">
-          {Object.keys(sourceList)
+          {/* {Object.keys(sourceList)
             .sort((a, b) => sourceList[b] - sourceList[a])
             .map((source) => {
               return (
@@ -270,7 +270,7 @@ export default function HandlePage() {
                   {source + " " + sourceList[source]}
                 </span>
               )
-            })}
+            })} */}
         </div>
         {!!notes.data?.pages?.[0]?.count &&
           notes.data?.pages?.map((page) =>
@@ -288,8 +288,8 @@ export default function HandlePage() {
                         : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
                     }
                   >
-                    <div className="w-full">
-                      <div className="text-gray-400 relative">
+                    <span className="w-full">
+                      <span className="text-gray-400 relative">
                         {dayjs
                           .duration(
                             dayjs(note.updatedAt).diff(dayjs(), "minute"),
@@ -297,33 +297,33 @@ export default function HandlePage() {
                           )
                           .humanize()}{" "}
                         ago
-                      </div>
-                      <div className="flex my-2">
+                      </span>
+                      <span className="flex my-2">
                         {note.cover && (
-                          <div className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
+                          <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
                             <Image
                               className="object-cover rounded"
                               src={note.cover}
                               fill={true}
                               alt="cover"
                             />
-                          </div>
+                          </span>
                         )}
-                        <div className="flex-1 space-y-2">
+                        <span className="flex-1 space-y-2">
                           {note.metadata?.content?.title && (
-                            <div className="line-clamp-1 font-medium text-lg">
+                            <span className="line-clamp-1 font-medium text-lg">
                               {note.metadata?.content?.title}
-                            </div>
+                            </span>
                           )}
-                          <div
+                          <span
                             className="line-clamp-3 relative"
                             dangerouslySetInnerHTML={{
                               __html: note.metadata?.content?.summary || "",
                             }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
+                          ></span>
+                        </span>
+                      </span>
+                    </span>
                   </UniLink>
                   <div className="flex justify-between items-center">
                     <div className="text-xs relative">

@@ -16,13 +16,23 @@ export const useGetCharacter = (handle: string) => {
 }
 
 export const useGetNotes = (
-  options: Parameters<typeof characterModel.getNotes>[0],
+  input: Parameters<typeof characterModel.getNotes>[0],
 ) => {
-  return useQuery(["getNotes", options.characterId, options], async () => {
-    if (!options.characterId) {
-      return null
-    }
-    return characterModel.getNotes(options)
+  return useInfiniteQuery({
+    queryKey: ["getNotes", input.characterId, input],
+    queryFn: async ({ pageParam }) => {
+      const result: ReturnType<typeof characterModel.getNotes> = await (
+        await fetch(
+          "/api/notes?" +
+            new URLSearchParams({
+              ...input,
+              ...(pageParam && { cursor: pageParam }),
+            } as any),
+        )
+      ).json()
+      return result
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor,
   })
 }
 
@@ -61,26 +71,5 @@ export const useGetCalendar = (characterId: number) => {
     return fetch(`/api/calendar?characterId=${characterId}`).then((res) =>
       res.json(),
     )
-  })
-}
-
-export const useGetPagesBySiteLite = (
-  input: Parameters<typeof characterModel.getPagesBySite>[0],
-) => {
-  return useInfiniteQuery({
-    queryKey: ["getPagesBySite", input.characterId, input],
-    queryFn: async ({ pageParam }) => {
-      const result: ReturnType<typeof characterModel.getPagesBySite> = await (
-        await fetch(
-          "/api/pages?" +
-            new URLSearchParams({
-              ...input,
-              ...(pageParam && { cursor: pageParam }),
-            } as any),
-        )
-      ).json()
-      return result
-    },
-    getNextPageParam: (lastPage) => lastPage?.cursor,
   })
 }

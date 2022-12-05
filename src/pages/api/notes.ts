@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getPagesBySite } from "~/models/character"
+import { getNotes } from "~/models/character"
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   const query = req.query
 
-  const result = await getPagesBySite({
+  const result = await getNotes({
     characterId: Number(query.characterId),
     limit: query.limit ? parseInt(query.limit as string) : undefined,
     cursor: query.cursor as string,

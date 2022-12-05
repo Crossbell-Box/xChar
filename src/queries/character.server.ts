@@ -17,15 +17,25 @@ export const fetchGetCharacter = async (
 }
 
 export const prefetchGetNotes = async (
-  options: Parameters<typeof characterModel.getNotes>[0],
+  input: Parameters<typeof characterModel.getNotes>[0],
   queryClient: QueryClient,
 ) => {
-  if (!options.characterId) {
+  if (!input.characterId) {
     return null
   }
-  const key = ["getNotes", options.characterId, options]
-  await queryClient.prefetchQuery(key, async () => {
-    return cacheGet(key, () => characterModel.getNotes(options))
+
+  const key = ["getNotes", input.characterId, input]
+  return queryClient.prefetchInfiniteQuery({
+    queryKey: key,
+    queryFn: async ({ pageParam }) => {
+      return cacheGet(key, () =>
+        characterModel.getNotes({
+          ...input,
+          cursor: pageParam,
+        }),
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor,
   })
 }
 
