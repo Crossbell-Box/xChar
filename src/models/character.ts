@@ -1,6 +1,7 @@
 import { indexer } from "~/lib/crossbell"
 import { Notes, Note } from "~/lib/types"
 import type { Contract } from "crossbell.js"
+import { toIPFS } from "~/lib/ipfs-parser"
 
 const expandPage = async (note: Note) => {
   note.cover = note?.metadata?.content?.attachments?.find((attachment) =>
@@ -116,4 +117,38 @@ export const unlinkCharacter = (
   toCharacterId: number,
 ) => {
   return contract.unlinkCharacter(fromCharacterId, toCharacterId, "follow")
+}
+
+export const updateCharacter = async (
+  contract: Contract,
+  input: {
+    characterId: number
+    handle?: string
+    avatar: string
+    banner?: {
+      address: string
+      mime_type: string
+    }
+    name: string
+    bio: string
+  },
+) => {
+  if (input.handle) {
+    await contract.setHandle(input.characterId, input.handle)
+  }
+  return contract.changeCharacterMetadata(input.characterId, (metadata) => ({
+    ...metadata,
+    ...(input.name && { name: input.name }),
+    ...(input.bio && { bio: input.bio }),
+    ...(input.avatar && { avatars: [toIPFS(input.avatar)] }),
+    ...(input.banner &&
+      input.banner.address && {
+        banners: [
+          {
+            address: toIPFS(input.banner.address),
+            mime_type: input.banner.mime_type,
+          },
+        ],
+      }),
+  }))
 }

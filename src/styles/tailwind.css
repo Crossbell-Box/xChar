@@ -47,6 +47,7 @@ textarea.input {
   @apply whitespace-nowrap;
   @apply font-medium;
   @apply transition-colors;
+  @apply shadow;
 }
 
 .button.is-auto-width {

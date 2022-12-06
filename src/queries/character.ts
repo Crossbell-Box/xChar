@@ -133,3 +133,19 @@ export const useUnlinkCharacter = () => {
     },
   )
 }
+
+export const useUpdateCharacter = () => {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof characterModel.updateCharacter>[1]) => {
+      return characterModel.updateCharacter(contract, input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getCharacter", variables.handle])
+        queryClient.invalidateQueries(["getCalendar", variables.characterId])
+      },
+    },
+  )
+}

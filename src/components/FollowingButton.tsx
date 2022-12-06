@@ -100,6 +100,7 @@ export const FollowingButton: React.FC<{
       }
       size={size}
       aria-label="follow"
+      rounded="full"
     >
       <BellIcon className="h-4 w-4" />
       {backlinks.data?.count ? (

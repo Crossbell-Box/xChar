@@ -157,44 +157,6 @@ export const ConnectButton: React.FC<{
                         }-0 pt-2 group-hover:block top-full z-10 text-gray-600`}
                       >
                         <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
-                          <div className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap font-medium">
-                            Your characters
-                          </div>
-                          {characters.data?.list?.length ? (
-                            characters.data?.list?.map((character) => (
-                              <UniLink
-                                key={character.handle}
-                                href={`/${character.handle}`}
-                                className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
-                              >
-                                <Avatar
-                                  className="align-middle mr-2"
-                                  images={
-                                    character.metadata?.content?.avatars || []
-                                  }
-                                  name={character.metadata?.content?.name}
-                                  size={30}
-                                />
-                                <span className="flex-1 flex flex-col min-w-0">
-                                  <span className="text-left leading-none font-medium truncate">
-                                    {character.metadata?.content?.name}
-                                  </span>
-                                  <span className="text-left leading-none text-xs truncate">
-                                    {"@" + character.handle}
-                                  </span>
-                                </span>
-                                {character.primary && (
-                                  <span className="font-medium text-xs text-yellow-300 ml-2">
-                                    🌟 Primary
-                                  </span>
-                                )}
-                              </UniLink>
-                            ))
-                          ) : (
-                            <span className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap text-zinc-400">
-                              Empty
-                            </span>
-                          )}
                           {InsufficientBalance && (
                             <UniLink
                               href="https://faucet.crossbell.io/"
@@ -218,6 +180,47 @@ export const ConnectButton: React.FC<{
                               </UniLink>
                             )
                           })}
+                          <hr className="mt-2 mb-1" />
+                          <div className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap font-medium">
+                            Your characters
+                          </div>
+                          <div className="h-96 overflow-scroll">
+                            {characters.data?.list?.length ? (
+                              characters.data?.list?.map((character) => (
+                                <UniLink
+                                  key={character.handle}
+                                  href={`/${character.handle}`}
+                                  className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                                >
+                                  <Avatar
+                                    className="align-middle mr-2"
+                                    images={
+                                      character.metadata?.content?.avatars || []
+                                    }
+                                    name={character.metadata?.content?.name}
+                                    size={30}
+                                  />
+                                  <span className="flex-1 flex flex-col min-w-0">
+                                    <span className="text-left leading-none font-medium truncate">
+                                      {character.metadata?.content?.name}
+                                    </span>
+                                    <span className="text-left leading-none text-xs truncate">
+                                      {"@" + character.handle}
+                                    </span>
+                                  </span>
+                                  {character.primary && (
+                                    <span className="font-medium text-xs text-yellow-300 ml-2">
+                                      🌟 Primary
+                                    </span>
+                                  )}
+                                </UniLink>
+                              ))
+                            ) : (
+                              <span className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap text-zinc-400">
+                                Empty
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </>

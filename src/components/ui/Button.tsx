@@ -54,7 +54,7 @@ export const Button = React.forwardRef<
       disabled={isDisabled || isLoading}
       className={clsx(
         className,
-        "button shadow",
+        "button",
         isLoading && "is-loading",
         isBlock && `is-block`,
         variantColor && `is-${variantColor}`,

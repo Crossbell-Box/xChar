@@ -4,7 +4,7 @@ import {
   useGetFollowings,
   useGetNotes,
   useGetAchievements,
-} from "../queries/character"
+} from "~/queries/character"
 import {
   fetchGetCharacter,
   prefetchGetFollowers,
@@ -12,10 +12,10 @@ import {
   prefetchGetNotes,
   prefetchGetAchievements,
   prefetchGetCalendar,
-} from "../queries/character.server"
+} from "~/queries/character.server"
 import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
-import { HeatMap } from "../components/HeatMap"
+import { HeatMap } from "~/components/HeatMap"
 import { Image } from "~/components/ui/Image"
 import Tilt from "react-parallax-tilt"
 import dayjs from "dayjs"
@@ -24,6 +24,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
+import { PencilSquareIcon } from "@heroicons/react/24/solid"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
@@ -32,6 +33,7 @@ import { Platform } from "~/components/Platform"
 import { Source } from "~/components/Source"
 import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
+import { useEffect, useState } from "react"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -77,20 +79,12 @@ export default function HandlePage() {
     limit: 10,
   })
   const achievement = useGetAchievements(character.data?.characterId || 0)
+  const { address } = useAccount()
 
-  const sourceList: {
-    [key: string]: number
-  } = {}
-  notes.data?.pages?.[0]?.list.map((note) => {
-    if (note.metadata?.content?.sources) {
-      note.metadata.content.sources.map((source) => {
-        if (!sourceList[source]) {
-          sourceList[source] = 0
-        }
-        sourceList[source]++
-      })
-    }
-  })
+  const [isOwner, setIsOwner] = useState(false)
+  useEffect(() => {
+    setIsOwner(!!(address && address.toLowerCase?.() === character.data?.owner))
+  }, [address, character.data?.owner])
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
@@ -131,10 +125,23 @@ export default function HandlePage() {
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
         <div className="flex relative">
           <div className="absolute right-0 top-0">
-            <FollowingButton
-              className="rounded-full"
-              characterId={character.data?.characterId}
-            />
+            {isOwner ? (
+              <UniLink href={`/${handle}/edit`}>
+                <Button
+                  className="align-middle space-x-1"
+                  aria-label="follow"
+                  rounded="full"
+                >
+                  <PencilSquareIcon className="h-4 w-4 mr-1" />
+                  Edit
+                </Button>
+              </UniLink>
+            ) : (
+              <FollowingButton
+                className="rounded-full"
+                characterId={character.data?.characterId}
+              />
+            )}
           </div>
           <div className="w-32 text-center mr-4 flex flex-col items-center justify-between">
             {character.data?.metadata?.content?.avatars && (
@@ -236,7 +243,7 @@ export default function HandlePage() {
           🪐 Social Platforms
         </div>
         <div className="relative mt-4 grid grid-cols-6 gap-4">
-          {sourceList.xlog && <Platform platform="xlog" username={handle} />}
+          <Platform platform="xlog" username={handle} />
           {character.data?.metadata?.content?.connected_accounts?.map(
             (connected_account) => {
               const match = (
