@@ -31,6 +31,7 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { Platform } from "~/components/Platform"
 import { Source } from "~/components/Source"
 import { Button } from "~/components/ui/Button"
+import { FollowingButton } from "~/components/FollowingButton"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -129,8 +130,11 @@ export default function HandlePage() {
       >
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
         <div className="flex relative">
-          <div className="absolute right-0 top-0 bg-blue-400 text-white px-12 py-1 rounded-2xl cursor-pointer">
-            Follow
+          <div className="absolute right-0 top-0">
+            <FollowingButton
+              className="rounded-full"
+              characterId={character.data?.characterId}
+            />
           </div>
           <div className="w-32 text-center mr-4 flex flex-col items-center justify-between">
             {character.data?.metadata?.content?.avatars && (
@@ -148,7 +152,7 @@ export default function HandlePage() {
           <div className="flex-1 min-w-0">
             <p className="font-medium text-2xl">
               <span>{character.data?.metadata?.content?.name}</span>
-              <span className="text-base ml-2">@{handle}</span>
+              <span className="text-base ml-2 text-zinc-500">@{handle}</span>
             </p>
             <p className="truncate text-sm mt-1">
               {character.data?.metadata?.content?.bio}

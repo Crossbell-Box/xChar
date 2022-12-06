@@ -1,5 +1,6 @@
-import { indexer } from "../lib/crossbell"
+import { indexer } from "~/lib/crossbell"
 import { Notes, Note } from "~/lib/types"
+import type { Contract } from "crossbell.js"
 
 const expandPage = async (note: Note) => {
   note.cover = note?.metadata?.content?.attachments?.find((attachment) =>
@@ -75,9 +76,10 @@ export const getAchievements = (characterId: number) => {
   })
 }
 
-export const getCharacters = async (address: string) => {
+export const getCharacters = async (address: string, primary?: boolean) => {
   const result = await indexer.getCharacters(address, {
     limit: 50,
+    primary,
   })
   result.list = result.list.sort((a, b) => {
     if (a.primary) {
@@ -90,7 +92,28 @@ export const getCharacters = async (address: string) => {
       return -1
     }
   })
-  console.log(result)
 
   return result
+}
+
+export const getLinks = (characterId: number, toCharacterId: number) => {
+  return indexer.getLinks(characterId, {
+    toCharacterId: toCharacterId,
+  })
+}
+
+export const linkCharacter = (
+  contract: Contract,
+  fromCharacterId: number,
+  toCharacterId: number,
+) => {
+  return contract.linkCharacter(fromCharacterId, toCharacterId, "follow")
+}
+
+export const unlinkCharacter = (
+  contract: Contract,
+  fromCharacterId: number,
+  toCharacterId: number,
+) => {
+  return contract.unlinkCharacter(fromCharacterId, toCharacterId, "follow")
 }

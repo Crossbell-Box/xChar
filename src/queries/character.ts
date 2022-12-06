@@ -5,6 +5,7 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query"
 import * as characterModel from "../models/character"
+import { useContract } from "~/lib/crossbell"
 
 export const useGetCharacter = (handle: string) => {
   return useQuery(["getCharacter", handle], async () => {
@@ -74,11 +75,61 @@ export const useGetCalendar = (characterId: number) => {
   })
 }
 
-export const useGetCharacters = (address?: string) => {
-  return useQuery(["getCharacters", address], async () => {
+export const useGetCharacters = (address?: string, primary?: boolean) => {
+  return useQuery(["getCharacters", address, primary], async () => {
     if (!address) {
       return null
     }
-    return characterModel.getCharacters(address)
+    return characterModel.getCharacters(address, primary)
   })
+}
+
+export const useGetLinks = (characterId?: number, toCharacterId?: number) => {
+  return useQuery(["getLinks", characterId, toCharacterId], async () => {
+    if (!characterId || !toCharacterId) {
+      return null
+    }
+    return characterModel.getLinks(characterId, toCharacterId)
+  })
+}
+
+export const useLinkCharacter = () => {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: { fromCharacterId?: number; toCharacterId?: number }) => {
+      if (!input.fromCharacterId || !input.toCharacterId) {
+        return null
+      }
+      return characterModel.linkCharacter(
+        contract,
+        input.fromCharacterId,
+        input.toCharacterId,
+      )
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getLinks", variables.fromCharacterId])
+      },
+    },
+  )
+}
+
+export const useUnlinkCharacter = () => {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: { fromCharacterId: number; toCharacterId: number }) => {
+      return characterModel.unlinkCharacter(
+        contract,
+        input.fromCharacterId,
+        input.toCharacterId,
+      )
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getLinks", variables.fromCharacterId])
+      },
+    },
+  )
 }
