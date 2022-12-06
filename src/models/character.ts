@@ -74,3 +74,23 @@ export const getAchievements = (characterId: number) => {
     status: ["MINTED"],
   })
 }
+
+export const getCharacters = async (address: string) => {
+  const result = await indexer.getCharacters(address, {
+    limit: 50,
+  })
+  result.list = result.list.sort((a, b) => {
+    if (a.primary) {
+      return -1
+    } else if (b.primary) {
+      return 1
+    } else if (a.createdAt > b.createdAt) {
+      return 1
+    } else {
+      return -1
+    }
+  })
+  console.log(result)
+
+  return result
+}

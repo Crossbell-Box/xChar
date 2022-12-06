@@ -5,7 +5,7 @@ import { stringToInteger } from "~/lib/helpers"
 const builtInSourceMap: {
   [key: string]: string[]
 } = {
-  ["crossbell.io"]: ["#E1BE60", "#000", "https://crossbell.io/explore"],
+  ["crossbell.io"]: ["#E1BE60", "#000", "https://crossbell.io/feed"],
   xlog: ["#6466e9", "#fff", "https://xlog.app/"],
   operatorsync: ["#5298e9", "#fff", "https://crossbell.io/sync"],
   sync: ["#5298e9", "#fff", "https://crossbell.io/sync"],

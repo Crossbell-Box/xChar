@@ -73,3 +73,12 @@ export const useGetCalendar = (characterId: number) => {
     )
   })
 }
+
+export const useGetCharacters = (address?: string) => {
+  return useQuery(["getCharacters", address], async () => {
+    if (!address) {
+      return null
+    }
+    return characterModel.getCharacters(address)
+  })
+}
