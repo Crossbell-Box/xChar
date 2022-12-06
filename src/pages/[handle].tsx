@@ -42,19 +42,21 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ctx.params!.handle as string,
     queryClient,
   )
-  await Promise.all([
-    prefetchGetFollowers(character.characterId, queryClient),
-    prefetchGetFollowings(character.characterId, queryClient),
-    prefetchGetNotes(
-      {
-        characterId: character.characterId,
-        limit: 10,
-      },
-      queryClient,
-    ),
-    prefetchGetAchievements(character.characterId, queryClient),
-    prefetchGetCalendar(character.characterId, queryClient),
-  ])
+  if (character?.characterId) {
+    await Promise.all([
+      prefetchGetFollowers(character.characterId, queryClient),
+      prefetchGetFollowings(character.characterId, queryClient),
+      prefetchGetNotes(
+        {
+          characterId: character.characterId,
+          limit: 10,
+        },
+        queryClient,
+      ),
+      prefetchGetAchievements(character.characterId, queryClient),
+      prefetchGetCalendar(character.characterId, queryClient),
+    ])
+  }
 
   return {
     props: {
@@ -88,8 +90,6 @@ export default function HandlePage() {
       })
     }
   })
-
-  let currentLength = 0
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
@@ -237,7 +237,7 @@ export default function HandlePage() {
             (connected_account) => {
               const match = (
                 (connected_account as any).uri || connected_account
-              ).match(/csb:\/\/account:(.*)@(.*)/)
+              )?.match?.(/csb:\/\/account:(.*)@(.*)/)
               if (!match) {
                 return null
               }
@@ -280,7 +280,6 @@ export default function HandlePage() {
           {!!notes.data?.pages?.[0]?.count &&
             notes.data?.pages?.map((page) =>
               page?.list.map((note) => {
-                currentLength++
                 return (
                   <div
                     key={note.noteId}
@@ -288,10 +287,8 @@ export default function HandlePage() {
                   >
                     <UniLink
                       href={
-                        note.metadata?.content?.sources?.includes("xlog") &&
-                        note.metadata?.content?.external_urls?.[0]
-                          ? note.metadata?.content?.external_urls?.[0]
-                          : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
+                        note.metadata?.content?.external_urls?.[0] ||
+                        `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
                       }
                     >
                       <span className="w-full">

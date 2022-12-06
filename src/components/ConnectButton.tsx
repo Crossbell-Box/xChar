@@ -84,7 +84,7 @@ export const ConnectButton: React.FC<{
       }) => {
         return (
           <div
-            className="absolute right-10 top-10"
+            className="absolute right-10 top-8 z-10"
             {...(!mounted && {
               "aria-hidden": true,
               style: {
@@ -98,9 +98,8 @@ export const ConnectButton: React.FC<{
               if (!mounted || !account || !chain) {
                 return (
                   <Button
-                    className="text-accent"
+                    className="text-accent h-10 rounded-full px-8 text-lg"
                     onClick={openConnectModal}
-                    style={{ height: "30px" }}
                     variant={variant || "primary"}
                   >
                     Connect
@@ -108,10 +107,7 @@ export const ConnectButton: React.FC<{
                 )
               }
               return (
-                <div
-                  className="relative group"
-                  style={{ gap: 12, height: "30px" }}
-                >
+                <div className="relative group h-10" style={{ gap: 12 }}>
                   {characters.isSuccess ? (
                     <>
                       <button
@@ -128,23 +124,22 @@ export const ConnectButton: React.FC<{
                           name={
                             characters.data?.list?.[0]?.metadata?.content?.name
                           }
-                          size={30}
+                          size={40}
                         />
                         <div className="flex-1 flex flex-col min-w-0">
                           <span
-                            className={`text-left leading-none font-medium truncate ${
+                            className={`text-left leading-tight font-medium truncate text-lg ${
                               InsufficientBalance
                                 ? "text-red-600"
                                 : "text-gray-600"
                             }`}
-                            style={{ marginBottom: "0.15rem" }}
                           >
                             {characters.data?.list?.[0]?.metadata?.content
                               ?.name || account.displayName}
                           </span>
                           {characters.data?.list?.[0]?.handle && (
                             <span
-                              className={`text-left leading-none text-xs truncate ${
+                              className={`text-left leading-tight truncate text-sm ${
                                 InsufficientBalance
                                   ? "text-red-400"
                                   : "text-gray-400"
@@ -162,6 +157,44 @@ export const ConnectButton: React.FC<{
                         }-0 pt-2 group-hover:block top-full z-10 text-gray-600`}
                       >
                         <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                          <div className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap font-medium">
+                            Your characters
+                          </div>
+                          {characters.data?.list?.length ? (
+                            characters.data?.list?.map((character) => (
+                              <UniLink
+                                key={character.handle}
+                                href={`/${character.handle}`}
+                                className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap hover:bg-zinc-100"
+                              >
+                                <Avatar
+                                  className="align-middle mr-2"
+                                  images={
+                                    character.metadata?.content?.avatars || []
+                                  }
+                                  name={character.metadata?.content?.name}
+                                  size={30}
+                                />
+                                <span className="flex-1 flex flex-col min-w-0">
+                                  <span className="text-left leading-none font-medium truncate">
+                                    {character.metadata?.content?.name}
+                                  </span>
+                                  <span className="text-left leading-none text-xs truncate">
+                                    {"@" + character.handle}
+                                  </span>
+                                </span>
+                                {character.primary && (
+                                  <span className="font-medium text-xs text-yellow-300 ml-2">
+                                    🌟 Primary
+                                  </span>
+                                )}
+                              </UniLink>
+                            ))
+                          ) : (
+                            <span className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap text-zinc-400">
+                              Empty
+                            </span>
+                          )}
                           {InsufficientBalance && (
                             <UniLink
                               href="https://faucet.crossbell.io/"

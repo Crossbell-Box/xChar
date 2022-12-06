@@ -63,8 +63,8 @@ export default function Home() {
           <Image
             alt="xChar"
             src="/logos/crossbell.svg"
-            width={250}
-            height={68}
+            width={375}
+            height={102}
             priority
           />
         </h1>
