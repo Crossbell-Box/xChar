@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: xchar
+  namespace: crossbell
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`$XCHAR_DOMAIN_DEV`)"
+      services:
+        - name: xchar
+          port: 3000
