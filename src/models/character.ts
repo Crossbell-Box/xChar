@@ -123,7 +123,7 @@ export const updateCharacter = async (
   contract: Contract,
   input: {
     characterId: number
-    handle?: string
+    handle: string
     avatar: string
     banner?: {
       address: string
@@ -133,9 +133,6 @@ export const updateCharacter = async (
     bio: string
   },
 ) => {
-  if (input.handle) {
-    await contract.setHandle(input.characterId, input.handle)
-  }
   return contract.changeCharacterMetadata(input.characterId, (metadata) => ({
     ...metadata,
     ...(input.name && { name: input.name }),
@@ -151,4 +148,15 @@ export const updateCharacter = async (
         ],
       }),
   }))
+}
+
+export const updateHandle = async (
+  contract: Contract,
+  input: {
+    characterId: number
+    handle: string
+  },
+) => {
+  console.log("setHandle", input.characterId, input.handle)
+  await contract.setHandle(input.characterId, input.handle)
 }

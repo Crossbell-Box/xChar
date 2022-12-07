@@ -1,8 +1,11 @@
-import { useGetCharacter, useUpdateCharacter } from "~/queries/character"
+import {
+  useGetCharacter,
+  useUpdateCharacter,
+  useUpdateHandle,
+} from "~/queries/character"
 import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
-import { Avatar } from "~/components/ui/Avatar"
 import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Button } from "~/components/ui/Button"
@@ -31,16 +34,23 @@ export default function EditPage() {
   }, [character.isSuccess, character.data?.owner, address, handle, router])
 
   const updateCharacter = useUpdateCharacter()
+  const updateHandle = useUpdateHandle()
 
-  const form = useForm({
+  const handleForm = useForm({
     defaultValues: {
       handle: "",
+    } as {
+      handle: string
+    },
+  })
+
+  const metadataForm = useForm({
+    defaultValues: {
       avatar: "",
       banner: undefined,
       name: "",
       bio: "",
     } as {
-      handle: string
       avatar: string
       banner?: {
         address: string
@@ -51,11 +61,11 @@ export default function EditPage() {
     },
   })
 
-  const handleSubmit = form.handleSubmit((values) => {
+  const metadataSubmit = metadataForm.handleSubmit((values) => {
     if (character.data?.characterId) {
       updateCharacter.mutate({
         characterId: character.data.characterId,
-        ...(values.handle !== handle && { handle: values.handle }),
+        handle: handle,
         avatar: values.avatar,
         banner: values.banner,
         name: values.name,
@@ -66,18 +76,31 @@ export default function EditPage() {
     }
   })
 
+  const handleSubmit = handleForm.handleSubmit((values) => {
+    if (character.data?.characterId) {
+      updateHandle.mutate({
+        characterId: character.data.characterId,
+        handle: values.handle,
+      })
+    } else {
+      toast.error("Failed to update handle: characterId not found")
+    }
+  })
+
   const [avatarUploading, setAvatarUploading] = useState(false)
   const [bannerUploading, setBannerUploading] = useState(false)
 
   useEffect(() => {
     if (character.data) {
-      !form.getValues("avatar") &&
-        form.setValue(
+      !handleForm.getValues("handle") &&
+        handleForm.setValue("handle", character.data?.handle || "")
+      !metadataForm.getValues("avatar") &&
+        metadataForm.setValue(
           "avatar",
           toIPFS(character.data?.metadata?.content?.avatars?.[0] || ""),
         )
-      !form.getValues("banner") &&
-        form.setValue(
+      !metadataForm.getValues("banner") &&
+        metadataForm.setValue(
           "banner",
           character.data?.metadata?.content?.banners?.[0]
             ? {
@@ -89,20 +112,42 @@ export default function EditPage() {
               }
             : undefined,
         )
-      !form.getValues("name") &&
-        form.setValue("name", character.data?.metadata?.content?.name || "")
-      !form.getValues("bio") &&
-        form.setValue("bio", character.data?.metadata?.content?.bio || "")
+      !metadataForm.getValues("name") &&
+        metadataForm.setValue(
+          "name",
+          character.data?.metadata?.content?.name || "",
+        )
+      !metadataForm.getValues("bio") &&
+        metadataForm.setValue(
+          "bio",
+          character.data?.metadata?.content?.bio || "",
+        )
     }
-  }, [character.data, form])
+  }, [character.data, metadataForm, handleForm])
+
+  useEffect(() => {
+    if (updateHandle.isSuccess) {
+      toast.success("Handle updated.")
+      router.replace(`/${handleForm.getValues("handle")}/edit`)
+    } else if (updateHandle.isError) {
+      toast.error("Failed to update handle.")
+    }
+    updateHandle.reset()
+  }, [updateHandle.isSuccess, updateHandle.isError, handleForm, router])
+
+  useEffect(() => {
+    if (updateCharacter.isSuccess) {
+      toast.success("Character updated.")
+    } else if (updateCharacter.isError) {
+      toast.error("Failed to update character.")
+    }
+    updateHandle.reset()
+  }, [updateCharacter.isSuccess, updateCharacter.isError])
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
       <Head>
-        <title>
-          Editing{" "}
-          {character.data?.metadata?.content?.name || character.data?.handle}
-        </title>
+        <title>Editing @{handle}</title>
         <link
           rel="icon"
           href={toGateway(
@@ -121,15 +166,16 @@ export default function EditPage() {
       </div>
       <div className="w-[800px] mx-auto relative p-8 rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
-        <div className="relative font-medium text-2xl">Editing @{handle}</div>
-        <form onSubmit={handleSubmit} className="relative">
+        <h1 className="relative font-medium text-2xl">Editing @{handle}</h1>
+        <h2 className="relative font-medium text-xl pt-5 mt-5">Metadata</h2>
+        <form onSubmit={metadataSubmit} className="relative">
           <div className="mt-5">
             <label htmlFor="avatar" className="form-label">
               Avatar
             </label>
             <Controller
               name="avatar"
-              control={form.control}
+              control={metadataForm.control}
               render={({ field }) => (
                 <ImageUploader
                   id="avatar"
@@ -138,7 +184,7 @@ export default function EditPage() {
                     setAvatarUploading(true)
                   }}
                   uploadEnd={(key) => {
-                    form.setValue("avatar", key as string)
+                    metadataForm.setValue("avatar", key as string)
                     setAvatarUploading(false)
                   }}
                   {...field}
@@ -152,7 +198,7 @@ export default function EditPage() {
             </label>
             <Controller
               name="banner"
-              control={form.control}
+              control={metadataForm.control}
               render={({ field }) => (
                 <ImageUploader
                   id="banner"
@@ -161,7 +207,7 @@ export default function EditPage() {
                     setBannerUploading(true)
                   }}
                   uploadEnd={(key) => {
-                    form.setValue(
+                    metadataForm.setValue(
                       "banner",
                       key as { address: string; mime_type: string },
                     )
@@ -178,7 +224,12 @@ export default function EditPage() {
             </div>
           </div>
           <div className="mt-5">
-            <Input required label="Name" id="name" {...form.register("name")} />
+            <Input
+              required
+              label="Name"
+              id="name"
+              {...metadataForm.register("name")}
+            />
           </div>
           <div className="mt-5">
             <label htmlFor="bio" className="form-label">
@@ -189,7 +240,7 @@ export default function EditPage() {
               id="bio"
               className="input is-block"
               rows={2}
-              {...form.register("bio")}
+              {...metadataForm.register("bio")}
             />
           </div>
           <div className="mt-5">
@@ -197,6 +248,23 @@ export default function EditPage() {
               type="submit"
               isLoading={updateCharacter.isLoading}
               isDisabled={avatarUploading || bannerUploading}
+              rounded="full"
+            >
+              Save
+            </Button>
+          </div>
+        </form>
+        <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
+          Handle
+        </h2>
+        <form onSubmit={handleSubmit} className="relative">
+          <div className="mt-5">
+            <Input required id="handle" {...handleForm.register("handle")} />
+          </div>
+          <div className="mt-5">
+            <Button
+              type="submit"
+              isLoading={updateCharacter.isLoading}
               rounded="full"
             >
               Save

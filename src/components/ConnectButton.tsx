@@ -184,7 +184,7 @@ export const ConnectButton: React.FC<{
                           <div className="px-4 py-2 h-auto flex items-center w-full whitespace-nowrap font-medium">
                             Your characters
                           </div>
-                          <div className="h-96 overflow-scroll">
+                          <div className="max-h-96 overflow-scroll">
                             {characters.data?.list?.length ? (
                               characters.data?.list?.map((character) => (
                                 <UniLink

@@ -149,3 +149,19 @@ export const useUpdateCharacter = () => {
     },
   )
 }
+
+export const useUpdateHandle = () => {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof characterModel.updateHandle>[1]) => {
+      return characterModel.updateHandle(contract, input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getCharacter", variables.handle])
+        queryClient.invalidateQueries(["getCalendar", variables.characterId])
+      },
+    },
+  )
+}
