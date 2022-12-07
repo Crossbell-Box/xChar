@@ -165,3 +165,18 @@ export const useUpdateHandle = () => {
     },
   )
 }
+
+export const useSetPrimaryCharacter = () => {
+  const contract = useContract()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (characterId: number) => {
+      return characterModel.setPrimaryCharacter(contract, characterId)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["getCharacter"])
+      },
+    },
+  )
+}

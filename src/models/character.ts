@@ -157,6 +157,12 @@ export const updateHandle = async (
     handle: string
   },
 ) => {
-  console.log("setHandle", input.characterId, input.handle)
   await contract.setHandle(input.characterId, input.handle)
+}
+
+export const setPrimaryCharacter = async (
+  contract: Contract,
+  characterId: number,
+) => {
+  await contract.setPrimaryCharacterId(characterId)
 }

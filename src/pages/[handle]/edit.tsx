@@ -2,6 +2,7 @@ import {
   useGetCharacter,
   useUpdateCharacter,
   useUpdateHandle,
+  useSetPrimaryCharacter,
 } from "~/queries/character"
 import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
@@ -35,6 +36,7 @@ export default function EditPage() {
 
   const updateCharacter = useUpdateCharacter()
   const updateHandle = useUpdateHandle()
+  const setPrimaryCharacter = useSetPrimaryCharacter()
 
   const handleForm = useForm({
     defaultValues: {
@@ -129,20 +131,32 @@ export default function EditPage() {
     if (updateHandle.isSuccess) {
       toast.success("Handle updated.")
       router.replace(`/${handleForm.getValues("handle")}/edit`)
+      updateHandle.reset()
     } else if (updateHandle.isError) {
       toast.error("Failed to update handle.")
+      updateHandle.reset()
     }
-    updateHandle.reset()
-  }, [updateHandle.isSuccess, updateHandle.isError, handleForm, router])
+  }, [updateHandle, handleForm, router])
 
   useEffect(() => {
     if (updateCharacter.isSuccess) {
       toast.success("Character updated.")
+      updateCharacter.reset()
     } else if (updateCharacter.isError) {
       toast.error("Failed to update character.")
+      updateCharacter.reset()
     }
-    updateHandle.reset()
-  }, [updateCharacter.isSuccess, updateCharacter.isError])
+  }, [updateCharacter])
+
+  useEffect(() => {
+    if (setPrimaryCharacter.isSuccess) {
+      toast.success("Primary status set.")
+      setPrimaryCharacter.reset()
+    } else if (setPrimaryCharacter.isError) {
+      toast.error("Failed to set primary status.")
+      setPrimaryCharacter.reset()
+    }
+  }, [setPrimaryCharacter])
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
@@ -167,7 +181,7 @@ export default function EditPage() {
       <div className="w-[800px] mx-auto relative p-8 rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
         <h1 className="relative font-medium text-2xl">Editing @{handle}</h1>
-        <h2 className="relative font-medium text-xl pt-5 mt-5">Metadata</h2>
+        <h2 className="relative font-medium text-xl mt-5">📇 Metadata</h2>
         <form onSubmit={metadataSubmit} className="relative">
           <div className="mt-5">
             <label htmlFor="avatar" className="form-label">
@@ -255,7 +269,7 @@ export default function EditPage() {
           </div>
         </form>
         <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
-          Handle
+          🦄 Handle
         </h2>
         <form onSubmit={handleSubmit} className="relative">
           <div className="mt-5">
@@ -264,13 +278,36 @@ export default function EditPage() {
           <div className="mt-5">
             <Button
               type="submit"
-              isLoading={updateCharacter.isLoading}
+              isLoading={updateHandle.isLoading}
               rounded="full"
             >
               Save
             </Button>
           </div>
         </form>
+        <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
+          🌟 Primary
+        </h2>
+        <div className="relative text-sm text-zinc-500 my-2">
+          <p>Each address can only have one primary character.</p>
+          {character.data?.primary && (
+            <p className="mt-1">
+              The current character is already a primary character.
+            </p>
+          )}
+        </div>
+        <Button
+          className="mt-2 relative"
+          rounded="full"
+          isLoading={setPrimaryCharacter.isLoading}
+          isDisabled={character.data?.primary}
+          onClick={() =>
+            character.data?.characterId &&
+            setPrimaryCharacter.mutate(character.data?.characterId)
+          }
+        >
+          Set as primary
+        </Button>
       </div>
     </div>
   )
