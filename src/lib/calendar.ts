@@ -94,7 +94,7 @@ export const getCalendar = async (characterId: number) => {
       .sort()
       .map((key) =>
         response.calendar[key].map((item: any) => {
-          item.day = item.day.toString()
+          item.day = item.day.valueOf()
           return item
         }),
       ),
