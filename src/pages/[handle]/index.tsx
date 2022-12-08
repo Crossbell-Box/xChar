@@ -196,76 +196,70 @@ export default function HandlePage() {
         <div className="w-[800px] text-sm relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
-            ✨ Achievements
+            🪐 Social Platforms
           </div>
           <div className="relative">
-            <div className="overflow-x-scroll">
-              <div className="space-x-5 whitespace-nowrap mr-10 w-fit">
-                {achievement.data?.list?.map((series) =>
-                  series.groups?.map((group) => {
-                    const achievement = group.items[group.items.length - 1].info
-                    return (
-                      <span className="inline-flex" key={achievement.tokenId}>
-                        <span className="inline-block w-10 h-10 mr-2">
-                          <Image
-                            width={40}
-                            height={40}
-                            alt="achievement"
-                            src={achievement.media}
-                          />
-                        </span>
-                        <span className="inline-flex flex-col justify-around">
-                          <span className="capitalize text-sm">
-                            {group.info.title}
-                          </span>
-                          <span className="text-xs">
-                            {
-                              achievement.attributes.find(
-                                (attribute) => attribute.trait_type === "tier",
-                              )?.value
-                            }
-                          </span>
-                        </span>
-                      </span>
-                    )
-                  }),
-                )}
-              </div>
+            <div className="grid grid-cols-6 gap-x-2 gap-y-4">
+              <Platform platform="xlog" username={handle} />
+              {character.data?.metadata?.content?.connected_accounts?.map(
+                (connected_account) => {
+                  const match = (
+                    (connected_account as any).uri || connected_account
+                  )?.match?.(/csb:\/\/account:(.*)@(.*)/)
+                  if (!match) {
+                    return null
+                  }
+                  const username = match[1]
+                  const platform = match[2]
+                  return (
+                    <Platform
+                      key={platform}
+                      platform={platform}
+                      username={username}
+                    />
+                  )
+                },
+              )}
             </div>
-            <UniLink
-              // href={`${handle}/achievements`} TODO
-              className="absolute right-0 top-0 bottom-0 flex items-center bg-gradient-to-r from-transparent via-white to-white w-10 justify-end cursor-pointer"
-            >
-              <ChevronRightIcon className="w-4 h-4" />
-            </UniLink>
           </div>
         </div>
         <div className="w-[800px] text-sm relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
-            🪐 Social Platforms
+            ✨ Achievements
           </div>
-          <div className="relative mt-4 grid grid-cols-6 gap-4">
-            <Platform platform="xlog" username={handle} />
-            {character.data?.metadata?.content?.connected_accounts?.map(
-              (connected_account) => {
-                const match = (
-                  (connected_account as any).uri || connected_account
-                )?.match?.(/csb:\/\/account:(.*)@(.*)/)
-                if (!match) {
-                  return null
-                }
-                const username = match[1]
-                const platform = match[2]
-                return (
-                  <Platform
-                    key={platform}
-                    platform={platform}
-                    username={username}
-                  />
-                )
-              },
-            )}
+          <div className="relative">
+            <div className="grid grid-cols-5 gap-x-2 gap-y-4">
+              {achievement.data?.list?.map((series) =>
+                series.groups?.map((group) => {
+                  const achievement = group.items[group.items.length - 1].info
+                  return (
+                    <span className="inline-flex" key={achievement.tokenId}>
+                      <span className="inline-block w-10 h-10 mr-2">
+                        <Image
+                          width={40}
+                          height={40}
+                          alt="achievement"
+                          src={achievement.media}
+                        />
+                      </span>
+                      <span className="inline-flex flex-col justify-around flex-1 min-w-0">
+                        <span className="capitalize text-sm truncate">
+                          {group.info.title}
+                        </span>
+                        <span className="text-xs truncate">
+                          {
+                            achievement.attributes.find(
+                              (attribute) => attribute.trait_type === "tier",
+                            )?.value
+                          }
+                        </span>
+                      </span>
+                    </span>
+                  )
+                }),
+              )}
+            </div>
           </div>
         </div>
         <div className="w-[800px] text-sm relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
