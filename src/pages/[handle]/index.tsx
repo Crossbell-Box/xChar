@@ -230,7 +230,7 @@ export default function HandlePage() {
             </div>
           </div>
           <UniLink
-            href={`${handle}/achievements`}
+            // href={`${handle}/achievements`} TODO
             className="absolute right-0 top-0 bottom-0 flex items-center bg-gradient-to-r from-transparent via-white to-white w-10 justify-end cursor-pointer"
           >
             <ChevronRightIcon className="w-4 h-4" />
