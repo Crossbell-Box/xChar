@@ -60,7 +60,6 @@ const connectors = connectorsForWallets([
     wallets: [
       metaMaskWallet({ chains }),
       walletConnectWallet({ chains }),
-      rainbowWallet({ chains }),
       braveWallet({ chains, shimDisconnect: true }),
       coinbaseWallet({ appName: "xChar", chains }),
       injectedWallet({ chains, shimDisconnect: true }),
