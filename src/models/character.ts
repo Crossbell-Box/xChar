@@ -72,7 +72,7 @@ export const getFollowers = (characterId: number) => {
 }
 
 export const getAchievements = (characterId: number) => {
-  return indexer.getAchievement(characterId, {
+  return indexer.getAchievements(characterId, {
     status: ["MINTED"],
   })
 }
