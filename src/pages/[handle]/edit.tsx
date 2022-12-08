@@ -172,7 +172,7 @@ export default function EditPage() {
       <div className="fixed left-1/2 -translate-x-1/2 top-14 w-[1000px] h-[272px]">
         <Image
           alt="xChar"
-          src="/logos/crossbell.svg"
+          src="/logos/xchar.svg"
           width={1000}
           height={272}
           priority

@@ -101,6 +101,7 @@ export const ConnectButton: React.FC<{
                     className="text-accent h-10 rounded-full px-8 text-lg"
                     onClick={openConnectModal}
                     variant={variant || "primary"}
+                    rounded="full"
                   >
                     Connect
                   </Button>
