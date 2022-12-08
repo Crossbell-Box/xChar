@@ -24,16 +24,16 @@ export const HeatMap: React.FC<{
               >
                 <div
                   className={
-                    "w-[10px] h-[10px] cursor-pointer " +
+                    "w-[10px] h-[10px] cursor-pointer rounded-sm " +
                     (day.count === 0
                       ? "bg-gray-100"
                       : day.count > 0 && day.count < 2
-                      ? "bg-blue-200"
+                      ? "bg-calendar-L1"
                       : day.count >= 2 && day.count < 5
-                      ? "bg-blue-400"
+                      ? "bg-calendar-L2"
                       : day.count >= 5 && day.count < 10
-                      ? "bg-blue-600"
-                      : "bg-blue-900")
+                      ? "bg-calendar-L3"
+                      : "bg-calendar-L4")
                   }
                 ></div>
               </Tooltip>
