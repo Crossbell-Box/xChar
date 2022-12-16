@@ -295,8 +295,11 @@ export default function HandlePage() {
                     >
                       <UniLink
                         href={
-                          note.metadata?.content?.external_urls?.[0] ||
-                          `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
+                          note.metadata?.content?.external_urls?.[0] &&
+                          note.metadata?.content?.external_urls?.[0] !==
+                            "https://crossbell.io"
+                            ? note.metadata.content.external_urls[0]
+                            : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
                         }
                       >
                         <span className="w-full">
