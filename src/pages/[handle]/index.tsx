@@ -60,6 +60,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       prefetchGetAchievements(character.characterId, queryClient),
       prefetchGetCalendar(character.characterId, queryClient),
     ])
+  } else {
+    return {
+      notFound: true,
+    }
   }
 
   return {
