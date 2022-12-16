@@ -178,7 +178,7 @@ export default function EditPage() {
           priority
         />
       </div>
-      <div className="w-[800px] mx-auto relative p-8 rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md">
+      <div className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
         <h1 className="relative font-medium text-2xl">Editing @{handle}</h1>
         <h2 className="relative font-medium text-xl mt-5">📇 Metadata</h2>
@@ -216,7 +216,7 @@ export default function EditPage() {
               render={({ field }) => (
                 <ImageUploader
                   id="banner"
-                  className="max-w-screen-md h-[220px]"
+                  className="sm:w-[732px] sm:h-[220px] w-full h-40"
                   uploadStart={() => {
                     setBannerUploading(true)
                   }}

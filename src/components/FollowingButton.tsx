@@ -89,7 +89,7 @@ export const FollowingButton: React.FC<{
     <Button
       variant={variant}
       onClick={handleClickSubscribe}
-      className={clsx(className, "align-middle space-x-1 group w-[130px]")}
+      className={clsx(className, "align-middle space-x-1 group")}
       isLoading={
         backlinks.data?.count
           ? linkCharacter.isLoading || unlinkCharacter.isLoading

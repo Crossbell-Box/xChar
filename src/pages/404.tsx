@@ -11,7 +11,7 @@ dayjs.extend(relativeTime)
 export default function HandlePage() {
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
-      <div className="fixed left-1/2 -translate-x-1/2 top-8 w-[1000px] h-[272px]">
+      <div className="fixed left-1/2 -translate-x-1/2 top-8 sm:w-[1000px] w-full h-[272px]">
         <Image
           alt="xChar"
           src="/logos/xchar.svg"
@@ -22,7 +22,7 @@ export default function HandlePage() {
       </div>
       <div className="space-y-5">
         <Tilt
-          className="w-[800px] mx-auto relative p-8 rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md"
+          className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md"
           glareEnable={true}
           glareMaxOpacity={0.2}
           glareColor="#fff"

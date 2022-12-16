@@ -9,9 +9,9 @@ export const HeatMap: React.FC<{
 
   return (
     <div>
-      <div className="flex gap-1">
+      <div className="flex sm:gap-1 gap-[2px]">
         {calendar.data?.calendar.map((week: any, index: number) => (
-          <div className="flex gap-1 flex-col" key={index}>
+          <div className="flex sm:gap-1 gap-[2px] flex-col" key={index}>
             {week.map((day: any) => (
               <Tooltip
                 key={day.day}
@@ -24,7 +24,7 @@ export const HeatMap: React.FC<{
               >
                 <div
                   className={
-                    "w-[10px] h-[10px] cursor-pointer rounded-sm " +
+                    "sm:w-[10px] sm:h-[10px] w-1 h-1 cursor-pointer sm:rounded-sm rounded-[1px] " +
                     (day.count === 0
                       ? "bg-gray-100"
                       : day.count > 0 && day.count < 2

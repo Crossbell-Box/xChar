@@ -108,7 +108,7 @@ export default function HandlePage() {
           )}
         />
       </Head>
-      <div className="fixed left-1/2 -translate-x-1/2 top-8 w-[1000px] h-[272px]">
+      <div className="fixed left-1/2 -translate-x-1/2 top-8 sm:w-[1000px] w-full h-[272px]">
         <Image
           alt="xChar"
           src="/logos/xchar.svg"
@@ -119,7 +119,7 @@ export default function HandlePage() {
       </div>
       <div className="space-y-5">
         <Tilt
-          className="w-[800px] mx-auto relative p-8 rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md"
+          className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md"
           glareEnable={true}
           glareMaxOpacity={0.2}
           glareColor="#fff"
@@ -129,7 +129,7 @@ export default function HandlePage() {
           tiltMaxAngleY={5}
         >
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
-          <div className="flex relative">
+          <div className="flex relative flex-col sm:flex-row">
             <div className="absolute right-0 top-0">
               {isOwner ? (
                 <UniLink href={`/${handle}/edit`}>
@@ -149,7 +149,7 @@ export default function HandlePage() {
                 />
               )}
             </div>
-            <div className="w-32 text-center mr-4 flex flex-col items-center justify-between">
+            <div className="sm:w-32 sm:text-center mr-4 flex flex-col sm:items-center justify-between">
               {character.data?.metadata?.content?.avatars && (
                 <Avatar
                   className="rounded-full inline-block"
@@ -162,7 +162,7 @@ export default function HandlePage() {
                 No.{character.data?.characterId}
               </div>
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 mt-4 sm:mt-0">
               <p className="font-medium text-2xl">
                 <span>{character.data?.metadata?.content?.name}</span>
                 <span className="text-base ml-2 text-zinc-500">@{handle}</span>
@@ -198,13 +198,13 @@ export default function HandlePage() {
             </div>
           </div>
         </Tilt>
-        <div className="w-[800px] text-sm relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
             🪐 Social Platforms
           </div>
           <div className="relative">
-            <div className="grid grid-cols-6 gap-x-2 gap-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-6 gap-x-2 gap-y-4">
               <Platform platform="xlog" username={handle} />
               {character.data?.metadata?.content?.connected_accounts?.map(
                 (connected_account) => {
@@ -228,13 +228,13 @@ export default function HandlePage() {
             </div>
           </div>
         </div>
-        <div className="w-[800px] text-sm relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
             ✨ Achievements
           </div>
           <div className="relative">
-            <div className="grid grid-cols-5 gap-x-2 gap-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-x-2 gap-y-4">
               {achievement.data?.list?.map((series) =>
                 series.groups?.map((group) => {
                   const achievement = group.items[group.items.length - 1].info
@@ -267,7 +267,7 @@ export default function HandlePage() {
             </div>
           </div>
         </div>
-        <div className="w-[800px] text-sm relative rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
             <span className="align-middle">🎼 Notes</span>

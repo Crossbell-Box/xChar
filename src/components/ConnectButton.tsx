@@ -74,17 +74,10 @@ export const ConnectButton: React.FC<{
 
   return (
     <RainbowConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openChainModal,
-        openConnectModal,
-        mounted,
-      }) => {
+      {({ account, chain, openConnectModal, mounted }) => {
         return (
           <div
-            className="absolute right-10 top-8 z-10"
+            className="absolute sm:right-10 sm:top-8 top-5 right-6 z-10"
             {...(!mounted && {
               "aria-hidden": true,
               style: {
