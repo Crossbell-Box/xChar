@@ -34,6 +34,7 @@ import { Source } from "~/components/Source"
 import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
 import { useEffect, useState } from "react"
+import InfiniteScroll from "react-infinite-scroller"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -285,90 +286,92 @@ export default function HandlePage() {
               })}
           </div> */}
           <div>
-            {!!notes.data?.pages?.[0]?.count &&
-              notes.data?.pages?.map((page) =>
-                page?.list.map((note) => {
-                  return (
-                    <div
-                      key={note.noteId}
-                      className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed last:border-b-0"
-                    >
-                      <UniLink
-                        href={
-                          note.metadata?.content?.external_urls?.[0] &&
-                          note.metadata?.content?.external_urls?.[0] !==
-                            "https://crossbell.io"
-                            ? note.metadata.content.external_urls[0]
-                            : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
-                        }
+            <InfiniteScroll
+              loadMore={notes.fetchNextPage as any}
+              hasMore={notes.hasNextPage}
+              loader={
+                <div
+                  className="relative mt-4 w-full text-sm text-center py-4"
+                  key={"loading"}
+                >
+                  Loading ...
+                </div>
+              }
+            >
+              {!!notes.data?.pages?.[0]?.count &&
+                notes.data?.pages?.map((page) =>
+                  page?.list.map((note) => {
+                    return (
+                      <div
+                        key={note.noteId}
+                        className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed last:border-b-0"
                       >
-                        <span className="w-full">
-                          <span className="text-gray-400 relative">
-                            {dayjs
-                              .duration(
-                                dayjs(note.updatedAt).diff(dayjs(), "minute"),
-                                "minute",
-                              )
-                              .humanize()}{" "}
-                            ago
-                          </span>
-                          <span className="flex my-2">
-                            {note.cover && (
-                              <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
-                                <Image
-                                  className="object-cover rounded"
-                                  src={note.cover}
-                                  fill={true}
-                                  alt="cover"
-                                />
-                              </span>
-                            )}
-                            <span className="flex-1 space-y-2">
-                              {note.metadata?.content?.title && (
-                                <span className="line-clamp-1 font-medium text-lg">
-                                  {note.metadata?.content?.title}
+                        <UniLink
+                          href={
+                            note.metadata?.content?.external_urls?.[0] &&
+                            note.metadata?.content?.external_urls?.[0] !==
+                              "https://crossbell.io"
+                              ? note.metadata.content.external_urls[0]
+                              : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
+                          }
+                        >
+                          <span className="w-full">
+                            <span className="text-gray-400 relative">
+                              {dayjs
+                                .duration(
+                                  dayjs(note.updatedAt).diff(dayjs(), "minute"),
+                                  "minute",
+                                )
+                                .humanize()}{" "}
+                              ago
+                            </span>
+                            <span className="flex my-2">
+                              {note.cover && (
+                                <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
+                                  <Image
+                                    className="object-cover rounded"
+                                    src={note.cover}
+                                    fill={true}
+                                    alt="cover"
+                                  />
                                 </span>
                               )}
-                              <span className="line-clamp-3 relative">
-                                {note.metadata?.content?.summary}
+                              <span className="flex-1 space-y-2">
+                                {note.metadata?.content?.title && (
+                                  <span className="line-clamp-1 font-medium text-lg">
+                                    {note.metadata?.content?.title}
+                                  </span>
+                                )}
+                                <span className="line-clamp-3 relative">
+                                  {note.metadata?.content?.summary}
+                                </span>
                               </span>
                             </span>
                           </span>
-                        </span>
-                      </UniLink>
-                      <div className="flex justify-between items-center">
-                        <div className="text-xs relative">
-                          {note.metadata?.content?.sources?.map((source) => (
-                            <Source key={source} name={source} />
-                          ))}
-                        </div>
-                        <div className="mr-1 text-gray-400 relative">
-                          <UniLink
-                            href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
-                          >
-                            #{note.noteId}{" "}
-                            {note.updatedTransactionHash.slice(0, 5)}
-                            ...
-                            {note.updatedTransactionHash.slice(-4)}
-                          </UniLink>
+                        </UniLink>
+                        <div className="flex justify-between items-center">
+                          <div className="text-xs relative">
+                            {note.metadata?.content?.sources?.map((source) => (
+                              <Source key={source} name={source} />
+                            ))}
+                          </div>
+                          <div className="mr-1 text-gray-400 relative">
+                            <UniLink
+                              href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
+                            >
+                              #{note.noteId}{" "}
+                              {note.updatedTransactionHash.slice(0, 5)}
+                              ...
+                              {note.updatedTransactionHash.slice(-4)}
+                            </UniLink>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                }),
-              )}
+                    )
+                  }),
+                )}
+            </InfiniteScroll>
           </div>
-          {notes.hasNextPage && (
-            <Button
-              className="relative mt-4 w-full hover:bg-zinc-100 bg-zinc-50 transition-colors text-sm"
-              variant="text"
-              onClick={notes.fetchNextPage as () => void}
-              isLoading={notes.isFetchingNextPage}
-              aria-label="load more"
-            >
-              Load more
-            </Button>
-          )}
         </div>
       </div>
     </div>
