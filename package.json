@@ -21,7 +21,7 @@
     "@tanstack/react-query-persist-client": "^4.20.4",
     "axios": "^1.2.1",
     "clsx": "^1.2.1",
-    "crossbell.js": "^0.14.1",
+    "crossbell.js": "^0.16.0",
     "dayjs": "^1.11.7",
     "downshift": "^7.0.4",
     "ethers": "^5.7.2",
