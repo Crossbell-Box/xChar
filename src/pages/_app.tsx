@@ -19,7 +19,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets"
 import NextNProgress from "nextjs-progressbar"
 import { CSB_SCAN, IPFS_GATEWAY } from "~/lib/env"
-import { ConnectButton } from "~/components/ConnectButton"
+import { Layout } from "~/components/Layout"
 
 import "@rainbow-me/rainbowkit/styles.css"
 
@@ -88,8 +88,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <NextNProgress
               options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
             />
-            <ConnectButton />
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </Hydrate>
         </PersistQueryClientProvider>
       </RainbowKitProvider>
