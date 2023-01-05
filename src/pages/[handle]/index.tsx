@@ -117,7 +117,7 @@ export default function HandlePage() {
           priority
         />
       </div>
-      <div className="space-y-5">
+      <div className="space-y-5 w-full sm:w-auto">
         <Tilt
           className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md"
           glareEnable={true}
@@ -346,7 +346,7 @@ export default function HandlePage() {
                                     {note.metadata?.content?.title}
                                   </span>
                                 )}
-                                <span className="line-clamp-3 relative">
+                                <span className="line-clamp-3 relative overflow-hidden">
                                   {note.metadata?.content?.summary}
                                 </span>
                               </span>
