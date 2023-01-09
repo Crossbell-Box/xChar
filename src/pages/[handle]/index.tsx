@@ -234,31 +234,32 @@ export default function HandlePage() {
             ✨ Achievements
           </div>
           <div className="relative">
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-x-2 gap-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-9 gap-x-5 gap-y-5">
               {achievement.data?.list?.map((series) =>
                 series.groups?.map((group) => {
-                  const achievement = group.items[group.items.length - 1].info
+                  const achievement = group.items[group.items.length - 1]
                   return (
-                    <span className="inline-flex" key={achievement.tokenId}>
-                      <span className="inline-block w-10 h-10 mr-2 relative">
-                        <Image
-                          width={40}
-                          height={40}
-                          alt="achievement"
-                          src={achievement.media}
-                        />
-                        <div className="animate-shine absolute left-0 right-0 top-0 bottom-0"></div>
+                    <span
+                      className="inline-flex flex-col text-center items-center"
+                      key={achievement.info.tokenId}
+                    >
+                      <span className="inline-block w-14 h-14 relative shadow rounded-full bg-white mb-1">
+                        <span className="inline-block w-full h-full shadow-[inset_#ccc_6px_-6px_13px] p-[4px] rounded-full">
+                          <Image
+                            width={56}
+                            height={56}
+                            alt="achievement"
+                            src={achievement.info.media}
+                          />
+                          <span className="inline-block animate-shine absolute left-[4px] right-[4px] top-[4px] bottom-[4px] rounded-full"></span>
+                        </span>
                       </span>
-                      <span className="inline-flex flex-col justify-around flex-1 min-w-0">
-                        <span className="capitalize text-sm truncate">
+                      <span className="inline-flex flex-col flex-1 min-w-0 w-full">
+                        <span className="capitalize text-xs font-medium truncate">
                           {group.info.title}
                         </span>
-                        <span className="text-xs truncate">
-                          {
-                            achievement.attributes.find(
-                              (attribute) => attribute.trait_type === "tier",
-                            )?.value
-                          }
+                        <span className="text-[11px] text-gray-500 leading-snug">
+                          {dayjs(achievement.mintedAt).format("DD/MM/YYYY")}
                         </span>
                       </span>
                     </span>
