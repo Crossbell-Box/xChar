@@ -240,13 +240,14 @@ export default function HandlePage() {
                   const achievement = group.items[group.items.length - 1].info
                   return (
                     <span className="inline-flex" key={achievement.tokenId}>
-                      <span className="inline-block w-10 h-10 mr-2">
+                      <span className="inline-block w-10 h-10 mr-2 relative">
                         <Image
                           width={40}
                           height={40}
                           alt="achievement"
                           src={achievement.media}
                         />
+                        <div className="animate-shine absolute left-0 right-0 top-0 bottom-0"></div>
                       </span>
                       <span className="inline-flex flex-col justify-around flex-1 min-w-0">
                         <span className="capitalize text-sm truncate">
