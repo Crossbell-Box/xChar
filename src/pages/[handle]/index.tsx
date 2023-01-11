@@ -35,6 +35,8 @@ import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
+import { AnimatePresence, motion } from "framer-motion"
+import { Achievement } from "~/components/Achievement"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -228,7 +230,7 @@ export default function HandlePage() {
             </div>
           </div>
         </div>
-        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
             ✨ Achievements
@@ -236,35 +238,9 @@ export default function HandlePage() {
           <div className="relative">
             <div className="grid grid-cols-2 sm:grid-cols-9 gap-x-5 gap-y-5">
               {achievement.data?.list?.map((series) =>
-                series.groups?.map((group) => {
-                  const achievement = group.items[group.items.length - 1]
-                  return (
-                    <span
-                      className="inline-flex flex-col text-center items-center"
-                      key={achievement.info.tokenId}
-                    >
-                      <span className="inline-block w-14 h-14 relative shadow rounded-full bg-white mb-1">
-                        <span className="inline-block w-full h-full shadow-[inset_#ccc_6px_-6px_13px] p-[4px] rounded-full">
-                          <Image
-                            width={56}
-                            height={56}
-                            alt="achievement"
-                            src={achievement.info.media}
-                          />
-                          <span className="inline-block animate-shine absolute left-[4px] right-[4px] top-[4px] bottom-[4px] rounded-full"></span>
-                        </span>
-                      </span>
-                      <span className="inline-flex flex-col flex-1 min-w-0 w-full">
-                        <span className="capitalize text-xs font-medium truncate">
-                          {group.info.title}
-                        </span>
-                        <span className="text-[11px] text-gray-500 leading-snug">
-                          {dayjs(achievement.mintedAt).format("DD/MM/YYYY")}
-                        </span>
-                      </span>
-                    </span>
-                  )
-                }),
+                series.groups?.map((group) => (
+                  <Achievement group={group} key={group.info.name} />
+                )),
               )}
             </div>
           </div>
