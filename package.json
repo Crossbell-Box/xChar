@@ -60,7 +60,7 @@
     "unified": "^10.1.2",
     "unist-builder": "^3.0.0",
     "unist-util-visit": "^4.1.1",
-    "wagmi": "0.8.10"
+    "wagmi": "0.10.10"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
