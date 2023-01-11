@@ -35,6 +35,8 @@ import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
+import { AnimatePresence, motion } from "framer-motion"
+import { Achievement } from "~/components/Achievement"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -228,41 +230,17 @@ export default function HandlePage() {
             </div>
           </div>
         </div>
-        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
+        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 backdrop-blur-md py-6 px-8">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
           <div className="relative font-medium text-xl mb-4">
             ✨ Achievements
           </div>
           <div className="relative">
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-x-2 gap-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-9 gap-x-5 gap-y-5">
               {achievement.data?.list?.map((series) =>
-                series.groups?.map((group) => {
-                  const achievement = group.items[group.items.length - 1].info
-                  return (
-                    <span className="inline-flex" key={achievement.tokenId}>
-                      <span className="inline-block w-10 h-10 mr-2">
-                        <Image
-                          width={40}
-                          height={40}
-                          alt="achievement"
-                          src={achievement.media}
-                        />
-                      </span>
-                      <span className="inline-flex flex-col justify-around flex-1 min-w-0">
-                        <span className="capitalize text-sm truncate">
-                          {group.info.title}
-                        </span>
-                        <span className="text-xs truncate">
-                          {
-                            achievement.attributes.find(
-                              (attribute) => attribute.trait_type === "tier",
-                            )?.value
-                          }
-                        </span>
-                      </span>
-                    </span>
-                  )
-                }),
+                series.groups?.map((group) => (
+                  <Achievement group={group} key={group.info.name} />
+                )),
               )}
             </div>
           </div>

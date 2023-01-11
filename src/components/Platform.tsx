@@ -66,7 +66,7 @@ export const Platform: React.FC<{
 }> = ({ platform, username }) => {
   return (
     <UniLink
-      className="inline-flex"
+      className="inline-flex hover:animate-bounce2"
       key={platform}
       href={syncMap[platform]?.url.replace("{username}", username)}
     >
