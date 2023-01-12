@@ -236,7 +236,7 @@ export default function HandlePage() {
             ✨ Achievements
           </div>
           <div className="relative">
-            <div className="grid grid-cols-2 sm:grid-cols-9 gap-x-5 gap-y-5">
+            <div className="grid grid-cols-2 sm:grid-cols-9 gap-x-2 gap-y-5">
               {achievement.data?.list?.map((series) =>
                 series.groups?.map((group) => (
                   <Achievement group={group} key={group.info.name} />

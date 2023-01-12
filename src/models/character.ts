@@ -72,9 +72,7 @@ export const getFollowers = (characterId: number) => {
 }
 
 export const getAchievements = (characterId: number) => {
-  return indexer.getAchievements(characterId, {
-    status: ["MINTED"],
-  })
+  return indexer.getAchievements(characterId)
 }
 
 export const getCharacters = async (address: string, primary?: boolean) => {
