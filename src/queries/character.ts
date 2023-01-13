@@ -180,3 +180,12 @@ export const useSetPrimaryCharacter = () => {
     },
   )
 }
+
+export const useGetLatestMintedNotes = (address?: string) => {
+  return useQuery(["getLatestMintedNotes", address], async () => {
+    if (!address) {
+      return null
+    }
+    return characterModel.getLatestMintedNotes(address)
+  })
+}

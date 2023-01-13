@@ -4,6 +4,7 @@ import {
   useGetFollowings,
   useGetNotes,
   useGetAchievements,
+  useGetLatestMintedNotes,
 } from "~/queries/character"
 import {
   fetchGetCharacter,
@@ -23,8 +24,7 @@ import duration from "dayjs/plugin/duration"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
-import { ChevronRightIcon } from "@heroicons/react/24/outline"
-import { PencilSquareIcon } from "@heroicons/react/24/solid"
+import { PencilSquareIcon, UserIcon } from "@heroicons/react/24/solid"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
@@ -37,6 +37,7 @@ import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { Achievement } from "~/components/Achievement"
 import { Box } from "~/components/ui/Box"
+import { Note } from "~/lib/types"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -86,6 +87,8 @@ export default function HandlePage() {
     limit: 10,
   })
   const achievement = useGetAchievements(character.data?.characterId || 0)
+  const latestMintedNotes = useGetLatestMintedNotes(character?.data?.owner)
+  console.log(latestMintedNotes.data?.list)
   const { address } = useAccount()
 
   const [isOwner, setIsOwner] = useState(false)
@@ -233,6 +236,53 @@ export default function HandlePage() {
             )}
           </div>
         </Box>
+        <Box title="💎 Treasures">
+          <div className="grid grid-cols-2 sm:grid-cols-8 gap-x-2 gap-y-5">
+            {latestMintedNotes.data?.list?.map((note) => {
+              return (
+                <UniLink
+                  key={note.noteCharacterId + "-" + note.noteId}
+                  className="border h-0 pt-[100%] rounded-md relative"
+                  href={
+                    note.note?.metadata?.content?.external_urls?.[0] &&
+                    note.note?.metadata?.content?.external_urls?.[0] !==
+                      "https://crossbell.io"
+                      ? note.note?.metadata.content.external_urls[0]
+                      : `https://crossbell.io/notes/${note.noteCharacterId}-${note.noteId}`
+                  }
+                >
+                  <div className="absolute top-0 bottom-0 left-0 right-0 rounded-md overflow-hidden">
+                    {(note.note as Note).cover ? (
+                      <Image
+                        alt={note.noteCharacterId + "-" + note.noteId}
+                        src={(note.note as Note).cover!}
+                        fill={true}
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="text-[10px] leading-normal p-1 bg-slate-100 text-slate-500">
+                        {(note.note as Note)?.metadata?.content?.summary}
+                      </div>
+                    )}
+                    <div className="bg-gradient-to-t from-zinc-600 absolute bottom-0 top-0 left-0 right-0 font-medium flex flex-col justify-center px-1 pb-1">
+                      <div className="text-white text-sm leading-tight line-clamp-2 overflow-hidden">
+                        {note.note?.metadata?.content?.title ||
+                          (note.note as Note)?.metadata?.content?.summary}
+                      </div>
+                      <div className="text-[10px] text-zinc-300 line-clamp-1 overflow-hidden absolute bottom-1 left-1 right-1">
+                        <UserIcon className="w-[10px] h-[10px] inline mr-[2px] align-middle" />
+                        <span className="align-middle">
+                          {note.noteCharacter?.metadata?.content?.name ||
+                            note.noteCharacter?.handle}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </UniLink>
+              )
+            })}
+          </div>
+        </Box>
         <Box title="🎼 Notes">
           <>
             <div className="relative flex justify-center w-full">
@@ -297,7 +347,7 @@ export default function HandlePage() {
                               </span>
                               <span className="flex my-2">
                                 {note.cover && (
-                                  <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
+                                  <span className="flex items-center relative w-20 h-20 mr-4 mt-0">
                                     <Image
                                       className="object-cover rounded"
                                       src={note.cover}

@@ -164,3 +164,17 @@ export const setPrimaryCharacter = async (
 ) => {
   await contract.setPrimaryCharacterId(characterId)
 }
+
+export const getLatestMintedNotes = async (address: string) => {
+  const notes = await indexer.getMintedNotesOfAddress(address, {
+    limit: 8,
+  })
+  await Promise.all(
+    notes?.list.map(async (note) => {
+      await expandPage(note.note as Note)
+      return note
+    }),
+  )
+
+  return notes
+}
