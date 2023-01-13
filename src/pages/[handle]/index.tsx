@@ -35,8 +35,8 @@ import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
-import { AnimatePresence, motion } from "framer-motion"
 import { Achievement } from "~/components/Achievement"
+import { Box } from "~/components/ui/Box"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -200,161 +200,152 @@ export default function HandlePage() {
             </div>
           </div>
         </Tilt>
-        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
-          <div className="relative font-medium text-xl mb-4">
-            🪐 Social Platforms
-          </div>
-          <div className="relative">
-            <div className="grid grid-cols-2 sm:grid-cols-6 gap-x-2 gap-y-4">
-              <Platform platform="xlog" username={handle} />
-              {character.data?.metadata?.content?.connected_accounts?.map(
-                (connected_account) => {
-                  const match = (
-                    (connected_account as any).uri || connected_account
-                  )?.match?.(/csb:\/\/account:(.*)@(.*)/)
-                  if (!match) {
-                    return null
-                  }
-                  const username = match[1]
-                  const platform = match[2]
-                  return (
-                    <Platform
-                      key={platform}
-                      platform={platform}
-                      username={username}
-                    />
-                  )
-                },
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 backdrop-blur-md py-6 px-8">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
-          <div className="relative font-medium text-xl mb-4">
-            ✨ Achievements
-          </div>
-          <div className="relative">
-            <div className="grid grid-cols-2 sm:grid-cols-9 gap-x-2 gap-y-5">
-              {achievement.data?.list?.map((series) =>
-                series.groups?.map((group) => (
-                  <Achievement group={group} key={group.info.name} />
-                )),
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="sm:w-[800px] w-full text-sm relative sm:rounded-3xl text-gray-700 border-2 border-gray-100 overflow-hidden backdrop-blur-md py-6 px-8">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br bg-white opacity-80"></div>
-          <div className="relative font-medium text-xl mb-4">
-            <span className="align-middle">🎼 Notes</span>
-          </div>
-          <div className="relative flex justify-center w-full">
-            <HeatMap characterId={character.data?.characterId} />
-          </div>
-          {/* <div className="relative text-xs mt-4 leading-snug">
-            {Object.keys(sourceList)
-              .sort((a, b) => sourceList[b] - sourceList[a])
-              .map((source) => {
+        <Box title="🪐 Social Platforms">
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-x-2 gap-y-4">
+            <Platform platform="xlog" username={handle} />
+            {character.data?.metadata?.content?.connected_accounts?.map(
+              (connected_account) => {
+                const match = (
+                  (connected_account as any).uri || connected_account
+                )?.match?.(/csb:\/\/account:(.*)@(.*)/)
+                if (!match) {
+                  return null
+                }
+                const username = match[1]
+                const platform = match[2]
                 return (
-                  <span
-                    className="bg-gray-200 rounded-3xl px-2 inline-block mt-1 mr-1"
-                    key={source}
-                  >
-                    {source + " " + sourceList[source]}
-                  </span>
+                  <Platform
+                    key={platform}
+                    platform={platform}
+                    username={username}
+                  />
                 )
-              })}
-          </div> */}
-          <div>
-            <InfiniteScroll
-              loadMore={notes.fetchNextPage as any}
-              hasMore={notes.hasNextPage}
-              loader={
-                <div
-                  className="relative mt-4 w-full text-sm text-center py-4"
-                  key={"loading"}
-                >
-                  Loading ...
-                </div>
-              }
-            >
-              {!!notes.data?.pages?.[0]?.count &&
-                notes.data?.pages?.map((page) =>
-                  page?.list.map((note) => {
-                    return (
-                      <div
-                        key={note.noteId}
-                        className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed last:border-b-0"
-                      >
-                        <UniLink
-                          href={
-                            note.metadata?.content?.external_urls?.[0] &&
-                            note.metadata?.content?.external_urls?.[0] !==
-                              "https://crossbell.io"
-                              ? note.metadata.content.external_urls[0]
-                              : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
-                          }
+              },
+            )}
+          </div>
+        </Box>
+        <Box title="✨ Achievements">
+          <div className="grid grid-cols-2 sm:grid-cols-8 gap-x-2 gap-y-5">
+            {achievement.data?.list?.map((series) =>
+              series.groups?.map((group) => (
+                <Achievement group={group} key={group.info.name} />
+              )),
+            )}
+          </div>
+        </Box>
+        <Box title="🎼 Notes">
+          <>
+            <div className="relative flex justify-center w-full">
+              <HeatMap characterId={character.data?.characterId} />
+            </div>
+            {/* <div className="relative text-xs mt-4 leading-snug">
+              {Object.keys(sourceList)
+                .sort((a, b) => sourceList[b] - sourceList[a])
+                .map((source) => {
+                  return (
+                    <span
+                      className="bg-gray-200 rounded-3xl px-2 inline-block mt-1 mr-1"
+                      key={source}
+                    >
+                      {source + " " + sourceList[source]}
+                    </span>
+                  )
+                })}
+            </div> */}
+            <div>
+              <InfiniteScroll
+                loadMore={notes.fetchNextPage as any}
+                hasMore={notes.hasNextPage}
+                loader={
+                  <div
+                    className="relative mt-4 w-full text-sm text-center py-4"
+                    key={"loading"}
+                  >
+                    Loading ...
+                  </div>
+                }
+              >
+                {!!notes.data?.pages?.[0]?.count &&
+                  notes.data?.pages?.map((page) =>
+                    page?.list.map((note) => {
+                      return (
+                        <div
+                          key={note.noteId}
+                          className="mx-auto relative py-6 space-y-2 overflow-hidden border-b border-dashed last:border-b-0"
                         >
-                          <span className="w-full">
-                            <span className="text-gray-400 relative">
-                              {dayjs
-                                .duration(
-                                  dayjs(note.updatedAt).diff(dayjs(), "minute"),
-                                  "minute",
-                                )
-                                .humanize()}{" "}
-                              ago
-                            </span>
-                            <span className="flex my-2">
-                              {note.cover && (
-                                <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
-                                  <Image
-                                    className="object-cover rounded"
-                                    src={note.cover}
-                                    fill={true}
-                                    alt="cover"
-                                  />
-                                </span>
-                              )}
-                              <span className="flex-1 space-y-2">
-                                {note.metadata?.content?.title && (
-                                  <span className="line-clamp-1 font-medium text-lg">
-                                    {note.metadata?.content?.title}
+                          <UniLink
+                            href={
+                              note.metadata?.content?.external_urls?.[0] &&
+                              note.metadata?.content?.external_urls?.[0] !==
+                                "https://crossbell.io"
+                                ? note.metadata.content.external_urls[0]
+                                : `https://crossbell.io/notes/${note.characterId}-${note.noteId}`
+                            }
+                          >
+                            <span className="w-full">
+                              <span className="text-gray-400 relative">
+                                {dayjs
+                                  .duration(
+                                    dayjs(note.updatedAt).diff(
+                                      dayjs(),
+                                      "minute",
+                                    ),
+                                    "minute",
+                                  )
+                                  .humanize()}{" "}
+                                ago
+                              </span>
+                              <span className="flex my-2">
+                                {note.cover && (
+                                  <span className="xlog-post-cover flex items-center relative w-20 h-20 mr-4 mt-0">
+                                    <Image
+                                      className="object-cover rounded"
+                                      src={note.cover}
+                                      fill={true}
+                                      alt="cover"
+                                    />
                                   </span>
                                 )}
-                                <span className="line-clamp-3 relative overflow-hidden">
-                                  {note.metadata?.content?.summary}
+                                <span className="flex-1 space-y-2">
+                                  {note.metadata?.content?.title && (
+                                    <span className="line-clamp-1 font-medium text-lg">
+                                      {note.metadata?.content?.title}
+                                    </span>
+                                  )}
+                                  <span className="line-clamp-3 relative overflow-hidden">
+                                    {note.metadata?.content?.summary}
+                                  </span>
                                 </span>
                               </span>
                             </span>
-                          </span>
-                        </UniLink>
-                        <div className="flex justify-between items-center">
-                          <div className="text-xs relative">
-                            {note.metadata?.content?.sources?.map((source) => (
-                              <Source key={source} name={source} />
-                            ))}
-                          </div>
-                          <div className="mr-1 text-gray-400 relative">
-                            <UniLink
-                              href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
-                            >
-                              #{note.noteId}{" "}
-                              {note.updatedTransactionHash.slice(0, 5)}
-                              ...
-                              {note.updatedTransactionHash.slice(-4)}
-                            </UniLink>
+                          </UniLink>
+                          <div className="flex justify-between items-center">
+                            <div className="text-xs relative">
+                              {note.metadata?.content?.sources?.map(
+                                (source) => (
+                                  <Source key={source} name={source} />
+                                ),
+                              )}
+                            </div>
+                            <div className="mr-1 text-gray-400 relative">
+                              <UniLink
+                                href={`https://scan.crossbell.io/tx/${note.updatedTransactionHash}`}
+                              >
+                                #{note.noteId}{" "}
+                                {note.updatedTransactionHash.slice(0, 5)}
+                                ...
+                                {note.updatedTransactionHash.slice(-4)}
+                              </UniLink>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  }),
-                )}
-            </InfiniteScroll>
-          </div>
-        </div>
+                      )
+                    }),
+                  )}
+              </InfiniteScroll>
+            </div>
+          </>
+        </Box>
       </div>
     </div>
   )

@@ -17,8 +17,6 @@ export const AchievementModal: React.FC<{
     .filter((item) => item.status === "MINTED")
     .pop()
 
-  console.log(group, achievement)
-
   if (!achievement) return null
 
   return (
