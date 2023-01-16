@@ -100,7 +100,7 @@ export const AchievementModal: React.FC<{
             </span>
           </div>
         </motion.div>
-        <div className="mt-8">
+        <div className="mt-8 hidden sm:block">
           <Stepper
             active={
               group.items.filter((item) => item.status === "MINTED").length

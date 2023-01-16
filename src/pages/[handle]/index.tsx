@@ -204,7 +204,7 @@ export default function HandlePage() {
           </div>
         </Tilt>
         <Box title="🪐 Social Platforms">
-          <div className="grid grid-cols-2 sm:grid-cols-6 gap-x-2 gap-y-4">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-x-2 gap-y-4">
             <Platform platform="xlog" username={handle} />
             {character.data?.metadata?.content?.connected_accounts?.map(
               (connected_account) => {
@@ -228,7 +228,7 @@ export default function HandlePage() {
           </div>
         </Box>
         <Box title="✨ Achievements">
-          <div className="grid grid-cols-2 sm:grid-cols-8 gap-x-2 gap-y-5">
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
             {achievement.data?.list?.map((series) =>
               series.groups?.map((group) => (
                 <Achievement group={group} key={group.info.name} />
@@ -237,7 +237,7 @@ export default function HandlePage() {
           </div>
         </Box>
         <Box title="💎 Treasures">
-          <div className="grid grid-cols-2 sm:grid-cols-8 gap-x-2 gap-y-5">
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
             {latestMintedNotes.data?.list?.map((note) => {
               return (
                 <UniLink
