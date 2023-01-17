@@ -35,9 +35,10 @@ import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
-import { Achievement } from "~/components/Achievement"
+import { AchievementItem } from "~/components/AchievementItem"
 import { Box } from "~/components/ui/Box"
 import { Note } from "~/lib/types"
+import { TreasureItem } from "~/components/TreasureItem"
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
@@ -88,7 +89,6 @@ export default function HandlePage() {
   })
   const achievement = useGetAchievements(character.data?.characterId || 0)
   const latestMintedNotes = useGetLatestMintedNotes(character?.data?.owner)
-  console.log(latestMintedNotes.data?.list)
   const { address } = useAccount()
 
   const [isOwner, setIsOwner] = useState(false)
@@ -160,17 +160,21 @@ export default function HandlePage() {
                   className="rounded-full inline-block"
                   name={handle}
                   images={character.data?.metadata?.content?.avatars}
-                  size={80}
+                  size={88}
                 />
               )}
-              <div className="mt-2 font-bold text-2xl">
+              <div className="mt-1 font-bold text-xl">
                 No.{character.data?.characterId}
               </div>
             </div>
             <div className="flex-1 min-w-0 mt-4 sm:mt-0">
-              <p className="font-medium text-2xl">
-                <span>{character.data?.metadata?.content?.name}</span>
-                <span className="text-base ml-2 text-zinc-500">@{handle}</span>
+              <p>
+                <span className="font-bold text-2xl">
+                  {character.data?.metadata?.content?.name}
+                </span>
+                <span className="font-medium text-base ml-2 text-zinc-500">
+                  @{handle}
+                </span>
               </p>
               <p className="truncate text-sm mt-1">
                 {character.data?.metadata?.content?.bio}
@@ -231,56 +235,19 @@ export default function HandlePage() {
           <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
             {achievement.data?.list?.map((series) =>
               series.groups?.map((group) => (
-                <Achievement group={group} key={group.info.name} />
+                <AchievementItem group={group} key={group.info.name} />
               )),
             )}
           </div>
         </Box>
         <Box title="💎 Treasures">
           <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
-            {latestMintedNotes.data?.list?.map((note) => {
-              return (
-                <UniLink
-                  key={note.noteCharacterId + "-" + note.noteId}
-                  className="border h-0 pt-[100%] rounded-md relative"
-                  href={
-                    note.note?.metadata?.content?.external_urls?.[0] &&
-                    note.note?.metadata?.content?.external_urls?.[0] !==
-                      "https://crossbell.io"
-                      ? note.note?.metadata.content.external_urls[0]
-                      : `https://crossbell.io/notes/${note.noteCharacterId}-${note.noteId}`
-                  }
-                >
-                  <div className="absolute top-0 bottom-0 left-0 right-0 rounded-md overflow-hidden">
-                    {(note.note as Note).cover ? (
-                      <Image
-                        alt={note.noteCharacterId + "-" + note.noteId}
-                        src={(note.note as Note).cover!}
-                        fill={true}
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="text-[10px] leading-normal p-1 bg-slate-100 text-slate-500">
-                        {(note.note as Note)?.metadata?.content?.summary}
-                      </div>
-                    )}
-                    <div className="bg-gradient-to-t from-zinc-600 absolute bottom-0 top-0 left-0 right-0 font-medium flex flex-col justify-center px-1 pb-1">
-                      <div className="text-white text-sm leading-tight line-clamp-2 overflow-hidden">
-                        {note.note?.metadata?.content?.title ||
-                          (note.note as Note)?.metadata?.content?.summary}
-                      </div>
-                      <div className="text-[10px] text-zinc-300 line-clamp-1 overflow-hidden absolute bottom-1 left-1 right-1">
-                        <UserIcon className="w-[10px] h-[10px] inline mr-[2px] align-middle" />
-                        <span className="align-middle">
-                          {note.noteCharacter?.metadata?.content?.name ||
-                            note.noteCharacter?.handle}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </UniLink>
-              )
-            })}
+            {latestMintedNotes.data?.list?.map((note) => (
+              <TreasureItem
+                note={note}
+                key={note.noteCharacterId + "-" + note.noteId}
+              />
+            ))}
           </div>
         </Box>
         <Box title="🎼 Notes">

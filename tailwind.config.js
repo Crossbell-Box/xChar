@@ -56,29 +56,10 @@ module.exports = {
             backgroundPosition: "714px 714px",
           },
         },
-        bounce2: {
-          "50%": {
-            transform: "translateY(-25%)",
-            animationTimingFunction: "cubic-bezier(0.8,0,1,1)",
-          },
-          "0%, 100%": {
-            transform: "none",
-            animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
-          },
-        },
-        rotate: {
-          "0%": {
-            transform: "rotate3d(0, 0, 0, 0)",
-          },
-          "100%": {
-            transform: "rotate3d(0, 1, 0, 360deg)",
-          },
-        },
       },
       animation: {
         shine: "shine 5s ease-in-out infinite",
         "shine-xl": "shine-xl 5s ease-in-out infinite",
-        bounce2: "bounce2 1s infinite",
         rotate: "rotate 1s ease-in-out",
       },
     },

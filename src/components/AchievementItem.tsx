@@ -33,7 +33,7 @@ export const Badge = ({
   )
 }
 
-export const Achievement: React.FC<{
+export const AchievementItem: React.FC<{
   group: AchievementSection["groups"][number]
 }> = ({ group }) => {
   const achievement = group.items
@@ -55,7 +55,11 @@ export const Achievement: React.FC<{
 
   return (
     <AnimatePresence>
-      <div className={`relative cursor-pointer ${actived ? "z-[1]" : ""}`}>
+      <div
+        className={`relative cursor-pointer ${
+          actived ? "z-[1]" : ""
+        } hover:scale-110 transition-transform ease`}
+      >
         <div className="inline-flex flex-col text-center items-center absolute left-0 top-0 right-0 pointer-events-none">
           <Badge media={achievement.info.media} className="mb-1" />
           <span className="inline-flex flex-col flex-1 min-w-0 w-full">
