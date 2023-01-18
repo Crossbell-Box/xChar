@@ -9,7 +9,7 @@ import {
   useUnlinkCharacter,
   useGetCharacters,
 } from "~/queries/character"
-import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { useConnectModal } from "@crossbell/connect-kit"
 import clsx from "clsx"
 import { BellIcon } from "@heroicons/react/24/solid"
 
@@ -22,7 +22,7 @@ export const FollowingButton: React.FC<{
   const { address } = useAccount()
   const linkCharacter = useLinkCharacter()
   const unlinkCharacter = useUnlinkCharacter()
-  const { openConnectModal } = useConnectModal()
+  const { show: openConnectModal } = useConnectModal()
   const [followProgress, setFollowProgress] = useState<boolean>(false)
   const userCharacters = useGetCharacters(address, true)
   const router = useRouter()

@@ -5,7 +5,7 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query"
 import * as characterModel from "../models/character"
-import { useContract } from "~/lib/crossbell"
+import { useContract } from "@crossbell/contract"
 
 export const useGetCharacter = (handle: string) => {
   return useQuery(["getCharacter", handle], async () => {

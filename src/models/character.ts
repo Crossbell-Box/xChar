@@ -1,4 +1,4 @@
-import { indexer } from "~/lib/crossbell"
+import { indexer } from "@crossbell/indexer"
 import { Notes, Note } from "~/lib/types"
 import type { Contract } from "crossbell.js"
 import { toIPFS } from "~/lib/ipfs-parser"
