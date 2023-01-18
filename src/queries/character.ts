@@ -4,8 +4,11 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query"
-import * as characterModel from "../models/character"
+import { useSetPrimaryCharacter as useSetPrimaryCharacter_ } from "@crossbell/connect-kit"
+
 import { useContract } from "@crossbell/contract"
+
+import * as characterModel from "../models/character"
 
 export const useGetCharacter = (handle: string) => {
   return useQuery(["getCharacter", handle], async () => {
@@ -149,18 +152,12 @@ export const useUpdateHandle = () => {
 }
 
 export const useSetPrimaryCharacter = () => {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (characterId: number) => {
-      return characterModel.setPrimaryCharacter(contract, characterId)
+  return useSetPrimaryCharacter_({
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getCharacter"])
     },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getCharacter"])
-      },
-    },
-  )
+  })
 }
 
 export const useGetLatestMintedNotes = (address?: string) => {

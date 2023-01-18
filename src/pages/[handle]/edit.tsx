@@ -301,10 +301,13 @@ export default function EditPage() {
           rounded="full"
           isLoading={setPrimaryCharacter.isLoading}
           isDisabled={character.data?.primary}
-          onClick={() =>
-            character.data?.characterId &&
-            setPrimaryCharacter.mutate(character.data?.characterId)
-          }
+          onClick={() => {
+            if (character.data?.characterId) {
+              setPrimaryCharacter.mutate({
+                characterId: character.data.characterId,
+              })
+            }
+          }}
         >
           Set as primary
         </Button>

@@ -151,13 +151,6 @@ export const updateHandle = async (
   await contract.setHandle(input.characterId, input.handle)
 }
 
-export const setPrimaryCharacter = async (
-  contract: Contract,
-  characterId: number,
-) => {
-  await contract.setPrimaryCharacterId(characterId)
-}
-
 export const getLatestMintedNotes = async (address: string) => {
   const notes = await indexer.getMintedNotesOfAddress(address, {
     limit: 8,
