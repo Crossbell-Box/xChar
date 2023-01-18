@@ -104,46 +104,10 @@ export const mintAchievement = async (input: {
   return indexer.mintAchievement(input.characterId, input.achievementId)
 }
 
-export const getCharacters = async (address: string, primary?: boolean) => {
-  const result = await indexer.getCharacters(address, {
-    limit: 50,
-    primary,
-  })
-  result.list = result.list.sort((a, b) => {
-    if (a.primary) {
-      return -1
-    } else if (b.primary) {
-      return 1
-    } else if (a.createdAt > b.createdAt) {
-      return 1
-    } else {
-      return -1
-    }
-  })
-
-  return result
-}
-
 export const getLinks = (characterId: number, toCharacterId: number) => {
   return indexer.getLinks(characterId, {
     toCharacterId: toCharacterId,
   })
-}
-
-export const linkCharacter = (
-  contract: Contract,
-  fromCharacterId: number,
-  toCharacterId: number,
-) => {
-  return contract.linkCharacter(fromCharacterId, toCharacterId, "follow")
-}
-
-export const unlinkCharacter = (
-  contract: Contract,
-  fromCharacterId: number,
-  toCharacterId: number,
-) => {
-  return contract.unlinkCharacter(fromCharacterId, toCharacterId, "follow")
 }
 
 export const updateCharacter = async (
