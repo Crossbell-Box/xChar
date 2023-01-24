@@ -37,7 +37,6 @@ import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { AchievementItem } from "~/components/AchievementItem"
 import { Box } from "~/components/ui/Box"
-import { Note } from "~/lib/types"
 import { TreasureItem } from "~/components/TreasureItem"
 import { Link } from "react-scroll"
 
@@ -133,16 +132,13 @@ export default function HandlePage() {
           )}
         />
       </Head>
-      <div className="fixed left-1/2 -translate-x-1/2 top-8 sm:w-[1000px] w-full h-[272px]">
-        <Image
-          alt="xChar"
-          src="/logos/xchar.svg"
-          width={1000}
-          height={272}
-          priority
-        />
-      </div>
       <div className="w-full sm:w-auto relative">
+        <UniLink
+          href="/"
+          className="absolute right-full top-14 bottom-0 mr-20 w-16 h-16"
+        >
+          <Image alt="xChar" src="/logos/xchar.svg" fill />
+        </UniLink>
         <div className="absolute right-full top-56 bottom-0 pr-8">
           <div className="sticky top-14 whitespace-nowrap text-left space-y-3 text-zinc-500 text-xl">
             {tabs.map((tab) => (
@@ -163,16 +159,11 @@ export default function HandlePage() {
         </div>
         <div className="space-y-5">
           <Tilt
-            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 border-2 border-gray-50 overflow-hidden backdrop-blur-md"
-            glareEnable={true}
-            glareMaxOpacity={0.2}
-            glareColor="#fff"
-            glarePosition="all"
-            glareBorderRadius="12px"
+            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 shadow overflow-hidden backdrop-blur-md"
             tiltMaxAngleX={5}
             tiltMaxAngleY={5}
           >
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-80"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-50"></div>
             <div className="flex relative flex-col sm:flex-row">
               <div className="absolute right-0 top-0">
                 {isOwner ? (
