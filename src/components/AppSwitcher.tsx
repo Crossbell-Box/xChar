@@ -6,7 +6,7 @@ import { XSyncIcon } from "~/components/icons/XSync"
 import { XLogIcon } from "~/components/icons/XLog"
 import { Tooltip } from "~/components/Tooltip"
 import { CrossbellIcon } from "~/components/icons/Crossbell"
-import { RSS3Icon } from "~/components/icons/RSS3Icon"
+import { RSS3Icon } from "~/components/icons/RSS3"
 
 const apps = [
   {

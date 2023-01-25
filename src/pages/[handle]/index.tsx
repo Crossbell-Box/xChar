@@ -38,6 +38,7 @@ import { TreasureItem } from "~/components/TreasureItem"
 import { Link } from "react-scroll"
 import { NoteItem } from "~/components/NoteItem"
 import { BlockchainIcon } from "~/components/icons/Blockchain"
+import { MoreButton } from "~/components/MoreButton"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -102,7 +103,7 @@ export default function HandlePage() {
       icon: "✨",
     },
     {
-      title: "Treasures",
+      title: "Collections",
       icon: "💎",
     },
     {
@@ -155,13 +156,18 @@ export default function HandlePage() {
         </div>
         <div className="space-y-5">
           <Tilt
-            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 sm:shadow overflow-hidden sm:backdrop-blur-md"
+            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 sm:shadow"
             tiltMaxAngleX={5}
             tiltMaxAngleY={5}
           >
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-50"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-50 sm:rounded-3xl"></div>
             <div className="flex relative flex-col sm:flex-row">
-              <div className="absolute right-0 top-0">
+              <div className="absolute right-0 top-0 space-x-4">
+                <MoreButton
+                  handle={handle}
+                  address={character?.data?.owner}
+                  ipfsUri={character.data?.metadata?.uri}
+                />
                 {isOwner ? (
                   <UniLink href={`/${handle}/edit`}>
                     <Button
@@ -218,7 +224,7 @@ export default function HandlePage() {
                 </div>
                 <div className="text-gray-500 mt-2 text-sm">
                   <UniLink
-                    href={`https://scan.crossbell.io/address/${address}`}
+                    href={`https://scan.crossbell.io/tx/${character.data?.transactionHash}`}
                   >
                     Joined{" "}
                     {dayjs
