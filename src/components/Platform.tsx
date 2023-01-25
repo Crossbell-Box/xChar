@@ -66,27 +66,22 @@ export const Platform: React.FC<{
 }> = ({ platform, username }) => {
   return (
     <UniLink
-      className="inline-flex hover:scale-110 transition-transform ease"
+      className="inline-flex hover:scale-110 transition-transform ease bg-zinc-50 rounded-full p-2"
       key={platform}
       href={syncMap[platform]?.url.replace("{username}", username)}
     >
-      <span className="rounded-full w-9 h-9 inline-block mr-2 overflow-hidden">
+      <span className="rounded-full w-8 h-8 inline-block mr-2 overflow-hidden">
         {syncMap[platform]?.icon ? (
-          <Image
-            width={36}
-            height={36}
-            src={syncMap[platform]?.icon}
-            alt={platform}
-          />
+          <Image fill src={syncMap[platform]?.icon} alt={platform} />
         ) : (
           <span className="w-9 h-9 bg-orange-200 inline-block"></span>
         )}
       </span>
       <span className="inline-flex flex-col justify-around flex-1 min-w-0">
-        <span className="text-sm truncate">
+        <span className="text-sm truncate font-medium leading-tight">
           {syncMap[platform]?.name || platform}
         </span>
-        <span className="text-xs truncate">@{username}</span>
+        <span className="text-xs truncate leading-tight">@{username}</span>
       </span>
     </UniLink>
   )

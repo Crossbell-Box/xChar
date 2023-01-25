@@ -37,6 +37,7 @@ import { Box } from "~/components/ui/Box"
 import { TreasureItem } from "~/components/TreasureItem"
 import { Link } from "react-scroll"
 import { NoteItem } from "~/components/NoteItem"
+import { BlockchainIcon } from "~/components/icons/Blockchain"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -97,7 +98,7 @@ export default function HandlePage() {
       icon: "🪐",
     },
     {
-      title: "Archives",
+      title: "Achievements",
       icon: "✨",
     },
     {
@@ -154,7 +155,7 @@ export default function HandlePage() {
         </div>
         <div className="space-y-5">
           <Tilt
-            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 shadow overflow-hidden backdrop-blur-md"
+            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 sm:shadow overflow-hidden sm:backdrop-blur-md"
             tiltMaxAngleX={5}
             tiltMaxAngleY={5}
           >
@@ -217,7 +218,7 @@ export default function HandlePage() {
                 </div>
                 <div className="text-gray-500 mt-2 text-sm">
                   <UniLink
-                    href={`https://scan.crossbell.io/tx/${character.data?.transactionHash}`}
+                    href={`https://scan.crossbell.io/address/${address}`}
                   >
                     Joined{" "}
                     {dayjs
@@ -229,14 +230,14 @@ export default function HandlePage() {
                         "minute",
                       )
                       .humanize()}{" "}
-                    ago
+                    ago · <BlockchainIcon className="inline fill-current" />
                   </UniLink>
                 </div>
               </div>
             </div>
           </Tilt>
           <Box title={`${tabs[0].icon} ${tabs[0].title}`}>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-x-2 gap-y-4">
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-2 gap-y-3">
               <Platform platform="xlog" username={handle} />
               {character.data?.metadata?.content?.connected_accounts?.map(
                 (connected_account) => {
