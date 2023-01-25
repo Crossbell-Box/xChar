@@ -30,7 +30,6 @@ export async function getNotes(input: {
   characterId: number
   limit?: number
   cursor?: string
-  keepBody?: boolean
 }) {
   if (!input.characterId) {
     return null
@@ -46,10 +45,6 @@ export async function getNotes(input: {
     await Promise.all(
       notes?.list.map(async (note) => {
         await expandPage(note as Note)
-
-        if (!input.keepBody) {
-          delete note.metadata?.content?.content
-        }
 
         return note
       }),

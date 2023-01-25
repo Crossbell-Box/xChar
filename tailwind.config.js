@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         accent: "var(--theme-color)",
+        "accent-emphasis": "var(--theme-color)",
         "calendar-L1": "var(--color-calendar-graph-day-L1-bg)",
         "calendar-L2": "var(--color-calendar-graph-day-L2-bg)",
         "calendar-L3": "var(--color-calendar-graph-day-L3-bg)",

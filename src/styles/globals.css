@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "./tailwind.css";
+@import "./prose.css";
 
 :root {
   --theme-color: #40c463;

@@ -1,0 +1,177 @@
+.prose {
+  @apply text-zinc-600 leading-loose relative;
+}
+
+.prose > p {
+  @apply mb-5;
+}
+
+.prose img {
+  @apply inline-block;
+}
+
+.prose > *:first-child {
+  @apply mt-0;
+}
+
+.prose > *:last-child {
+  @apply mb-0;
+}
+
+.prose .xlog-anchor {
+  @apply text-base align-middle h-full;
+}
+
+.prose .xlog-anchor > span {
+  @apply w-5 pr-1 -ml-5 text-zinc-900 hidden;
+}
+
+.prose .xlog-anchor > div {
+  @apply inline;
+}
+
+.prose h2:hover .xlog-anchor > span,
+.prose h3:hover .xlog-anchor > span,
+.prose h4:hover .xlog-anchor > span,
+.prose h5:hover .xlog-anchor > span,
+.prose h6:hover .xlog-anchor > span {
+  @apply inline-block;
+}
+
+.prose h2 {
+  @apply text-3xl font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
+}
+
+.prose h3 {
+  @apply text-2xl font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
+}
+
+.prose h4 {
+  @apply text-xl font-semibold;
+  @apply my-7;
+  @apply text-zinc-900;
+}
+
+.prose p {
+  @apply my-3;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-zinc-300;
+  @apply pl-5;
+  @apply my-3;
+  @apply text-zinc-500;
+}
+
+.prose ul {
+  @apply list-disc;
+  @apply pl-5;
+}
+
+.prose ol {
+  @apply list-decimal;
+  @apply pl-6;
+}
+
+.prose > ul,
+.prose > ol {
+  @apply my-7;
+}
+
+.prose a {
+  @apply text-accent-emphasis;
+  @apply hover:underline;
+}
+
+.prose pre {
+  @apply overflow-auto;
+}
+
+.prose .table-wrapper {
+  @apply min-w-full rounded-xl text-sm my-7 whitespace-nowrap overflow-auto;
+  @apply shadow-sm ring-1 ring-zinc-700 ring-opacity-10;
+}
+
+.prose table {
+  @apply min-w-full;
+}
+
+.prose table thead {
+  @apply text-left;
+}
+
+.prose table th,
+.prose table td {
+  @apply px-3;
+  @apply py-4;
+}
+
+.prose table tbody {
+  @apply text-zinc-500;
+}
+
+.prose table tbody tr:nth-child(2n-1) {
+  @apply bg-zinc-100;
+}
+
+.prose iframe {
+  max-width: 100%;
+}
+
+.prose .task-list-item {
+  @apply list-none;
+}
+
+.prose > ul > .task-list-item {
+  @apply -ml-5;
+}
+
+.prose .callout {
+  @apply border border-zinc-100 bg-zinc-50 text-accent rounded-xl p-5 md:p-8 font-normal;
+  @apply -mx-5 md:-mx-8 my-10;
+}
+
+.prose .callout-warn {
+  @apply border-orange-200  bg-orange-100 text-orange-700;
+}
+
+.prose .callout-success {
+  @apply border-green-200  bg-green-100 text-green-700;
+}
+
+.prose .callout-danger {
+  @apply border-red-200  bg-red-100 text-red-700;
+}
+
+.prose .code-wrapper {
+  @apply relative text-base;
+}
+
+.prose .code-wrapper .copy-button {
+  @apply absolute top-3 right-3;
+  @apply text-sm space-x-1;
+  @apply text-zinc-100 bg-zinc-600/50;
+  @apply rounded-lg h-7 px-3 items-center;
+  @apply active:mt-[2px];
+  @apply hidden;
+}
+
+.prose .code-wrapper:hover .copy-button {
+  @apply inline-flex;
+}
+
+.xlog-comment .prose {
+  @apply leading-normal text-[15px];
+}
+
+.xlog-comment .prose blockquote {
+  @apply my-1;
+}
+
+.xlog-comment .prose p {
+  @apply my-1;
+}

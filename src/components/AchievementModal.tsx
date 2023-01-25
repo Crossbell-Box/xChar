@@ -6,7 +6,6 @@ import dayjs from "dayjs"
 import Tilt from "react-parallax-tilt"
 import { Badge } from "~/components/AchievementItem"
 import { BlockchainIcon } from "~/components/icons/Blockchain"
-import { UniLink } from "~/components/ui/UniLink"
 
 export const AchievementModal: React.FC<{
   opened: boolean
