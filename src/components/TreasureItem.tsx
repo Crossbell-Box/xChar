@@ -9,7 +9,7 @@ export const TreasureItem: React.FC<{
 }> = ({ note }) => {
   return (
     <UniLink
-      className="border h-0 pt-[160%] rounded-md relative hover:scale-110 hover:shadow transition-all ease"
+      className="shadow h-0 pt-[160%] rounded-md relative hover:scale-110 hover:shadow transition-all ease"
       href={
         note.note?.metadata?.content?.external_urls?.[0] &&
         note.note?.metadata?.content?.external_urls?.[0] !==

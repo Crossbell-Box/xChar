@@ -1,7 +1,5 @@
 import {
   useGetCharacter,
-  useGetFollowers,
-  useGetFollowings,
   useGetNotes,
   useGetAchievements,
   useGetLatestMintedNotes,
@@ -14,31 +12,22 @@ import {
   prefetchGetAchievements,
   prefetchGetCalendar,
 } from "~/queries/character.server"
-import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
 import { HeatMap } from "~/components/HeatMap"
 import { Image } from "~/components/ui/Image"
-import Tilt from "react-parallax-tilt"
-import dayjs from "~/lib/date"
-import { Avatar } from "~/components/ui/Avatar"
 import { UniLink } from "~/components/ui/UniLink"
-import { PencilSquareIcon, UserIcon } from "@heroicons/react/24/solid"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Platform } from "~/components/Platform"
-import { Button } from "~/components/ui/Button"
-import { FollowingButton } from "~/components/FollowingButton"
-import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { AchievementItem } from "~/components/AchievementItem"
 import { Box } from "~/components/ui/Box"
 import { TreasureItem } from "~/components/TreasureItem"
 import { Link } from "react-scroll"
 import { NoteItem } from "~/components/NoteItem"
-import { BlockchainIcon } from "~/components/icons/Blockchain"
-import { MoreButton } from "~/components/MoreButton"
+import { CharacterCard } from "~/components/CharacterCard"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -78,20 +67,12 @@ export default function HandlePage() {
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
-  const followers = useGetFollowers(character.data?.characterId || 0)
-  const followings = useGetFollowings(character.data?.characterId || 0)
   const notes = useGetNotes({
     characterId: character.data?.characterId || 0,
     limit: 10,
   })
   const achievement = useGetAchievements(character.data?.characterId || 0)
   const latestMintedNotes = useGetLatestMintedNotes(character?.data?.owner)
-  const { address } = useAccount()
-
-  const [isOwner, setIsOwner] = useState(false)
-  useEffect(() => {
-    setIsOwner(!!(address && address.toLowerCase?.() === character.data?.owner))
-  }, [address, character.data?.owner])
 
   const tabs = [
     {
@@ -101,6 +82,7 @@ export default function HandlePage() {
     {
       title: "Achievements",
       icon: "✨",
+      details: `${handle}/achievements`,
     },
     {
       title: "Collections",
@@ -132,7 +114,7 @@ export default function HandlePage() {
       <div className="w-full sm:w-auto relative">
         <UniLink
           href="/"
-          className="absolute right-full top-14 bottom-0 mr-20 w-16 h-16"
+          className="absolute right-full top-14 bottom-0 mr-16 w-20 h-20"
         >
           <Image alt="xChar" src="/logos/xchar.svg" fill />
         </UniLink>
@@ -155,93 +137,7 @@ export default function HandlePage() {
           </div>
         </div>
         <div className="space-y-5">
-          <Tilt
-            className="sm:w-[800px] w-full mx-auto relative p-8 sm:rounded-3xl text-gray-600 sm:shadow"
-            tiltMaxAngleX={5}
-            tiltMaxAngleY={5}
-          >
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-gray-200 opacity-50 sm:rounded-3xl"></div>
-            <div className="flex relative flex-col sm:flex-row">
-              <div className="absolute right-0 top-0 space-x-4">
-                <MoreButton
-                  handle={handle}
-                  address={character?.data?.owner}
-                  ipfsUri={character.data?.metadata?.uri}
-                />
-                {isOwner ? (
-                  <UniLink href={`/${handle}/edit`}>
-                    <Button
-                      className="align-middle space-x-1"
-                      aria-label="follow"
-                      rounded="full"
-                    >
-                      <PencilSquareIcon className="h-4 w-4 mr-1" />
-                      Edit
-                    </Button>
-                  </UniLink>
-                ) : (
-                  <FollowingButton
-                    className="rounded-full"
-                    characterId={character.data?.characterId}
-                  />
-                )}
-              </div>
-              <div className="sm:w-32 sm:text-center mr-4 flex flex-col sm:items-center justify-between">
-                {character.data?.metadata?.content?.avatars && (
-                  <Avatar
-                    className="rounded-full inline-block"
-                    name={handle}
-                    images={character.data?.metadata?.content?.avatars}
-                    size={88}
-                  />
-                )}
-                <div className="mt-1 font-bold text-xl">
-                  No.{character.data?.characterId}
-                </div>
-              </div>
-              <div className="flex-1 min-w-0 mt-4 sm:mt-0">
-                <p>
-                  <span className="font-bold text-2xl">
-                    {character.data?.metadata?.content?.name}
-                  </span>
-                  <span className="font-medium text-base ml-2 text-zinc-500">
-                    @{handle}
-                  </span>
-                </p>
-                <p className="truncate text-sm mt-1">
-                  {character.data?.metadata?.content?.bio}
-                </p>
-                <div className="space-x-5 mt-2">
-                  <UniLink href={`https://crossbell.io/@${handle}/followers`}>
-                    <strong>{followers.data?.count}</strong> Followers
-                  </UniLink>
-                  <UniLink href={`https://crossbell.io/@${handle}/following`}>
-                    <strong>{followings.data?.count}</strong> Following
-                  </UniLink>
-                  <span>
-                    <strong>{notes.data?.pages?.[0]?.count}</strong> Notes
-                  </span>
-                </div>
-                <div className="text-gray-500 mt-2 text-sm">
-                  <UniLink
-                    href={`https://scan.crossbell.io/tx/${character.data?.transactionHash}`}
-                  >
-                    Joined{" "}
-                    {dayjs
-                      .duration(
-                        dayjs(character?.data?.createdAt).diff(
-                          dayjs(),
-                          "minute",
-                        ),
-                        "minute",
-                      )
-                      .humanize()}{" "}
-                    ago · <BlockchainIcon className="inline fill-current" />
-                  </UniLink>
-                </div>
-              </div>
-            </div>
-          </Tilt>
+          <CharacterCard />
           <Box title={`${tabs[0].icon} ${tabs[0].title}`}>
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-2 gap-y-3">
               <Platform platform="xlog" username={handle} />
@@ -266,7 +162,10 @@ export default function HandlePage() {
               )}
             </div>
           </Box>
-          <Box title={`${tabs[1].icon} ${tabs[1].title}`}>
+          <Box
+            title={`${tabs[1].icon} ${tabs[1].title}`}
+            details={tabs[1].details}
+          >
             <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
               {achievement.data?.list?.map((series) =>
                 series.groups?.map((group) => (

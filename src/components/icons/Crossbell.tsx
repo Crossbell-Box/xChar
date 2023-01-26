@@ -12,7 +12,7 @@ export const CrossbellIcon: React.FC<React.ComponentPropsWithoutRef<"svg">> = (
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_1030_5486)">
+      <g clipPath="url(#clip0_1030_5486)">
         <path
           d="M12.8444 18.4185C12.8444 19.292 11.5709 20 10 20C8.42915 20 7.15491 19.292 7.15491 18.4185H12.8444Z"
           fill="#E7B75B"
