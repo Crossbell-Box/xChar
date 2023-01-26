@@ -11,7 +11,8 @@ export const AchievementModal: React.FC<{
   opened: boolean
   setOpened: (value: boolean) => void
   group: AchievementSection["groups"][number]
-}> = ({ opened, setOpened, group }) => {
+  layoutId: string
+}> = ({ opened, setOpened, group, layoutId }) => {
   const achievement = group.items
     .filter((item) => item.status === "MINTED")
     .pop()
@@ -42,10 +43,10 @@ export const AchievementModal: React.FC<{
         <motion.div
           className="inline-flex flex-col text-center items-center text-white"
           key={achievement.info.tokenId}
-          layoutId={group.info.title}
+          layoutId={layoutId + group.info.title}
         >
           <Tilt
-            className="inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-6"
+            className="inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%]"
             trackOnWindow={true}
             perspective={500}
             tiltAngleXInitial={10}
@@ -54,20 +55,15 @@ export const AchievementModal: React.FC<{
               transformStyle: "preserve-3d",
             }}
           >
-            <div
-              className="relative"
+            <Image
+              fill
+              alt="achievement"
+              src={achievement.info.media}
+              className="relative w-full h-full"
               style={{
                 transform: "translateZ(20px)",
               }}
-            >
-              <Image
-                width={320}
-                height={320}
-                alt="achievement"
-                src={achievement.info.media}
-              />
-              <span className="inline-block absolute left-0 right-0 top-0 bottom-0 rounded-full"></span>
-            </div>
+            />
           </Tilt>
           <div className="inline-flex flex-col flex-1 min-w-0 w-full space-y-1">
             <span className="capitalize text-4xl font-medium truncate">
@@ -135,7 +131,7 @@ export const AchievementModal: React.FC<{
               return (
                 <Stepper.Step
                   icon={
-                    <div className="grayscale">
+                    <div className="grayscale text-[0px]">
                       <Badge media={item.info.media} size={42} />
                     </div>
                   }

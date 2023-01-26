@@ -14,12 +14,8 @@ import {
 } from "~/queries/character.server"
 import { useRouter } from "next/router"
 import { HeatMap } from "~/components/HeatMap"
-import { Image } from "~/components/ui/Image"
-import { UniLink } from "~/components/ui/UniLink"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
-import Head from "next/head"
-import { toGateway } from "~/lib/ipfs-parser"
 import { Platform } from "~/components/Platform"
 import InfiniteScroll from "react-infinite-scroller"
 import { AchievementItem } from "~/components/AchievementItem"
@@ -96,28 +92,7 @@ export default function HandlePage() {
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
-      <Head>
-        <title>
-          {character.data?.metadata?.content?.name || character.data?.handle}
-        </title>
-        <meta
-          name="description"
-          content={character.data?.metadata?.content?.bio}
-        />
-        <link
-          rel="icon"
-          href={toGateway(
-            character.data?.metadata?.content?.avatars?.[0] || "/favicon.ico",
-          )}
-        />
-      </Head>
       <div className="w-full sm:w-auto relative">
-        <UniLink
-          href="/"
-          className="absolute right-full top-14 bottom-0 mr-16 w-20 h-20"
-        >
-          <Image alt="xChar" src="/logos/xchar.svg" fill />
-        </UniLink>
         <div className="absolute right-full top-56 bottom-0 pr-8">
           <div className="sticky top-14 whitespace-nowrap text-left space-y-3 text-zinc-500 text-xl">
             {tabs.map((tab) => (
@@ -169,7 +144,11 @@ export default function HandlePage() {
             <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
               {achievement.data?.list?.map((series) =>
                 series.groups?.map((group) => (
-                  <AchievementItem group={group} key={group.info.name} />
+                  <AchievementItem
+                    group={group}
+                    key={group.info.name}
+                    layoutId="index"
+                  />
                 )),
               )}
             </div>

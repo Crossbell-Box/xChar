@@ -17,7 +17,7 @@ export const Badge = ({
   return (
     <div
       className={
-        "inline-block relative rounded-full bg-white shadow-[inset_#a8a29e_6px_-6px_13px] p-1" +
+        "inline-block relative rounded-full bg-white shadow-[inset_#a8a29e_6px_-6px_13px] p-[4%]" +
         " " +
         className
       }
@@ -26,16 +26,16 @@ export const Badge = ({
         height: size || 56,
       }}
     >
-      <div>
-        <Image width={56} height={56} alt="achievement" src={media} />
-      </div>
+      <Image fill alt="achievement" src={media} />
     </div>
   )
 }
 
 export const AchievementItem: React.FC<{
   group: AchievementSection["groups"][number]
-}> = ({ group }) => {
+  layoutId: string
+  size?: number
+}> = ({ group, layoutId, size }) => {
   const achievement = group.items
     .filter((item) => item.status === "MINTED")
     .pop()
@@ -60,8 +60,12 @@ export const AchievementItem: React.FC<{
           actived ? "z-[1]" : ""
         } hover:scale-110 transition-transform ease`}
       >
-        <div className="inline-flex flex-col text-center items-center absolute left-0 top-0 right-0 pointer-events-none">
-          <Badge media={achievement.info.media} className="mb-1" />
+        <div
+          className={`inline-flex flex-col text-center items-center pointer-events-none w-full ${
+            !opened ? `absolute left-0 top-0` : ""
+          }`}
+        >
+          <Badge media={achievement.info.media} className="mb-1" size={size} />
           <span className="inline-flex flex-col flex-1 min-w-0 w-full">
             <span className="capitalize text-xs font-medium truncate">
               {group.info.title}
@@ -84,10 +88,14 @@ export const AchievementItem: React.FC<{
               setOpened(true)
               setActived(true)
             }}
-            layoutId={group.info.title}
+            layoutId={layoutId + group.info.title}
             transition={{ duration: 0.2 }}
           >
-            <Badge media={achievement.info.media} className="mb-1" />
+            <Badge
+              media={achievement.info.media}
+              className="mb-1"
+              size={size}
+            />
             <div className="inline-flex flex-col flex-1 min-w-0 w-full">
               <span className="capitalize text-xs font-medium truncate">
                 {group.info.title}
@@ -104,7 +112,12 @@ export const AchievementItem: React.FC<{
             </div>
           </motion.div>
         )}
-        <AchievementModal opened={opened} setOpened={setOpened} group={group} />
+        <AchievementModal
+          opened={opened}
+          setOpened={setOpened}
+          group={group}
+          layoutId={layoutId}
+        />
       </div>
     </AnimatePresence>
   )
