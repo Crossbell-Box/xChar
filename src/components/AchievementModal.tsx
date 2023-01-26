@@ -6,6 +6,10 @@ import dayjs from "dayjs"
 import Tilt from "react-parallax-tilt"
 import { Badge } from "~/components/AchievementItem"
 import { BlockchainIcon } from "~/components/icons/Blockchain"
+import { Button } from "~/components/ui/Button"
+import { useMintArchievement, useGetCharacter } from "~/queries/character"
+import { useRouter } from "next/router"
+import { useState, useEffect } from "react"
 
 export const AchievementModal: React.FC<{
   opened: boolean
@@ -17,7 +21,25 @@ export const AchievementModal: React.FC<{
     .filter((item) => item.status === "MINTED")
     .pop()
 
-  if (!achievement) return null
+  const achievementMintable = group.items
+    .filter((item) => item.status === "MINTABLE")
+    .pop()
+
+  const router = useRouter()
+  const handle = router.query.handle as string
+  const character = useGetCharacter(handle)
+  const mintArchievement = useMintArchievement()
+
+  if (!achievement && !achievementMintable) return null
+
+  const mint = async (tokenId: number) => {
+    if (character.data) {
+      await mintArchievement.mutate({
+        characterId: character.data?.characterId,
+        achievementId: tokenId,
+      })
+    }
+  }
 
   return (
     <Modal
@@ -42,11 +64,13 @@ export const AchievementModal: React.FC<{
       >
         <motion.div
           className="inline-flex flex-col text-center items-center text-white"
-          key={achievement.info.tokenId}
+          key={(achievement || achievementMintable)!.info.tokenId}
           layoutId={layoutId + group.info.title}
         >
           <Tilt
-            className="inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%]"
+            className={`inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%] ${
+              !achievement && "grayscale"
+            }`}
             trackOnWindow={true}
             perspective={500}
             tiltAngleXInitial={10}
@@ -58,7 +82,7 @@ export const AchievementModal: React.FC<{
             <Image
               fill
               alt="achievement"
-              src={achievement.info.media}
+              src={(achievement || achievementMintable)!.info.media}
               className="relative w-full h-full"
               style={{
                 transform: "translateZ(20px)",
@@ -67,31 +91,37 @@ export const AchievementModal: React.FC<{
           </Tilt>
           <div className="inline-flex flex-col flex-1 min-w-0 w-full space-y-1">
             <span className="capitalize text-4xl font-medium truncate">
-              {group.info.title} #{achievement.tokenId}
+              {group.info.title} {achievement && `#${achievement.tokenId}`}
             </span>
             <span className="text-lg text-gray-100 capitalize truncate">
-              {achievement.info.description}
+              {(achievement || achievementMintable)!.info.description}
             </span>
             <span className="text-gray-300 leading-snug">
-              Obtained{" "}
-              {dayjs
-                .duration(
-                  dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
-                  "minute",
-                )
-                .humanize()}{" "}
-              ago ·{" "}
-              <>
-                <BlockchainIcon
-                  className="inline fill-gray-300 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    window.open(
-                      `https://scan.crossbell.io/tx/${achievement.transactionHash}`,
+              {achievement ? (
+                <>
+                  Obtained{" "}
+                  {dayjs
+                    .duration(
+                      dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
+                      "minute",
                     )
-                  }}
-                />
-              </>
+                    .humanize()}{" "}
+                  ago ·{" "}
+                  <>
+                    <BlockchainIcon
+                      className="inline fill-gray-300 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        window.open(
+                          `https://scan.crossbell.io/tx/${achievement.transactionHash}`,
+                        )
+                      }}
+                    />
+                  </>
+                </>
+              ) : (
+                <>Mintable</>
+              )}
             </span>
           </div>
         </motion.div>
@@ -131,9 +161,26 @@ export const AchievementModal: React.FC<{
               return (
                 <Stepper.Step
                   icon={
-                    <div className="grayscale text-[0px]">
-                      <Badge media={item.info.media} size={42} />
-                    </div>
+                    <>
+                      <div className="grayscale text-[0px]">
+                        <Badge media={item.info.media} size={42} />
+                      </div>
+                      {item.status === "MINTABLE" && (
+                        <Button
+                          className="absolute -bottom-10"
+                          size="sm"
+                          variant="primary"
+                          rounded="full"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            mint(item.info.tokenId)
+                          }}
+                          isLoading={mintArchievement.isLoading}
+                        >
+                          Mint
+                        </Button>
+                      )}
+                    </>
                   }
                   completedIcon={<Badge media={item.info.media} size={42} />}
                   label={

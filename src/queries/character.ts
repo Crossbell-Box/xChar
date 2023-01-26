@@ -64,6 +64,23 @@ export const useGetAchievements = (characterId: number) => {
   })
 }
 
+export const useMintArchievement = () => {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (input: Parameters<typeof characterModel.mintAchievement>[0]) => {
+      return characterModel.mintAchievement(input)
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getAchievements",
+          variables.characterId,
+        ])
+      },
+    },
+  )
+}
+
 export const useGetCalendar = (characterId: number) => {
   return useQuery(["getCalendar", characterId], async () => {
     if (!characterId) {

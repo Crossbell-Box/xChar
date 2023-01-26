@@ -4,6 +4,7 @@ import { Image } from "~/components/ui/Image"
 import dayjs from "dayjs"
 import { AchievementModal } from "~/components/AchievementModal"
 import { useEffect, useState } from "react"
+import { Indicator } from "@mantine/core"
 
 export const Badge = ({
   media,
@@ -40,6 +41,10 @@ export const AchievementItem: React.FC<{
     .filter((item) => item.status === "MINTED")
     .pop()
 
+  const achievementMintable = group.items
+    .filter((item) => item.status === "MINTABLE")
+    .pop()
+
   const [opened, setOpened] = useState(false)
   const [actived, setActived] = useState(false)
 
@@ -51,7 +56,7 @@ export const AchievementItem: React.FC<{
     }
   }, [opened])
 
-  if (!achievement) return null
+  if (!achievement && !achievementMintable) return null
 
   return (
     <AnimatePresence>
@@ -65,19 +70,41 @@ export const AchievementItem: React.FC<{
             !opened ? `absolute left-0 top-0` : ""
           }`}
         >
-          <Badge media={achievement.info.media} className="mb-1" size={size} />
-          <span className="inline-flex flex-col flex-1 min-w-0 w-full">
-            <span className="capitalize text-xs font-medium truncate">
-              {group.info.title}
-            </span>
-            <span className="text-[11px] text-gray-500 leading-snug">
-              {dayjs
-                .duration(
-                  dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
-                  "minute",
-                )
-                .humanize()}{" "}
-              ago
+          <Badge
+            media={(achievement || achievementMintable)!.info.media}
+            className={`mb-1 ${!achievement && "grayscale"}`}
+            size={size}
+          />
+          <span className="flex-1 min-w-0 w-full">
+            {achievementMintable ? (
+              <Indicator
+                inline
+                dot
+                withBorder
+                processing
+                offset={-12}
+                size={12}
+                position="middle-start"
+                color="red"
+              >
+                <span className="capitalize text-xs font-medium truncate">
+                  {group.info.title}
+                </span>
+              </Indicator>
+            ) : (
+              <span className="capitalize text-xs font-medium truncate">
+                {group.info.title}
+              </span>
+            )}
+            <span className="text-[11px] text-gray-500 leading-snug block">
+              {achievement
+                ? `${dayjs
+                    .duration(
+                      dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
+                      "minute",
+                    )
+                    .humanize()} ago`
+                : "Mintable"}
             </span>
           </span>
         </div>
@@ -92,22 +119,40 @@ export const AchievementItem: React.FC<{
             transition={{ duration: 0.2 }}
           >
             <Badge
-              media={achievement.info.media}
-              className="mb-1"
+              media={(achievement || achievementMintable)!.info.media}
+              className={`mb-1 ${!achievement && "grayscale"}`}
               size={size}
             />
-            <div className="inline-flex flex-col flex-1 min-w-0 w-full">
-              <span className="capitalize text-xs font-medium truncate">
-                {group.info.title}
-              </span>
-              <span className="text-[11px] text-gray-500 leading-snug">
-                {dayjs
-                  .duration(
-                    dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
-                    "minute",
-                  )
-                  .humanize()}{" "}
-                ago
+            <div className="flex-1 min-w-0 w-full">
+              {achievementMintable ? (
+                <Indicator
+                  inline
+                  dot
+                  withBorder
+                  processing
+                  offset={-12}
+                  size={12}
+                  position="middle-start"
+                  color="red"
+                >
+                  <span className="capitalize text-xs font-medium truncate">
+                    {group.info.title}
+                  </span>
+                </Indicator>
+              ) : (
+                <span className="capitalize text-xs font-medium truncate">
+                  {group.info.title}
+                </span>
+              )}
+              <span className="text-[11px] text-gray-500 leading-snug block">
+                {achievement
+                  ? `${dayjs
+                      .duration(
+                        dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
+                        "minute",
+                      )
+                      .humanize()} ago`
+                  : "Mintable"}
               </span>
             </div>
           </motion.div>
