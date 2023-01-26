@@ -14,6 +14,8 @@ import { AchievementItem } from "~/components/AchievementItem"
 import { Box } from "~/components/ui/Box"
 import { CharacterCard } from "~/components/CharacterCard"
 import { ChevronLeftIcon } from "@heroicons/react/20/solid"
+import { useEffect, useState } from "react"
+import { useAccount } from "wagmi"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -48,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-export default function HandlePage() {
+export default function AchievementsPage() {
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
@@ -60,6 +62,13 @@ export default function HandlePage() {
       icon: "✨",
     },
   ]
+
+  const { address } = useAccount()
+
+  const [isOwner, setIsOwner] = useState(false)
+  useEffect(() => {
+    setIsOwner(!!(address && address.toLowerCase?.() === character.data?.owner))
+  }, [address, character.data?.owner])
 
   return (
     <div className="relative flex flex-col items-center min-h-screen py-20">
@@ -78,23 +87,37 @@ export default function HandlePage() {
             titleClassName="text-2xl"
           >
             <>
-              {achievement.data?.list?.map((series) => (
-                <div key={series.info.name} className="mt-6">
-                  <div className="text-lg font-medium mb-4">
-                    {series.info.title}
+              {achievement.data?.list?.map((series) => {
+                let length = series.groups.length
+                if (!isOwner) {
+                  length = series.groups
+                    .map((group) =>
+                      group.items.filter((item) => item.status === "MINTED"),
+                    )
+                    .filter((item) => item.length).length
+                }
+                if (!length) {
+                  return null
+                }
+                return (
+                  <div key={series.info.name} className="mt-6">
+                    <div className="text-lg font-medium mb-4">
+                      {series.info.title}
+                    </div>
+                    <div className="grid grid-cols-3 sm:grid-cols-7 gap-x-2 gap-y-5">
+                      {series.groups?.map((group) => (
+                        <AchievementItem
+                          group={group}
+                          key={group.info.name}
+                          layoutId="achievements"
+                          size={80}
+                          character={character.data}
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <div className="grid grid-cols-3 sm:grid-cols-7 gap-x-2 gap-y-5">
-                    {series.groups?.map((group) => (
-                      <AchievementItem
-                        group={group}
-                        key={group.info.name}
-                        layoutId="achievements"
-                        size={80}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
+                )
+              })}
             </>
           </Box>
         </div>

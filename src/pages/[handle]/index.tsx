@@ -148,6 +148,7 @@ export default function HandlePage() {
                     group={group}
                     key={group.info.name}
                     layoutId="index"
+                    character={character.data}
                   />
                 )),
               )}

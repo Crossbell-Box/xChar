@@ -16,21 +16,20 @@ export const AchievementModal: React.FC<{
   setOpened: (value: boolean) => void
   group: AchievementSection["groups"][number]
   layoutId: string
-}> = ({ opened, setOpened, group, layoutId }) => {
+  isOwner: boolean
+}> = ({ opened, setOpened, group, layoutId, isOwner }) => {
   const achievement = group.items
     .filter((item) => item.status === "MINTED")
     .pop()
 
-  const achievementMintable = group.items
-    .filter((item) => item.status === "MINTABLE")
-    .pop()
+  const achievementMintable = isOwner
+    ? group.items.filter((item) => item.status === "MINTABLE").pop()
+    : null
 
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
   const mintArchievement = useMintArchievement()
-
-  if (!achievement && !achievementMintable) return null
 
   const mint = async (tokenId: number) => {
     if (character.data) {
@@ -165,7 +164,7 @@ export const AchievementModal: React.FC<{
                       <div className="grayscale text-[0px]">
                         <Badge media={item.info.media} size={42} />
                       </div>
-                      {item.status === "MINTABLE" && (
+                      {item.status === "MINTABLE" && isOwner && (
                         <Button
                           className="absolute -bottom-10"
                           size="sm"

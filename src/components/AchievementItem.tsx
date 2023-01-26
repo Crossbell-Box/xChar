@@ -5,6 +5,8 @@ import dayjs from "dayjs"
 import { AchievementModal } from "~/components/AchievementModal"
 import { useEffect, useState } from "react"
 import { Indicator } from "@mantine/core"
+import { useAccount } from "wagmi"
+import type { CharacterEntity } from "crossbell.js"
 
 export const Badge = ({
   media,
@@ -36,14 +38,22 @@ export const AchievementItem: React.FC<{
   group: AchievementSection["groups"][number]
   layoutId: string
   size?: number
-}> = ({ group, layoutId, size }) => {
+  character?: CharacterEntity | null
+}> = ({ group, layoutId, size, character }) => {
+  const { address } = useAccount()
+
+  const [isOwner, setIsOwner] = useState(false)
+  useEffect(() => {
+    setIsOwner(!!(address && address.toLowerCase?.() === character?.owner))
+  }, [address, character?.owner])
+
   const achievement = group.items
     .filter((item) => item.status === "MINTED")
     .pop()
 
-  const achievementMintable = group.items
-    .filter((item) => item.status === "MINTABLE")
-    .pop()
+  const achievementMintable = isOwner
+    ? group.items.filter((item) => item.status === "MINTABLE").pop()
+    : null
 
   const [opened, setOpened] = useState(false)
   const [actived, setActived] = useState(false)
@@ -56,19 +66,29 @@ export const AchievementItem: React.FC<{
     }
   }, [opened])
 
-  if (!achievement && !achievementMintable) return null
+  if (isOwner) {
+    if (!achievement && !achievementMintable) {
+      return null
+    }
+  } else {
+    if (!achievement) {
+      return null
+    }
+  }
 
   return (
     <AnimatePresence>
       <div
-        className={`relative cursor-pointer ${
+        className={`achievement-group relative cursor-pointer ${
           actived ? "z-[1]" : ""
         } hover:scale-110 transition-transform ease`}
       >
-        <div
+        <motion.div
           className={`inline-flex flex-col text-center items-center pointer-events-none w-full ${
             !opened ? `absolute left-0 top-0` : ""
           }`}
+          layoutId={"shadow" + layoutId + group.info.title}
+          transition={{ duration: 0.2 }}
         >
           <Badge
             media={(achievement || achievementMintable)!.info.media}
@@ -107,7 +127,7 @@ export const AchievementItem: React.FC<{
                 : "Mintable"}
             </span>
           </span>
-        </div>
+        </motion.div>
         {!opened && (
           <motion.div
             className="inline-flex flex-col text-center items-center w-full"
@@ -162,6 +182,7 @@ export const AchievementItem: React.FC<{
           setOpened={setOpened}
           group={group}
           layoutId={layoutId}
+          isOwner={isOwner}
         />
       </div>
     </AnimatePresence>
