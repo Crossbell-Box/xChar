@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion"
 import type { AchievementSection } from "crossbell.js"
 import { Image } from "~/components/ui/Image"
 import dayjs from "dayjs"
@@ -56,15 +55,6 @@ export const AchievementItem: React.FC<{
     : null
 
   const [opened, setOpened] = useState(false)
-  const [actived, setActived] = useState(false)
-
-  useEffect(() => {
-    if (!opened) {
-      setTimeout(() => {
-        setActived(false)
-      }, 200)
-    }
-  }, [opened])
 
   if (isOwner) {
     if (!achievement && !achievementMintable) {
@@ -77,114 +67,61 @@ export const AchievementItem: React.FC<{
   }
 
   return (
-    <AnimatePresence>
+    <div
+      className={`achievement-group relative cursor-pointer hover:scale-110 transition-transform ease`}
+    >
       <div
-        className={`achievement-group relative cursor-pointer ${
-          actived ? "z-[1]" : ""
-        } hover:scale-110 transition-transform ease`}
+        className="inline-flex flex-col text-center items-center w-full"
+        onClick={() => {
+          setOpened(true)
+        }}
       >
-        <motion.div
-          className={`inline-flex flex-col text-center items-center pointer-events-none w-full ${
-            !opened ? `absolute left-0 top-0` : ""
-          }`}
-          layoutId={"shadow" + layoutId + group.info.title}
-          transition={{ duration: 0.2 }}
-        >
-          <Badge
-            media={(achievement || achievementMintable)!.info.media}
-            className={`mb-1 ${!achievement && "grayscale"}`}
-            size={size}
-          />
-          <span className="flex-1 min-w-0 w-full">
-            {achievementMintable ? (
-              <Indicator
-                inline
-                dot
-                withBorder
-                processing
-                offset={-12}
-                size={12}
-                position="middle-start"
-                color="red"
-              >
-                <span className="capitalize text-xs font-medium truncate">
-                  {group.info.title}
-                </span>
-              </Indicator>
-            ) : (
-              <span className="capitalize text-xs font-medium truncate">
+        <Badge
+          media={(achievement || achievementMintable)!.info.media}
+          className={`mb-1 ${!achievement && "grayscale"}`}
+          size={size}
+        />
+        <div className="flex-1 min-w-0 w-full">
+          {achievementMintable ? (
+            <Indicator
+              inline
+              dot
+              withBorder
+              processing
+              offset={-12}
+              size={12}
+              position="middle-start"
+              color="red"
+              className="inline-flex max-w-full justify-center items-center"
+            >
+              <span className="capitalize text-xs font-medium truncate max-w-full inline-block">
                 {group.info.title}
               </span>
-            )}
-            <span className="text-[11px] text-gray-500 leading-snug block">
-              {achievement
-                ? `${dayjs
-                    .duration(
-                      dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
-                      "minute",
-                    )
-                    .humanize()} ago`
-                : "Mintable"}
+            </Indicator>
+          ) : (
+            <span className="capitalize text-xs font-medium truncate max-w-full inline-block">
+              {group.info.title}
             </span>
+          )}
+          <span className="text-[11px] text-gray-500 leading-snug block">
+            {achievement
+              ? `${dayjs
+                  .duration(
+                    dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
+                    "minute",
+                  )
+                  .humanize()} ago`
+              : "Mintable"}
           </span>
-        </motion.div>
-        {!opened && (
-          <motion.div
-            className="inline-flex flex-col text-center items-center w-full"
-            onClick={() => {
-              setOpened(true)
-              setActived(true)
-            }}
-            layoutId={layoutId + group.info.title}
-            transition={{ duration: 0.2 }}
-          >
-            <Badge
-              media={(achievement || achievementMintable)!.info.media}
-              className={`mb-1 ${!achievement && "grayscale"}`}
-              size={size}
-            />
-            <div className="flex-1 min-w-0 w-full">
-              {achievementMintable ? (
-                <Indicator
-                  inline
-                  dot
-                  withBorder
-                  processing
-                  offset={-12}
-                  size={12}
-                  position="middle-start"
-                  color="red"
-                >
-                  <span className="capitalize text-xs font-medium truncate">
-                    {group.info.title}
-                  </span>
-                </Indicator>
-              ) : (
-                <span className="capitalize text-xs font-medium truncate">
-                  {group.info.title}
-                </span>
-              )}
-              <span className="text-[11px] text-gray-500 leading-snug block">
-                {achievement
-                  ? `${dayjs
-                      .duration(
-                        dayjs(achievement.mintedAt).diff(dayjs(), "minute"),
-                        "minute",
-                      )
-                      .humanize()} ago`
-                  : "Mintable"}
-              </span>
-            </div>
-          </motion.div>
-        )}
-        <AchievementModal
-          opened={opened}
-          setOpened={setOpened}
-          group={group}
-          layoutId={layoutId}
-          isOwner={isOwner}
-        />
+        </div>
       </div>
-    </AnimatePresence>
+      <AchievementModal
+        opened={opened}
+        setOpened={setOpened}
+        group={group}
+        layoutId={layoutId}
+        isOwner={isOwner}
+      />
+    </div>
   )
 }

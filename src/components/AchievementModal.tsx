@@ -1,6 +1,5 @@
 import { Modal, Stepper } from "@mantine/core"
 import type { AchievementSection } from "crossbell.js"
-import { motion } from "framer-motion"
 import { Image } from "~/components/ui/Image"
 import dayjs from "dayjs"
 import Tilt from "react-parallax-tilt"
@@ -9,7 +8,6 @@ import { BlockchainIcon } from "~/components/icons/Blockchain"
 import { Button } from "~/components/ui/Button"
 import { useMintArchievement, useGetCharacter } from "~/queries/character"
 import { useRouter } from "next/router"
-import { useState, useEffect } from "react"
 
 export const AchievementModal: React.FC<{
   opened: boolean
@@ -61,10 +59,9 @@ export const AchievementModal: React.FC<{
         className="flex items-center flex-col"
         onClick={() => setOpened(false)}
       >
-        <motion.div
+        <div
           className="inline-flex flex-col text-center items-center text-white"
           key={(achievement || achievementMintable)!.info.tokenId}
-          layoutId={layoutId + group.info.title}
         >
           <Tilt
             className={`inline-block w-80 h-80 relative rounded-full bg-white mb-4 preserve-3d shadow-[inset_#a8a29e_34px_-34px_74px] p-[4%] ${
@@ -123,7 +120,7 @@ export const AchievementModal: React.FC<{
               )}
             </span>
           </div>
-        </motion.div>
+        </div>
         <div className="mt-8 hidden sm:block">
           <Stepper
             active={
