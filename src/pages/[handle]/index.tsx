@@ -11,6 +11,7 @@ import {
   prefetchGetNotes,
   prefetchGetAchievements,
   prefetchGetCalendar,
+  prefetchGetLatestMintedNotes,
 } from "~/queries/character.server"
 import { useRouter } from "next/router"
 import { HeatMap } from "~/components/HeatMap"
@@ -45,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       ),
       prefetchGetAchievements(character.characterId, queryClient),
       prefetchGetCalendar(character.characterId, queryClient),
+      prefetchGetLatestMintedNotes(character.owner, queryClient),
     ])
   } else {
     return {
@@ -83,6 +85,7 @@ export default function HandlePage() {
     {
       title: "Collections",
       icon: "💎",
+      details: `${handle}/collections`,
     },
     {
       title: "Notes",
@@ -113,7 +116,10 @@ export default function HandlePage() {
         </div>
         <div className="space-y-5">
           <CharacterCard />
-          <Box title={`${tabs[0].icon} ${tabs[0].title}`}>
+          <Box
+            title={`${tabs[0].icon} ${tabs[0].title}`}
+            details={tabs[0].details}
+          >
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-2 gap-y-3">
               <Platform platform="xlog" username={handle} />
               {character.data?.metadata?.content?.connected_accounts?.map(
@@ -154,7 +160,10 @@ export default function HandlePage() {
               )}
             </div>
           </Box>
-          <Box title={`${tabs[2].icon} ${tabs[2].title}`}>
+          <Box
+            title={`${tabs[2].icon} ${tabs[2].title}`}
+            details={tabs[2].details}
+          >
             <div className="grid grid-cols-4 sm:grid-cols-8 gap-x-2 gap-y-5">
               {latestMintedNotes.data?.list?.map((note) => (
                 <TreasureItem
@@ -164,7 +173,10 @@ export default function HandlePage() {
               ))}
             </div>
           </Box>
-          <Box title={`${tabs[3].icon} ${tabs[3].title}`}>
+          <Box
+            title={`${tabs[3].icon} ${tabs[3].title}`}
+            details={tabs[3].details}
+          >
             <>
               <div className="relative flex justify-center w-full">
                 <HeatMap characterId={character.data?.characterId} />

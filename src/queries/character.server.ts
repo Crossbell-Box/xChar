@@ -90,3 +90,16 @@ export const prefetchGetCalendar = async (
     return cacheGet(key, () => getCalendar(characterId))
   })
 }
+
+export const prefetchGetLatestMintedNotes = async (
+  address: string,
+  queryClient: QueryClient,
+) => {
+  if (!address) {
+    return null
+  }
+  const key = ["getLatestMintedNotes", address]
+  await queryClient.prefetchQuery(key, async () => {
+    return cacheGet(key, () => characterModel.getLatestMintedNotes(address))
+  })
+}
