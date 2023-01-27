@@ -22,7 +22,7 @@ export const Box = ({
             {details && (
               <UniLink
                 href={details}
-                className="flex items-center border rounded pl-2 pr-1"
+                className="flex items-center border rounded pl-2 pr-1 hover:text-accent transition-colors"
               >
                 <span className="align-middle">More </span>
                 <ChevronRightIcon className="w-4 h-4 inline-block align-middle" />

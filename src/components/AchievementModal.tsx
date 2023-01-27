@@ -6,7 +6,7 @@ import Tilt from "react-parallax-tilt"
 import { Badge } from "~/components/AchievementItem"
 import { BlockchainIcon } from "~/components/icons/Blockchain"
 import { Button } from "~/components/ui/Button"
-import { useMintArchievement, useGetCharacter } from "~/queries/character"
+import { useMintAchievement, useGetCharacter } from "~/queries/character"
 import { useRouter } from "next/router"
 
 export const AchievementModal: React.FC<{
@@ -27,11 +27,11 @@ export const AchievementModal: React.FC<{
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
-  const mintArchievement = useMintArchievement()
+  const mintAchievement = useMintAchievement()
 
   const mint = async (tokenId: number) => {
     if (character.data) {
-      await mintArchievement.mutate({
+      await mintAchievement.mutate({
         characterId: character.data?.characterId,
         achievementId: tokenId,
       })
@@ -171,7 +171,7 @@ export const AchievementModal: React.FC<{
                             e.stopPropagation()
                             mint(item.info.tokenId)
                           }}
-                          isLoading={mintArchievement.isLoading}
+                          isLoading={mintAchievement.isLoading}
                         >
                           Mint
                         </Button>

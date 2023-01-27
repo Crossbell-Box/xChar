@@ -64,7 +64,7 @@ export const useGetAchievements = (characterId: number) => {
   })
 }
 
-export const useMintArchievement = () => {
+export const useMintAchievement = () => {
   const queryClient = useQueryClient()
   return useMutation(
     async (input: Parameters<typeof characterModel.mintAchievement>[0]) => {
