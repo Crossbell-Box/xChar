@@ -39,6 +39,29 @@ export const prefetchGetNotes = async (
   })
 }
 
+export const prefetchGetMintedNotes = async (
+  input: Parameters<typeof characterModel.getMintedNotes>[0],
+  queryClient: QueryClient,
+) => {
+  if (!input.address) {
+    return null
+  }
+
+  const key = ["getMintedNotes", input.address, input]
+  return queryClient.prefetchInfiniteQuery({
+    queryKey: key,
+    queryFn: async ({ pageParam }) => {
+      return cacheGet(key, () =>
+        characterModel.getMintedNotes({
+          ...input,
+          cursor: pageParam,
+        }),
+      )
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor,
+  })
+}
+
 export const prefetchGetFollowings = async (
   characterId: number,
   queryClient: QueryClient,

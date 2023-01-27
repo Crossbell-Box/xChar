@@ -54,6 +54,29 @@ export async function getNotes(input: {
   return notes
 }
 
+export async function getMintedNotes(input: {
+  address?: string
+  limit?: number
+  cursor?: string
+}) {
+  if (!input.address) {
+    return null
+  }
+
+  const notes = await indexer.getMintedNotesOfAddress(input.address, {
+    limit: input.limit,
+    ...(input.cursor && { cursor: input.cursor }),
+  })
+  await Promise.all(
+    notes?.list.map(async (note) => {
+      await expandPage(note.note as Note)
+      return note
+    }),
+  )
+
+  return notes
+}
+
 export const getFollowings = (characterId: number) => {
   return indexer.getLinks(characterId, {
     limit: 0,

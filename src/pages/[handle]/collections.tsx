@@ -1,9 +1,9 @@
-import { useGetCharacter, useGetLatestMintedNotes } from "~/queries/character"
+import { useGetCharacter, useGetMintedNotes } from "~/queries/character"
 import {
   fetchGetCharacter,
   prefetchGetFollowers,
   prefetchGetFollowings,
-  prefetchGetLatestMintedNotes,
+  prefetchGetMintedNotes,
 } from "~/queries/character.server"
 import { useRouter } from "next/router"
 import { UniLink } from "~/components/ui/UniLink"
@@ -13,6 +13,7 @@ import { Box } from "~/components/ui/Box"
 import { CharacterCard } from "~/components/CharacterCard"
 import { ChevronLeftIcon } from "@heroicons/react/20/solid"
 import { TreasureItem } from "~/components/TreasureItem"
+import InfiniteScroll from "react-infinite-scroller"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -25,7 +26,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     await Promise.all([
       prefetchGetFollowers(character.characterId, queryClient),
       prefetchGetFollowings(character.characterId, queryClient),
-      prefetchGetLatestMintedNotes(character.owner, queryClient),
+      prefetchGetMintedNotes(
+        {
+          address: character.owner,
+          limit: 15,
+        },
+        queryClient,
+      ),
     ])
   } else {
     return {
@@ -44,7 +51,10 @@ export default function CollectionsPage() {
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
-  const latestMintedNotes = useGetLatestMintedNotes(character?.data?.owner)
+  const notes = useGetMintedNotes({
+    address: character.data?.owner,
+    limit: 15,
+  })
 
   const tabs = [
     {
@@ -69,14 +79,32 @@ export default function CollectionsPage() {
             title={`${tabs[0].icon} ${tabs[0].title}`}
             titleClassName="text-2xl"
           >
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-5 gap-y-5 mt-6">
-              {latestMintedNotes.data?.list?.map((note) => (
-                <TreasureItem
-                  note={note}
-                  key={note.noteCharacterId + "-" + note.noteId}
-                  size="lg"
-                />
-              ))}
+            <div>
+              <InfiniteScroll
+                loadMore={notes.fetchNextPage as any}
+                hasMore={notes.hasNextPage}
+                loader={
+                  <div
+                    className="relative mt-4 w-full text-sm text-center py-4"
+                    key={"loading"}
+                  >
+                    Loading ...
+                  </div>
+                }
+              >
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-5 gap-y-5 mt-6">
+                  {!!notes.data?.pages?.[0]?.count &&
+                    notes.data?.pages?.map((page) =>
+                      page?.list.map((note) => (
+                        <TreasureItem
+                          note={note}
+                          key={note.noteCharacterId + "-" + note.noteId}
+                          size="lg"
+                        />
+                      )),
+                    )}
+                </div>
+              </InfiniteScroll>
             </div>
           </Box>
         </div>

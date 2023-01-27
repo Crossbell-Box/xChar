@@ -37,6 +37,21 @@ export const useGetNotes = (
   })
 }
 
+export const useGetMintedNotes = (
+  input: Parameters<typeof characterModel.getMintedNotes>[0],
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getMintedNotes", input.address, input],
+    queryFn: async ({ pageParam }) => {
+      return characterModel.getMintedNotes({
+        ...input,
+        cursor: pageParam,
+      })
+    },
+    getNextPageParam: (lastPage) => lastPage?.cursor,
+  })
+}
+
 export const useGetFollowings = (characterId: number) => {
   return useQuery(["getFollowings", characterId], async () => {
     if (!characterId) {
