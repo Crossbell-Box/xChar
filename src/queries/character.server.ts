@@ -134,7 +134,7 @@ export const prefetchGetDistinctNoteSourcesOfCharacter = async (
   if (!characterId) {
     return null
   }
-  const key = ["getDistinctNoteSourcesOfCharacter ", characterId]
+  const key = ["getDistinctNoteSourcesOfCharacter", characterId]
   await queryClient.prefetchQuery(key, async () => {
     return cacheGet(key, () =>
       characterModel.getDistinctNoteSourcesOfCharacter(characterId),
