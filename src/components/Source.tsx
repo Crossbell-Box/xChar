@@ -36,17 +36,23 @@ function getColorFromSource(name: string) {
 
 export const Source: React.FC<{
   name: string
-}> = ({ name }) => {
+  onClick?: () => void
+  inactive?: boolean
+}> = ({ name, onClick, inactive }) => {
   const buildIn = builtInSourceMap[name.toLowerCase()]
   const [bgColor, textColor] = getColorFromSource(name.toLowerCase())
 
   return (
-    <UniLink className="inline-flex mt-2 mr-2 opacity-80" href={buildIn?.[2]}>
+    <UniLink
+      className="inline-flex mt-2 mr-2 opacity-80"
+      href={buildIn?.[2]}
+      onClick={onClick}
+    >
       <span
-        className="bg-gray-300 rounded-3xl px-2 inline-block"
+        className="bg-gray-300 rounded-3xl px-[9px] py-[2px] inline-block"
         style={{
-          backgroundColor: bgColor,
-          color: textColor,
+          backgroundColor: inactive ? undefined : bgColor,
+          color: inactive ? undefined : textColor,
         }}
       >
         {name}

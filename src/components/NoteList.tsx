@@ -7,20 +7,45 @@ import InfiniteScroll from "react-infinite-scroller"
 import { NoteItem } from "~/components/NoteItem"
 import type { CharacterEntity } from "crossbell.js"
 import { Source } from "~/components/Source"
+import { useState } from "react"
 
 export const NoteList = ({
   character,
 }: {
   character?: CharacterEntity | null
 }) => {
+  const [activeSources, setActiveSources] = useState<string[]>()
+
   const notes = useGetNotes({
     characterId: character?.characterId || 0,
     limit: 10,
+    sources: activeSources,
   })
 
   const sourceList = useGetDistinctNoteSourcesOfCharacter(
     character?.characterId,
   )
+
+  const toggleSource = (source: string) => {
+    // if (activeSources) {
+    //   if (activeSources.includes(source)) {
+    //     setActiveSources(activeSources.filter((s) => s !== source))
+    //   } else {
+    //     setActiveSources([...activeSources, source])
+    //   }
+    // } else {
+    //   setActiveSources(sourceList?.data?.list?.filter((s: string) => s !== source))
+    // }
+    if (activeSources) {
+      if (!activeSources.includes(source)) {
+        setActiveSources([source])
+      } else {
+        setActiveSources(undefined)
+      }
+    } else {
+      setActiveSources([source])
+    }
+  }
 
   return (
     <>
@@ -29,7 +54,12 @@ export const NoteList = ({
       </div>
       <div className="relative text-xs mt-4 leading-snug">
         {(sourceList?.data?.list || []).map((source: any) => (
-          <Source key={source} name={source}></Source>
+          <Source
+            key={source}
+            name={source}
+            onClick={() => toggleSource(source)}
+            inactive={activeSources && !activeSources.includes(source)}
+          ></Source>
         ))}
       </div>
       <div>

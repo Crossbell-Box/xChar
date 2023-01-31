@@ -30,6 +30,7 @@ export async function getNotes(input: {
   characterId: number
   limit?: number
   cursor?: string
+  sources?: string[]
 }) {
   if (!input.characterId) {
     return null
@@ -39,6 +40,9 @@ export async function getNotes(input: {
     characterId: input.characterId,
     limit: input.limit,
     cursor: input.cursor,
+    ...(input.sources?.length && {
+      sources: input.sources,
+    }),
   })) as Notes
 
   if (notes?.list) {
