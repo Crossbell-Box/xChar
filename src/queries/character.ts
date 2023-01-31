@@ -33,7 +33,7 @@ export const useGetNotes = (
       ).json()
       return result
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor,
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
@@ -48,7 +48,7 @@ export const useGetMintedNotes = (
         cursor: pageParam,
       })
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor,
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 

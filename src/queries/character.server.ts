@@ -35,7 +35,7 @@ export const prefetchGetNotes = async (
         }),
       )
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor,
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
@@ -58,7 +58,7 @@ export const prefetchGetMintedNotes = async (
         }),
       )
     },
-    getNextPageParam: (lastPage) => lastPage?.cursor,
+    getNextPageParam: (lastPage) => lastPage?.cursor || undefined,
   })
 }
 
