@@ -126,3 +126,18 @@ export const prefetchGetLatestMintedNotes = async (
     return cacheGet(key, () => characterModel.getLatestMintedNotes(address))
   })
 }
+
+export const prefetchGetDistinctNoteSourcesOfCharacter = async (
+  characterId: number,
+  queryClient: QueryClient,
+) => {
+  if (!characterId) {
+    return null
+  }
+  const key = ["getDistinctNoteSourcesOfCharacter ", characterId]
+  await queryClient.prefetchQuery(key, async () => {
+    return cacheGet(key, () =>
+      characterModel.getDistinctNoteSourcesOfCharacter(characterId),
+    )
+  })
+}

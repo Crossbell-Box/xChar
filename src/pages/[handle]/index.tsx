@@ -12,19 +12,18 @@ import {
   prefetchGetAchievements,
   prefetchGetCalendar,
   prefetchGetLatestMintedNotes,
+  prefetchGetDistinctNoteSourcesOfCharacter,
 } from "~/queries/character.server"
 import { useRouter } from "next/router"
-import { HeatMap } from "~/components/HeatMap"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import { Platform } from "~/components/Platform"
-import InfiniteScroll from "react-infinite-scroller"
 import { AchievementItem } from "~/components/AchievementItem"
 import { Box } from "~/components/ui/Box"
 import { TreasureItem } from "~/components/TreasureItem"
 import { Link } from "react-scroll"
-import { NoteItem } from "~/components/NoteItem"
 import { CharacterCard } from "~/components/CharacterCard"
+import { NoteList } from "~/components/NoteList"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -47,6 +46,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       prefetchGetAchievements(character.characterId, queryClient),
       prefetchGetCalendar(character.characterId, queryClient),
       prefetchGetLatestMintedNotes(character.owner, queryClient),
+      prefetchGetDistinctNoteSourcesOfCharacter(
+        character.characterId,
+        queryClient,
+      ),
     ])
   } else {
     return {
@@ -177,46 +180,7 @@ export default function HandlePage() {
             title={`${tabs[3].icon} ${tabs[3].title}`}
             details={tabs[3].details}
           >
-            <>
-              <div className="relative flex justify-center w-full">
-                <HeatMap characterId={character.data?.characterId} />
-              </div>
-              {/* <div className="relative text-xs mt-4 leading-snug">
-                {Object.keys(sourceList)
-                  .sort((a, b) => sourceList[b] - sourceList[a])
-                  .map((source) => {
-                    return (
-                      <span
-                        className="bg-gray-200 rounded-3xl px-2 inline-block mt-1 mr-1"
-                        key={source}
-                      >
-                        {source + " " + sourceList[source]}
-                      </span>
-                    )
-                  })}
-              </div> */}
-              <div>
-                <InfiniteScroll
-                  loadMore={notes.fetchNextPage as any}
-                  hasMore={notes.hasNextPage}
-                  loader={
-                    <div
-                      className="relative mt-4 w-full text-sm text-center py-4"
-                      key={"loading"}
-                    >
-                      Loading ...
-                    </div>
-                  }
-                >
-                  {!!notes.data?.pages?.[0]?.count &&
-                    notes.data?.pages?.map((page) =>
-                      page?.list.map((note) => (
-                        <NoteItem note={note} key={note.noteId} />
-                      )),
-                    )}
-                </InfiniteScroll>
-              </div>
-            </>
+            <NoteList character={character.data} />
           </Box>
         </div>
       </div>

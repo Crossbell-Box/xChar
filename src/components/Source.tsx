@@ -41,7 +41,7 @@ export const Source: React.FC<{
   const [bgColor, textColor] = getColorFromSource(name.toLowerCase())
 
   return (
-    <UniLink className="inline-flex mt-1 mr-1 opacity-80" href={buildIn?.[2]}>
+    <UniLink className="inline-flex mt-2 mr-2 opacity-80" href={buildIn?.[2]}>
       <span
         className="bg-gray-300 rounded-3xl px-2 inline-block"
         style={{

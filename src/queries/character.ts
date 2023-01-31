@@ -221,3 +221,15 @@ export const useGetLatestMintedNotes = (address?: string) => {
     return characterModel.getLatestMintedNotes(address)
   })
 }
+
+export const useGetDistinctNoteSourcesOfCharacter = (characterId?: number) => {
+  return useQuery(
+    ["getDistinctNoteSourcesOfCharacter", characterId],
+    async () => {
+      if (!characterId) {
+        return null
+      }
+      return characterModel.getDistinctNoteSourcesOfCharacter(characterId)
+    },
+  )
+}

@@ -203,3 +203,14 @@ export const getLatestMintedNotes = async (address: string) => {
 
   return notes
 }
+
+export const getDistinctNoteSourcesOfCharacter = async (
+  characterId: number,
+) => {
+  // return indexer.getDistinctNoteSourcesOfCharacter(characterId)
+  return (
+    await fetch(
+      `https://indexer.crossbell.io/v1/characters/${characterId}/notes/sources`,
+    )
+  ).json()
+}
