@@ -4,9 +4,12 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query"
-import { useSetPrimaryCharacter as useSetPrimaryCharacter_ } from "@crossbell/connect-kit"
-
-import { useContract } from "@crossbell/contract"
+import {
+  useSetPrimaryCharacter as useSetPrimaryCharacter_,
+  useUpdateCharacterMetadata,
+  useUpdateCharacterHandle,
+} from "@crossbell/connect-kit"
+import { CharacterEntity } from "crossbell.js"
 
 import * as characterModel from "../models/character"
 
@@ -119,36 +122,30 @@ export const useGetLinks = (characterId?: number, toCharacterId?: number) => {
   })
 }
 
-export const useUpdateCharacter = () => {
-  const contract = useContract()
+export const useUpdateCharacter = (
+  character: CharacterEntity | null | undefined,
+) => {
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof characterModel.updateCharacter>[1]) => {
-      return characterModel.updateCharacter(contract, input)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getCharacter", variables.handle])
-        queryClient.invalidateQueries(["getCalendar", variables.characterId])
-      },
-    },
-  )
+
+  return useUpdateCharacterMetadata({
+    onSuccess: (data, variables) =>
+      Promise.all([
+        queryClient.invalidateQueries(["getCharacter", character?.handle]),
+        queryClient.invalidateQueries(["getCalendar", variables.characterId]),
+      ]),
+  })
 }
 
 export const useUpdateHandle = () => {
-  const contract = useContract()
   const queryClient = useQueryClient()
-  return useMutation(
-    async (input: Parameters<typeof characterModel.updateHandle>[1]) => {
-      return characterModel.updateHandle(contract, input)
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["getCharacter", variables.handle])
-        queryClient.invalidateQueries(["getCalendar", variables.characterId])
-      },
-    },
-  )
+
+  return useUpdateCharacterHandle({
+    onSuccess: (data, variables) =>
+      Promise.all([
+        queryClient.invalidateQueries(["getCharacter", variables.handle]),
+        queryClient.invalidateQueries(["getCalendar", variables.characterId]),
+      ]),
+  })
 }
 
 export const useSetPrimaryCharacter = () => {

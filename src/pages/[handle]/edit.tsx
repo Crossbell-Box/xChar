@@ -1,8 +1,8 @@
 import {
   useGetCharacter,
-  useUpdateCharacter,
   useUpdateHandle,
   useSetPrimaryCharacter,
+  useUpdateCharacter,
 } from "~/queries/character"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
@@ -15,8 +15,8 @@ import { ImageUploader } from "~/components/ui/ImageUploader"
 import { useForm, Controller } from "react-hook-form"
 import toast from "react-hot-toast"
 import { toIPFS } from "~/lib/ipfs-parser"
-import { useAccountState } from "@crossbell/connect-kit"
 import { useIsOwner } from "~/hooks/use-is-owner"
+import { useAccountState } from "@crossbell/connect-kit"
 
 export default function EditPage() {
   const router = useRouter()
@@ -36,7 +36,7 @@ export default function EditPage() {
     }
   }, [account, character.data, handle, isOwner, router, ssrReady])
 
-  const updateCharacter = useUpdateCharacter()
+  const updateMetadata = useUpdateCharacter(character.data)
   const updateHandle = useUpdateHandle()
   const setPrimaryCharacter = useSetPrimaryCharacter()
 
@@ -67,13 +67,30 @@ export default function EditPage() {
 
   const metadataSubmit = metadataForm.handleSubmit((values) => {
     if (character.data?.characterId) {
-      updateCharacter.mutate({
+      updateMetadata.mutate({
         characterId: character.data.characterId,
-        handle: handle,
-        avatar: values.avatar,
-        banner: values.banner,
-        name: values.name,
-        bio: values.bio,
+        edit(draft) {
+          if (values.name) {
+            draft.name = values.name
+          }
+
+          if (values.bio) {
+            draft.bio = values.bio
+          }
+
+          if (values.avatar) {
+            draft.avatars = [toIPFS(values.avatar)]
+          }
+
+          if (values.banner?.address) {
+            draft.banners = [
+              {
+                address: toIPFS(values.banner.address),
+                mime_type: values.banner.mime_type,
+              },
+            ]
+          }
+        },
       })
     } else {
       toast.error("Failed to update character: characterId not found")
@@ -141,14 +158,14 @@ export default function EditPage() {
   }, [updateHandle, handleForm, router])
 
   useEffect(() => {
-    if (updateCharacter.isSuccess) {
+    if (updateMetadata.isSuccess) {
       toast.success("Character updated.")
-      updateCharacter.reset()
-    } else if (updateCharacter.isError) {
+      updateMetadata.reset()
+    } else if (updateMetadata.isError) {
       toast.error("Failed to update character.")
-      updateCharacter.reset()
+      updateMetadata.reset()
     }
-  }, [updateCharacter])
+  }, [updateMetadata])
 
   useEffect(() => {
     if (setPrimaryCharacter.isSuccess) {
@@ -262,7 +279,7 @@ export default function EditPage() {
           <div className="mt-5">
             <Button
               type="submit"
-              isLoading={updateCharacter.isLoading}
+              isLoading={updateMetadata.isLoading}
               isDisabled={avatarUploading || bannerUploading}
               rounded="full"
             >
