@@ -4,7 +4,6 @@ import {
   useGetFollowings,
   useGetNotes,
 } from "~/queries/character"
-import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
 import Tilt from "react-parallax-tilt"
 import dayjs from "~/lib/date"
@@ -13,12 +12,12 @@ import { UniLink } from "~/components/ui/UniLink"
 import { PencilSquareIcon } from "@heroicons/react/24/solid"
 import { Button } from "~/components/ui/Button"
 import { FollowingButton } from "~/components/FollowingButton"
-import { useEffect, useState } from "react"
 import { BlockchainIcon } from "~/components/icons/Blockchain"
 import { MoreButton } from "~/components/MoreButton"
 import { Image } from "~/components/ui/Image"
 import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
+import { useIsOwner } from "~/hooks/use-is-owner"
 
 export const CharacterCard = () => {
   const router = useRouter()
@@ -30,12 +29,7 @@ export const CharacterCard = () => {
     characterId: character.data?.characterId || 0,
     limit: 10,
   })
-  const { address } = useAccount()
-
-  const [isOwner, setIsOwner] = useState(false)
-  useEffect(() => {
-    setIsOwner(!!(address && address.toLowerCase?.() === character.data?.owner))
-  }, [address, character.data?.owner])
+  const isOwner = useIsOwner(character.data)
 
   return (
     <div className="relative">

@@ -1,10 +1,9 @@
 import {
   useGetCharacter,
-  useUpdateCharacter,
   useUpdateHandle,
   useSetPrimaryCharacter,
+  useUpdateCharacter,
 } from "~/queries/character"
-import { useAccount } from "wagmi"
 import { useRouter } from "next/router"
 import { Image } from "~/components/ui/Image"
 import Head from "next/head"
@@ -16,25 +15,28 @@ import { ImageUploader } from "~/components/ui/ImageUploader"
 import { useForm, Controller } from "react-hook-form"
 import toast from "react-hot-toast"
 import { toIPFS } from "~/lib/ipfs-parser"
+import { useIsOwner } from "~/hooks/use-is-owner"
+import { useAccountState } from "@crossbell/connect-kit"
 
 export default function EditPage() {
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
-  const { address } = useAccount()
+  const [ssrReady, account] = useAccountState((s) => [
+    s.ssrReady,
+    s.computed.account,
+  ])
+  const isOwner = useIsOwner(character.data)
 
   useEffect(() => {
-    if (
-      handle &&
-      character.data?.owner &&
-      address &&
-      character.data?.owner !== address?.toLowerCase?.()
-    ) {
+    if (!ssrReady || !character.data) return
+
+    if (!account || !isOwner) {
       router.push(`/${handle}`)
     }
-  }, [character.isSuccess, character.data?.owner, address, handle, router])
+  }, [account, character.data, handle, isOwner, router, ssrReady])
 
-  const updateCharacter = useUpdateCharacter()
+  const updateMetadata = useUpdateCharacter(character.data)
   const updateHandle = useUpdateHandle()
   const setPrimaryCharacter = useSetPrimaryCharacter()
 
@@ -65,13 +67,30 @@ export default function EditPage() {
 
   const metadataSubmit = metadataForm.handleSubmit((values) => {
     if (character.data?.characterId) {
-      updateCharacter.mutate({
+      updateMetadata.mutate({
         characterId: character.data.characterId,
-        handle: handle,
-        avatar: values.avatar,
-        banner: values.banner,
-        name: values.name,
-        bio: values.bio,
+        edit(draft) {
+          if (values.name) {
+            draft.name = values.name
+          }
+
+          if (values.bio) {
+            draft.bio = values.bio
+          }
+
+          if (values.avatar) {
+            draft.avatars = [toIPFS(values.avatar)]
+          }
+
+          if (values.banner?.address) {
+            draft.banners = [
+              {
+                address: toIPFS(values.banner.address),
+                mime_type: values.banner.mime_type,
+              },
+            ]
+          }
+        },
       })
     } else {
       toast.error("Failed to update character: characterId not found")
@@ -139,14 +158,14 @@ export default function EditPage() {
   }, [updateHandle, handleForm, router])
 
   useEffect(() => {
-    if (updateCharacter.isSuccess) {
+    if (updateMetadata.isSuccess) {
       toast.success("Character updated.")
-      updateCharacter.reset()
-    } else if (updateCharacter.isError) {
+      updateMetadata.reset()
+    } else if (updateMetadata.isError) {
       toast.error("Failed to update character.")
-      updateCharacter.reset()
+      updateMetadata.reset()
     }
-  }, [updateCharacter])
+  }, [updateMetadata])
 
   useEffect(() => {
     if (setPrimaryCharacter.isSuccess) {
@@ -260,7 +279,7 @@ export default function EditPage() {
           <div className="mt-5">
             <Button
               type="submit"
-              isLoading={updateCharacter.isLoading}
+              isLoading={updateMetadata.isLoading}
               isDisabled={avatarUploading || bannerUploading}
               rounded="full"
             >
@@ -268,46 +287,59 @@ export default function EditPage() {
             </Button>
           </div>
         </form>
-        <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
-          🦄 Handle
-        </h2>
-        <form onSubmit={handleSubmit} className="relative">
-          <div className="mt-5">
-            <Input required id="handle" {...handleForm.register("handle")} />
-          </div>
-          <div className="mt-5">
+
+        {account?.type === "wallet" && (
+          <>
+            <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
+              🦄 Handle
+            </h2>
+            <form onSubmit={handleSubmit} className="relative">
+              <div className="mt-5">
+                <Input
+                  required
+                  id="handle"
+                  {...handleForm.register("handle")}
+                />
+              </div>
+              <div className="mt-5">
+                <Button
+                  type="submit"
+                  isLoading={updateHandle.isLoading}
+                  rounded="full"
+                >
+                  Save
+                </Button>
+              </div>
+            </form>
+
+            <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
+              🌟 Primary
+            </h2>
+            <div className="relative text-sm text-zinc-500 my-2">
+              <p>Each address can only have one primary character.</p>
+              {character.data?.primary && (
+                <p className="mt-1">
+                  The current character is already a primary character.
+                </p>
+              )}
+            </div>
             <Button
-              type="submit"
-              isLoading={updateHandle.isLoading}
+              className="mt-2 relative"
               rounded="full"
+              isLoading={setPrimaryCharacter.isLoading}
+              isDisabled={character.data?.primary}
+              onClick={() => {
+                if (character.data?.characterId) {
+                  setPrimaryCharacter.mutate({
+                    characterId: character.data.characterId,
+                  })
+                }
+              }}
             >
-              Save
+              Set as primary
             </Button>
-          </div>
-        </form>
-        <h2 className="relative font-medium text-xl pt-5 mt-5 border-t border-t-zinc-300">
-          🌟 Primary
-        </h2>
-        <div className="relative text-sm text-zinc-500 my-2">
-          <p>Each address can only have one primary character.</p>
-          {character.data?.primary && (
-            <p className="mt-1">
-              The current character is already a primary character.
-            </p>
-          )}
-        </div>
-        <Button
-          className="mt-2 relative"
-          rounded="full"
-          isLoading={setPrimaryCharacter.isLoading}
-          isDisabled={character.data?.primary}
-          onClick={() =>
-            character.data?.characterId &&
-            setPrimaryCharacter.mutate(character.data?.characterId)
-          }
-        >
-          Set as primary
-        </Button>
+          </>
+        )}
       </div>
     </div>
   )
