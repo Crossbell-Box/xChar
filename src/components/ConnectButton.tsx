@@ -8,7 +8,6 @@ import {
   useAccountCharacters,
 } from "@crossbell/connect-kit"
 import { useRefCallback } from "@crossbell/util-hooks"
-import { BigNumber } from "ethers"
 import { useEffect, useState } from "react"
 import {
   Square2StackIcon,
@@ -60,9 +59,8 @@ export const ConnectButton: React.FC<{
   useEffect(() => {
     if (balance) {
       if (
-        BigNumber.from(balance.value).gt(
-          BigNumber.from("1" + "0".repeat(balance.decimals - 2)),
-        )
+        BigInt(balance.value.toString()) >
+        BigInt("1" + "0".repeat(balance.decimals - 2))
       ) {
         setInsufficientBalance(false)
       } else {

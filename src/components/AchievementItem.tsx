@@ -4,8 +4,8 @@ import dayjs from "dayjs"
 import { AchievementModal } from "~/components/AchievementModal"
 import { useEffect, useState } from "react"
 import { Indicator } from "@mantine/core"
-import { useAccount } from "wagmi"
 import type { CharacterEntity } from "crossbell.js"
+import { useAccountState } from "@crossbell/connect-kit"
 
 export const Badge = ({
   media,
@@ -39,7 +39,9 @@ export const AchievementItem: React.FC<{
   size?: number
   character?: CharacterEntity | null
 }> = ({ group, layoutId, size, character }) => {
-  const { address } = useAccount()
+  const [address] = useAccountState(({ computed }) => [
+    computed.account?.address,
+  ])
 
   const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {

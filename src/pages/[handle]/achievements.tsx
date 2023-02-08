@@ -15,7 +15,7 @@ import { Box } from "~/components/ui/Box"
 import { CharacterCard } from "~/components/CharacterCard"
 import { ChevronLeftIcon } from "@heroicons/react/20/solid"
 import { useEffect, useState } from "react"
-import { useAccount } from "wagmi"
+import { useAccountState } from "@crossbell/connect-kit"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
@@ -63,7 +63,9 @@ export default function AchievementsPage() {
     },
   ]
 
-  const { address } = useAccount()
+  const [address] = useAccountState(({ computed }) => [
+    computed.account?.address,
+  ])
 
   const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {
