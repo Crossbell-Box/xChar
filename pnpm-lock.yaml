@@ -33,7 +33,7 @@ specifiers:
   downshift: ^7.2.0
   eslint: 8.33.0
   eslint-config-next: 13.1.6
-  ethers: ^5.7.2
+  ethers: ^6.0.0
   hast: ^1.0.0
   husky: ^8.0.3
   idb-keyval: ^6.2.0
@@ -77,9 +77,9 @@ specifiers:
   zustand: ^4.3.2
 
 dependencies:
-  '@crossbell/connect-kit': 0.0.15_wyxlo4e6mto4ppxq6gkyhcsuca
-  '@crossbell/contract': 0.0.15_ylpnwtszz74xvkjkc2gqynwm7m
-  '@crossbell/indexer': 0.0.15_7io5vnrfxpcmx2wftbtqzywgwy
+  '@crossbell/connect-kit': 0.0.15_yllgvhdpl6zwxull5ltxdfakt4
+  '@crossbell/contract': 0.0.15_23dhckkd3pfpr67v5xs6otxcl4
+  '@crossbell/indexer': 0.0.15_5riwh32sgtoax7csqse47ebxsi
   '@crossbell/ui': 0.0.15_i7djou32ysqg7kx4s7uqtffal4
   '@crossbell/util-ethers': 0.0.15
   '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
@@ -97,7 +97,7 @@ dependencies:
   crossbell.js: 0.16.4
   dayjs: 1.11.7
   downshift: 7.2.0_react@18.2.0
-  ethers: 5.7.2
+  ethers: 6.0.2
   hast: 1.0.0
   idb-keyval: 6.2.0
   immer: 9.0.19
@@ -131,7 +131,7 @@ dependencies:
   unified: 10.1.2
   unist-builder: 3.0.1
   unist-util-visit: 4.1.2
-  wagmi: 0.11.4_xgfxdamodxgzyuko7g5yf2h5kq
+  wagmi: 0.11.4_k7q6tqgyfqccpkx3nkbus6kbbi
   zustand: 4.3.2_immer@9.0.19+react@18.2.0
 
 devDependencies:
@@ -155,6 +155,10 @@ devDependencies:
   typescript: 4.9.5
 
 packages:
+
+  /@adraffy/ens-normalize/1.8.9:
+    resolution: {integrity: sha512-93OmGCV0vO8+JQ3FHG+gZk/MPHzzMPDRiCiFcCQNTCnHaaxsacO3ScTPGlu2wX2dOtgfalbchPcw1cOYYjHCYQ==}
+    dev: false
 
   /@babel/code-frame/7.18.6:
     resolution: {integrity: sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==}
@@ -308,7 +312,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@crossbell/connect-kit/0.0.15_wyxlo4e6mto4ppxq6gkyhcsuca:
+  /@crossbell/connect-kit/0.0.15_yllgvhdpl6zwxull5ltxdfakt4:
     resolution: {integrity: sha512-kVh66vJ/fJfSMiDrnjR0kHwAvB17snAdJKxlX4x5In3Uzj4t4tUSl1egArXu7RNqJ2T1zIvL+GVSOC6UB+aKgg==}
     peerDependencies:
       '@crossbell/contract': 0.0.15
@@ -326,8 +330,8 @@ packages:
       wagmi: '*'
       zustand: ^4
     dependencies:
-      '@crossbell/contract': 0.0.15_ylpnwtszz74xvkjkc2gqynwm7m
-      '@crossbell/indexer': 0.0.15_7io5vnrfxpcmx2wftbtqzywgwy
+      '@crossbell/contract': 0.0.15_23dhckkd3pfpr67v5xs6otxcl4
+      '@crossbell/indexer': 0.0.15_5riwh32sgtoax7csqse47ebxsi
       '@crossbell/ui': 0.0.15_i7djou32ysqg7kx4s7uqtffal4
       '@crossbell/util-ethers': 0.0.15
       '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
@@ -344,14 +348,14 @@ packages:
       crossbell.js: 0.16.4
       detect-browser: 5.2.0
       embla-carousel-react: 7.0.9_react@18.2.0
-      ethers: 5.7.2
+      ethers: 6.0.2
       immer: 9.0.19
       lodash.debounce: 4.0.8
       qrcode: 1.5.0
       react: 18.2.0
       react-dropzone: 14.2.3_react@18.2.0
       react-google-recaptcha: 2.1.0_react@18.2.0
-      wagmi: 0.11.4_xgfxdamodxgzyuko7g5yf2h5kq
+      wagmi: 0.11.4_k7q6tqgyfqccpkx3nkbus6kbbi
       zustand: 4.3.2_immer@9.0.19+react@18.2.0
     transitivePeerDependencies:
       - '@babel/core'
@@ -359,7 +363,7 @@ packages:
       - react-dom
     dev: false
 
-  /@crossbell/contract/0.0.15_ylpnwtszz74xvkjkc2gqynwm7m:
+  /@crossbell/contract/0.0.15_23dhckkd3pfpr67v5xs6otxcl4:
     resolution: {integrity: sha512-EWvXJjrFN5O4IE/2SAXw4pqdPbPewlKcPs1Wl09Kp8s6eHglxjpHFBbISvZ52g2GAdRIE1/mbaRlBD+XGampEQ==}
     peerDependencies:
       '@crossbell/indexer': 0.0.15
@@ -369,15 +373,15 @@ packages:
       react: 18.x.x
       wagmi: 0.11.x
     dependencies:
-      '@crossbell/indexer': 0.0.15_7io5vnrfxpcmx2wftbtqzywgwy
+      '@crossbell/indexer': 0.0.15_5riwh32sgtoax7csqse47ebxsi
       '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
       crossbell.js: 0.16.4
-      ethers: 5.7.2
+      ethers: 6.0.2
       react: 18.2.0
-      wagmi: 0.11.4_xgfxdamodxgzyuko7g5yf2h5kq
+      wagmi: 0.11.4_k7q6tqgyfqccpkx3nkbus6kbbi
     dev: false
 
-  /@crossbell/indexer/0.0.15_7io5vnrfxpcmx2wftbtqzywgwy:
+  /@crossbell/indexer/0.0.15_5riwh32sgtoax7csqse47ebxsi:
     resolution: {integrity: sha512-iwkzl1H4JrNAkwHyGv246P/gwSD5R13Wdk2WPmXpl2EJhBJNFCBKgqZA6zKn5xr/XCHgwTftYXtPa8343Y0Ahw==}
     peerDependencies:
       '@tanstack/react-query': 4.x
@@ -389,10 +393,10 @@ packages:
       '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
       crossbell.js: 0.16.4
       dayjs: 1.11.7
-      ethers: 5.7.2
+      ethers: 6.0.2
       lodash.compact: 3.0.1
       lru-cache: 7.14.0
-      wagmi: 0.11.4_xgfxdamodxgzyuko7g5yf2h5kq
+      wagmi: 0.11.4_k7q6tqgyfqccpkx3nkbus6kbbi
     dev: false
 
   /@crossbell/ui/0.0.15_i7djou32ysqg7kx4s7uqtffal4:
@@ -406,7 +410,7 @@ packages:
       react: 18.x.x
       react-dom: 18.x.x
     dependencies:
-      '@crossbell/indexer': 0.0.15_7io5vnrfxpcmx2wftbtqzywgwy
+      '@crossbell/indexer': 0.0.15_5riwh32sgtoax7csqse47ebxsi
       '@crossbell/util-hooks': 0.0.15_d45c4uqthorvgm4d5gzjyi3rja
       '@crossbell/util-metadata': 0.0.15_lii6cdkwvwxzijiheqtmtp6t2i
       '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
@@ -1322,6 +1326,10 @@ packages:
     resolution: {integrity: sha512-Rk4SkJFaXZiznFyC/t77Q0NKS4FL7TLJJsVG2V2oiEq3kJVeTdxysEe/yRWSpnWMe808XRDJ+VFh5pt/FN5plw==}
     dev: false
 
+  /@noble/hashes/1.1.2:
+    resolution: {integrity: sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==}
+    dev: false
+
   /@noble/hashes/1.1.5:
     resolution: {integrity: sha512-LTMZiiLc+V4v1Yi16TD6aX2gmtKszNye0pQgbaLqkvhIqP7nVsSaJsWloGQjJfJ8offaoP5GtX3yY5swbcJxxQ==}
     dev: false
@@ -1947,7 +1955,7 @@ packages:
       typescript: 4.9.5
     dev: false
 
-  /@wagmi/connectors/0.2.4_gbgybz62il6e2sod75pn77f4oe:
+  /@wagmi/connectors/0.2.4_s2vxvmd2oan2dyfx2n66glwhpe:
     resolution: {integrity: sha512-vHlAPm9xIPze1SsF7MzUHG8Hl4mAgYwhCw2uKkhQCpZoEksKn3J89AmINh4BaMVVBcDK2ZYkLZfN0D1VMVMZcQ==}
     peerDependencies:
       '@wagmi/core': '>=0.9.x'
@@ -1963,12 +1971,12 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.0.2
       '@safe-global/safe-apps-provider': 0.15.2
       '@safe-global/safe-apps-sdk': 7.9.0
-      '@wagmi/core': 0.9.4_3uzb5alw6of5oo2vy3b2avc5eu
+      '@wagmi/core': 0.9.4_tltt6y6shbc74f7asnl47nypjq
       '@walletconnect/ethereum-provider': 1.8.0
       '@walletconnect/universal-provider': 2.3.3_bdgp3l2zgaopogaavxusmetvge
       '@web3modal/standalone': 2.1.1_react@18.2.0
       abitype: 0.3.0_typescript@4.9.5
-      ethers: 5.7.2
+      ethers: 6.0.2
       eventemitter3: 4.0.7
       typescript: 4.9.5
     transitivePeerDependencies:
@@ -1987,7 +1995,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core/0.9.4_3uzb5alw6of5oo2vy3b2avc5eu:
+  /@wagmi/core/0.9.4_tltt6y6shbc74f7asnl47nypjq:
     resolution: {integrity: sha512-YUOS1xn2PfKo0c90J708Vd+OPM5GoOouWExL/ZyuDP05f7y3PwDbN5ZfCyiqyTWsO53mMXcajMTFyjDqLxXACg==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -1997,9 +2005,9 @@ packages:
         optional: true
     dependencies:
       '@wagmi/chains': 0.2.6_typescript@4.9.5
-      '@wagmi/connectors': 0.2.4_gbgybz62il6e2sod75pn77f4oe
+      '@wagmi/connectors': 0.2.4_s2vxvmd2oan2dyfx2n66glwhpe
       abitype: 0.3.0_typescript@4.9.5
-      ethers: 5.7.2
+      ethers: 6.0.2
       eventemitter3: 4.0.7
       typescript: 4.9.5
       zustand: 4.3.2_immer@9.0.19+react@18.2.0
@@ -2541,6 +2549,10 @@ packages:
 
   /aes-js/3.1.2:
     resolution: {integrity: sha512-e5pEa2kBnBOgR4Y/p20pskXI74UEz7de8ZGVo58asOtvSVG5YAbJeELPZxOmt+Bnz3rX753YKhfIn4X4l1PPRQ==}
+    dev: false
+
+  /aes-js/4.0.0-beta.3:
+    resolution: {integrity: sha512-/xJX0/VTPcbc5xQE2VUP91y1xN8q/rDfhEzLm+vLc3hYvb5+qHCnpJRuFcrKn63zumK/sCwYYzhG8HP78JYSTA==}
     dev: false
 
   /agentkeepalive/4.2.1:
@@ -4360,6 +4372,21 @@ packages:
       '@ethersproject/wallet': 5.7.0
       '@ethersproject/web': 5.7.1
       '@ethersproject/wordlists': 5.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /ethers/6.0.2:
+    resolution: {integrity: sha512-YOHvShFjKordVEN7kVcKRp6xhpjq4ggZPcsAVuadXravZ7Z4qOflOEGfIaMnKp2ZQJqyR07iYVD6YVty4dI3Fw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@adraffy/ens-normalize': 1.8.9
+      '@noble/hashes': 1.1.2
+      '@noble/secp256k1': 1.7.1
+      aes-js: 4.0.0-beta.3
+      tslib: 2.4.0
+      ws: 8.5.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -8089,6 +8116,10 @@ packages:
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
 
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
+    dev: false
+
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: false
@@ -8446,7 +8477,7 @@ packages:
       vfile-message: 3.1.3
     dev: false
 
-  /wagmi/0.11.4_xgfxdamodxgzyuko7g5yf2h5kq:
+  /wagmi/0.11.4_k7q6tqgyfqccpkx3nkbus6kbbi:
     resolution: {integrity: sha512-zzJAXvsHFuNYrS/3KZC8xPqP7/eQT33xSlMIvMCgO/EYfQLM34r0Z+tcYmJ5KnuS1xd/fO1K6O2sSZVlaXaiLg==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -8459,9 +8490,9 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.22.4
       '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-query-persist-client': 4.24.4_pbzrecrhgj7fe7hddoo6lp43hu
-      '@wagmi/core': 0.9.4_3uzb5alw6of5oo2vy3b2avc5eu
+      '@wagmi/core': 0.9.4_tltt6y6shbc74f7asnl47nypjq
       abitype: 0.3.0_typescript@4.9.5
-      ethers: 5.7.2
+      ethers: 6.0.2
       react: 18.2.0
       typescript: 4.9.5
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -8685,6 +8716,19 @@ packages:
     dependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.10
+    dev: false
+
+  /ws/8.5.0:
+    resolution: {integrity: sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
     dev: false
 
   /xtend/4.0.2:
