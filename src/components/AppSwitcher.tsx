@@ -1,53 +1,63 @@
 import { SquaresIcon } from "~/components/icons/Squares"
-import { XCharIcon } from "~/components/icons/XChar"
-import { XFeedIcon } from "~/components/icons/XFeed"
-import { XShopIcon } from "~/components/icons/XShop"
-import { XSyncIcon } from "~/components/icons/XSync"
-import { XLogIcon } from "~/components/icons/XLog"
 import { Tooltip } from "~/components/Tooltip"
-import { CrossbellIcon } from "~/components/icons/Crossbell"
-import { RSS3Icon } from "~/components/icons/RSS3"
+import {
+  XCharLogo,
+  XFeedLogo,
+  XShopLogo,
+  XSyncLogo,
+  CrossbellChainLogo,
+} from "@crossbell/ui"
+import { Image } from "~/components/ui/Image"
 
 const apps = [
   {
     name: "xChar",
-    icon: <XCharIcon className="w-8 h-8 inline-block" />,
+    icon: <XCharLogo className="w-8 h-8" />,
     url: "https://xchar.app/",
   },
   {
     name: "xFeed",
-    icon: <XFeedIcon className="w-8 h-8 inline-block" />,
+    icon: <XFeedLogo className="w-8 h-8" />,
     url: "https://crossbell.io/feed",
   },
   {
     name: "xSync",
-    icon: <XSyncIcon className="w-8 h-8 inline-block" />,
+    icon: <XSyncLogo className="w-8 h-8" />,
     url: "https://xsync.app/",
   },
   {
     name: "xShop",
-    icon: <XShopIcon className="w-8 h-8 inline-block" />,
+    icon: <XShopLogo className="w-8 h-8" />,
     text: "Coming soon",
   },
   {
     name: "xLog",
-    icon: <XLogIcon className="w-8 h-8 inline-block" />,
+    icon: (
+      <div className="w-8 h-8">
+        <Image src="/logos/xlog.svg" alt="xLog" />
+      </div>
+    ),
     url: "https://xlog.app/",
   },
   {
     name: "Scan",
-    icon: <CrossbellIcon className="w-8 h-8 inline-block p-[2px]" />,
+    icon: <CrossbellChainLogo className="w-8 h-8 p-[2px] text-[#E7B75B]" />,
     url: "https://scan.crossbell.io/",
   },
   {
     name: "Faucet",
-    icon: <CrossbellIcon className="w-8 h-8 inline-block p-[2px]" />,
+    icon: <CrossbellChainLogo className="w-8 h-8 p-[2px] text-[#E7B75B]" />,
     url: "https://faucet.crossbell.io/",
   },
   {
-    name: "RSS3",
-    icon: <RSS3Icon className="w-8 h-8 inline-block" />,
-    url: "https://rss3.io/",
+    name: "Export",
+    icon: <CrossbellChainLogo className="w-8 h-8 p-[2px] text-[#E7B75B]" />,
+    url: "https://export.crossbell.io/",
+  },
+  {
+    name: "SDK",
+    icon: <CrossbellChainLogo className="w-8 h-8 p-[2px] text-[#E7B75B]" />,
+    url: "https://crossbell-box.github.io/crossbell.js/",
   },
 ]
 
