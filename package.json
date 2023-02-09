@@ -22,6 +22,7 @@
     "@crossbell/util-metadata": "0.0.16",
     "@ctrl/tinycolor": "^3.5.0",
     "@emotion/react": "^11.10.5",
+    "@floating-ui/react": "^0.19.1",
     "@floating-ui/react-dom-interactions": "^0.13.3",
     "@heroicons/react": "^2.0.15",
     "@mantine/core": "^5.10.3",

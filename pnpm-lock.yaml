@@ -10,6 +10,7 @@ specifiers:
   '@crossbell/util-metadata': 0.0.16
   '@ctrl/tinycolor': ^3.5.0
   '@emotion/react': ^11.10.5
+  '@floating-ui/react': ^0.19.1
   '@floating-ui/react-dom-interactions': ^0.13.3
   '@heroicons/react': ^2.0.15
   '@mantine/core': ^5.10.3
@@ -86,6 +87,7 @@ dependencies:
   '@crossbell/util-metadata': 0.0.16_2clwsqrhgemcm4ikupmx7m6x3u
   '@ctrl/tinycolor': 3.5.0
   '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
+  '@floating-ui/react': 0.19.1_5ndqzdd6t4rivxsukjv3i3ak2q
   '@floating-ui/react-dom-interactions': 0.13.3_5ndqzdd6t4rivxsukjv3i3ak2q
   '@heroicons/react': 2.0.15_react@18.2.0
   '@mantine/core': 5.10.3_ylq7zkqz7uvrjy7wd5cseqyxu4

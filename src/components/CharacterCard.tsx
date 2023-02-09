@@ -32,7 +32,7 @@ export const CharacterCard = () => {
   const isOwner = useIsOwner(character.data)
 
   return (
-    <div className="relative">
+    <div className="relative z-10">
       <Head>
         <title>
           {(character.data?.metadata?.content?.name

@@ -5,6 +5,7 @@ import { BlockchainIcon } from "~/components/icons/Blockchain"
 import { toGateway } from "~/lib/ipfs-parser"
 import { Image } from "~/components/ui/Image"
 import { XFeedLogo } from "@crossbell/ui"
+import { Menu } from "~/components/ui/Menu"
 
 export const MoreButton = ({
   handle,
@@ -75,32 +76,32 @@ export const MoreButton = ({
 
   return (
     <>
-      <div className="relative inline-block align-middle h-7 group">
-        <Button
-          variant="text"
-          onClick={(e) => {
-            e.stopPropagation()
-          }}
-          aria-label="more"
-        >
-          <EllipsisHorizontalIcon className="w-7 h-7" />
-        </Button>
-        <div className="absolute hidden right-0 sm:left-0 pt-2 group-hover:block top-full z-10 text-gray-600 w-60">
-          <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
-            {moreMenuItems.map((item) => {
-              return (
-                <UniLink
-                  key={item.text}
-                  href={item.url}
-                  className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
-                >
-                  <span className="fill-gray-500 flex">{item.icon}</span>
-                  <span>{item.text}</span>
-                </UniLink>
-              )
-            })}
-          </div>
-        </div>
+      <div className="relative inline-block align-middle h-7">
+        <Menu
+          target={
+            <Button variant="text" aria-label="more">
+              <EllipsisHorizontalIcon className="w-7 h-7" />
+            </Button>
+          }
+          dropdown={
+            <div className="pt-2 text-gray-600 w-60">
+              <div className="bg-white rounded-lg ring-1 ring-zinc-100 min-w-[140px] shadow-md py-2 text-sm">
+                {moreMenuItems.map((item) => {
+                  return (
+                    <UniLink
+                      key={item.text}
+                      href={item.url}
+                      className="h-10 flex w-full space-x-2 items-center px-3 hover:bg-gray-100"
+                    >
+                      <span className="fill-gray-500 flex">{item.icon}</span>
+                      <span>{item.text}</span>
+                    </UniLink>
+                  )
+                })}
+              </div>
+            </div>
+          }
+        />
       </div>
     </>
   )

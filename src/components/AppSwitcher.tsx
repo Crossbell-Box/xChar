@@ -8,6 +8,7 @@ import {
   CrossbellChainLogo,
 } from "@crossbell/ui"
 import { Image } from "~/components/ui/Image"
+import { Menu } from "~/components/ui/Menu"
 
 const apps = [
   {
@@ -64,37 +65,41 @@ const apps = [
 export const AppSwitcher = () => {
   return (
     <div className="relative">
-      <div className="group">
-        <SquaresIcon className="w-8 h-8 text-zinc-600 fill-current cursor-pointer" />
-        <div className="group-hover:block hidden absolute top-full -right-6 pt-3">
-          <div className="bg-white rounded-xl ring-1 ring-zinc-100 shadow-md p-2">
-            <ul className="text-center text-zinc-600 text-sm grid grid-cols-4 gap-x-2 gap-y-2 w-72">
-              {apps.map((app) => (
-                <li key={app.name}>
-                  {app.url ? (
-                    <a
-                      href={app.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex flex-col items-center sm:px-4 px-2 sm:py-2 py-1 hover:bg-zinc-100 rounded-lg"
-                    >
-                      {app.icon}
-                      <span>{app.name}</span>
-                    </a>
-                  ) : (
-                    <Tooltip label={app.text!} placement="bottom">
-                      <div className="flex flex-col items-center sm:px-4 px-2 sm:py-2 py-1 hover:bg-zinc-100 rounded-lg relative">
+      <Menu
+        target={
+          <SquaresIcon className="w-8 h-8 text-zinc-600 fill-current cursor-pointer" />
+        }
+        dropdown={
+          <div className="pt-3">
+            <div className="bg-white rounded-xl ring-1 ring-zinc-100 shadow-md p-2">
+              <ul className="text-center text-zinc-600 text-sm grid grid-cols-4 gap-x-2 gap-y-2 w-72">
+                {apps.map((app) => (
+                  <li key={app.name}>
+                    {app.url ? (
+                      <a
+                        href={app.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex flex-col items-center sm:px-4 px-2 sm:py-2 py-1 hover:bg-zinc-100 rounded-lg"
+                      >
                         {app.icon}
                         <span>{app.name}</span>
-                      </div>
-                    </Tooltip>
-                  )}
-                </li>
-              ))}
-            </ul>
+                      </a>
+                    ) : (
+                      <Tooltip label={app.text!} placement="bottom">
+                        <div className="flex flex-col items-center sm:px-4 px-2 sm:py-2 py-1 hover:bg-zinc-100 rounded-lg relative">
+                          {app.icon}
+                          <span>{app.name}</span>
+                        </div>
+                      </Tooltip>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      </div>
+        }
+      />
     </div>
   )
 }
