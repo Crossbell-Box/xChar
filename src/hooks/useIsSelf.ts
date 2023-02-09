@@ -3,7 +3,7 @@ import { CharacterEntity } from "crossbell.js"
 import { useAccountState } from "@crossbell/connect-kit"
 import { isAddressEqual } from "@crossbell/util-ethers"
 
-export function useIsOwner(character: CharacterEntity | null | undefined) {
+export function useIsSelf(character: CharacterEntity | null | undefined) {
   const account = useAccountState((s) => s.computed.account)
 
   return React.useMemo(() => {
@@ -11,7 +11,7 @@ export function useIsOwner(character: CharacterEntity | null | undefined) {
       case "email":
         return character?.characterId === account.characterId
       case "wallet":
-        return isAddressEqual(account.address, character?.owner)
+        return isAddressEqual(account.handle, character?.handle)
       default:
         return false
     }

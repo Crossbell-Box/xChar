@@ -17,7 +17,7 @@ import { MoreButton } from "~/components/MoreButton"
 import { Image } from "~/components/ui/Image"
 import Head from "next/head"
 import { toGateway } from "~/lib/ipfs-parser"
-import { useIsOwner } from "~/hooks/use-is-owner"
+import { useIsSelf } from "~/hooks/useIsSelf"
 
 export const CharacterCard = () => {
   const router = useRouter()
@@ -29,7 +29,7 @@ export const CharacterCard = () => {
     characterId: character.data?.characterId || 0,
     limit: 10,
   })
-  const isOwner = useIsOwner(character.data)
+  const isSelf = useIsSelf(character.data)
 
   return (
     <div className="relative z-10">
@@ -69,7 +69,7 @@ export const CharacterCard = () => {
               address={character?.data?.owner}
               ipfsUri={character.data?.metadata?.uri}
             />
-            {isOwner ? (
+            {isSelf ? (
               <UniLink href={`/${handle}/edit`}>
                 <Button
                   className="align-middle space-x-1"

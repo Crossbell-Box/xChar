@@ -15,7 +15,7 @@ import { ImageUploader } from "~/components/ui/ImageUploader"
 import { useForm, Controller } from "react-hook-form"
 import toast from "react-hot-toast"
 import { toIPFS } from "~/lib/ipfs-parser"
-import { useIsOwner } from "~/hooks/use-is-owner"
+import { useIsSelf } from "~/hooks/useIsSelf"
 import { useAccountState } from "@crossbell/connect-kit"
 
 export default function EditPage() {
@@ -26,15 +26,15 @@ export default function EditPage() {
     s.ssrReady,
     s.computed.account,
   ])
-  const isOwner = useIsOwner(character.data)
+  const isSelf = useIsSelf(character.data)
 
   useEffect(() => {
     if (!ssrReady || !character.data) return
 
-    if (!account || !isOwner) {
+    if (!account || !isSelf) {
       router.push(`/${handle}`)
     }
-  }, [account, character.data, handle, isOwner, router, ssrReady])
+  }, [account, character.data, handle, isSelf, router, ssrReady])
 
   const updateMetadata = useUpdateCharacter(character.data)
   const updateHandle = useUpdateHandle()
