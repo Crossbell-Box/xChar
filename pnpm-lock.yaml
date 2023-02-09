@@ -4,6 +4,7 @@ specifiers:
   '@crossbell/connect-kit': 0.0.20
   '@crossbell/contract': 0.0.20
   '@crossbell/indexer': 0.0.20
+  '@crossbell/notification': ^0.0.20
   '@crossbell/ui': 0.0.20
   '@crossbell/util-ethers': 0.0.20
   '@crossbell/util-hooks': 0.0.20
@@ -80,6 +81,7 @@ dependencies:
   '@crossbell/connect-kit': 0.0.20_rsqrdtfpcxhl5nxdifn5slerv4
   '@crossbell/contract': 0.0.20_voxoflfrmrxepwi2yzlg63pfj4
   '@crossbell/indexer': 0.0.20_zqzy35c2ocrziunlh6urc3g2ee
+  '@crossbell/notification': 0.0.20_l6jdog536cbt26nf7p7wmhsr3y
   '@crossbell/ui': 0.0.20_uncoxojtyl6ndad4tihtk4uxau
   '@crossbell/util-ethers': 0.0.20
   '@crossbell/util-hooks': 0.0.20_d45c4uqthorvgm4d5gzjyi3rja
@@ -390,6 +392,38 @@ packages:
       lodash.compact: 3.0.1
       lru-cache: 7.14.0
       wagmi: 0.11.5_yynssaxuktequp23rtw4psznua
+    dev: false
+
+  /@crossbell/notification/0.0.20_l6jdog536cbt26nf7p7wmhsr3y:
+    resolution: {integrity: sha512-EWjxKlmufzWu9rnVEWLTG/B2dA3eZC0/Yk1t+OW1S6hTLWjb5SyMf/89EKmcbOysTvbDVJjIRdqARDCHOU35KA==}
+    peerDependencies:
+      '@crossbell/connect-kit': 0.0.20
+      '@crossbell/indexer': 0.0.20
+      '@crossbell/ui': 0.0.20
+      '@crossbell/util-hooks': 0.0.20
+      '@crossbell/util-metadata': 0.0.20
+      dayjs: ^1.11.6
+      react: 18.x.x
+      zustand: ^4.1.5
+    dependencies:
+      '@crossbell/connect-kit': 0.0.20_rsqrdtfpcxhl5nxdifn5slerv4
+      '@crossbell/indexer': 0.0.20_zqzy35c2ocrziunlh6urc3g2ee
+      '@crossbell/ui': 0.0.20_uncoxojtyl6ndad4tihtk4uxau
+      '@crossbell/util-hooks': 0.0.20_d45c4uqthorvgm4d5gzjyi3rja
+      '@crossbell/util-metadata': 0.0.20_pv6jctxax5xi6cw4j6t7mmlgim
+      '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
+      '@mantine/core': 5.10.3_ylq7zkqz7uvrjy7wd5cseqyxu4
+      '@mantine/hooks': 5.10.3_react@18.2.0
+      '@mantine/modals': 5.10.3_7qw7iibcf4wkwwwrwp57hnnlya
+      classnames: 2.3.2
+      dayjs: 1.11.7
+      react: 18.2.0
+      react-intersection-observer: 9.4.1_react@18.2.0
+      zustand: 4.3.2_immer@9.0.19+react@18.2.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/react'
+      - react-dom
     dev: false
 
   /@crossbell/ui/0.0.20_uncoxojtyl6ndad4tihtk4uxau:
@@ -1068,6 +1102,21 @@ packages:
       react: '>=16.8.0'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@mantine/modals/5.10.3_7qw7iibcf4wkwwwrwp57hnnlya:
+    resolution: {integrity: sha512-qh+1D9IfILCf6e1nKM3aQMJUzn50U5+ILMPxdb0l3pggSs9t7I7F0fh9gtCI4k2vzCm4AeS4gRoV/3el6SyaoA==}
+    peerDependencies:
+      '@mantine/core': 5.10.3
+      '@mantine/hooks': 5.10.3
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 5.10.3_ylq7zkqz7uvrjy7wd5cseqyxu4
+      '@mantine/hooks': 5.10.3_react@18.2.0
+      '@mantine/utils': 5.10.3_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@mantine/notifications/5.10.3_7qw7iibcf4wkwwwrwp57hnnlya:

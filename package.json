@@ -16,6 +16,7 @@
     "@crossbell/connect-kit": "0.0.20",
     "@crossbell/contract": "0.0.20",
     "@crossbell/indexer": "0.0.20",
+    "@crossbell/notification": "^0.0.20",
     "@crossbell/ui": "0.0.20",
     "@crossbell/util-ethers": "0.0.20",
     "@crossbell/util-hooks": "0.0.20",

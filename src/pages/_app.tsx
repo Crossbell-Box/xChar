@@ -15,6 +15,7 @@ import { createIDBPersister } from "~/lib/persister.client"
 import { toGateway } from "~/lib/ipfs-parser"
 import { connectors, provider } from "~/lib/wallet-config"
 import { IPFS_GATEWAY } from "~/lib/constant"
+import { NotificationModal } from "@crossbell/notification"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
@@ -44,6 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Layout>
                 <Component {...pageProps} />
               </Layout>
+              <NotificationModal />
             </Hydrate>
           </ConnectKitProvider>
         </InitContractProvider>
