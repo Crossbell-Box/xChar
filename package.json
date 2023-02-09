@@ -13,13 +13,13 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@crossbell/connect-kit": "0.0.16",
-    "@crossbell/contract": "0.0.16",
-    "@crossbell/indexer": "0.0.16",
-    "@crossbell/ui": "0.0.16",
-    "@crossbell/util-ethers": "0.0.16",
-    "@crossbell/util-hooks": "0.0.16",
-    "@crossbell/util-metadata": "0.0.16",
+    "@crossbell/connect-kit": "0.0.20",
+    "@crossbell/contract": "0.0.20",
+    "@crossbell/indexer": "0.0.20",
+    "@crossbell/ui": "0.0.20",
+    "@crossbell/util-ethers": "0.0.20",
+    "@crossbell/util-hooks": "0.0.20",
+    "@crossbell/util-metadata": "0.0.20",
     "@ctrl/tinycolor": "^3.5.0",
     "@emotion/react": "^11.10.5",
     "@floating-ui/react": "^0.19.1",
@@ -34,7 +34,6 @@
     "crossbell.js": "^0.16.5",
     "dayjs": "^1.11.7",
     "downshift": "^7.2.0",
-    "ethers": "^5.7.2",
     "hast": "^1.0.0",
     "idb-keyval": "^6.2.0",
     "immer": "^9.0.19",
@@ -68,7 +67,7 @@
     "unified": "^10.1.2",
     "unist-builder": "^3.0.1",
     "unist-util-visit": "^4.1.2",
-    "wagmi": "0.11.4",
+    "wagmi": "0.11.5",
     "zustand": "^4.3.2"
   },
   "devDependencies": {
