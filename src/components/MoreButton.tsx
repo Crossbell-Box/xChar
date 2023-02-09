@@ -1,13 +1,10 @@
 import { Button } from "~/components/ui/Button"
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid"
-import {
-  BellIcon,
-  DocumentMagnifyingGlassIcon,
-} from "@heroicons/react/24/outline"
 import { UniLink } from "~/components/ui/UniLink"
 import { BlockchainIcon } from "~/components/icons/Blockchain"
-import { RSS3Icon } from "~/components/icons/RSS3"
 import { toGateway } from "~/lib/ipfs-parser"
+import { Image } from "~/components/ui/Image"
+import { XFeedLogo } from "@crossbell/ui"
 
 export const MoreButton = ({
   handle,
@@ -21,23 +18,58 @@ export const MoreButton = ({
   const moreMenuItems = [
     {
       text: "View metadata",
-      icon: <DocumentMagnifyingGlassIcon className="w-4 h-4" />,
+      icon: (
+        <div className="w-4 h-4">
+          <Image
+            alt="Hoot It"
+            src="/logos/ipfs.svg"
+            className="rounded"
+            width={16}
+            height={16}
+          />
+        </div>
+      ),
       url: toGateway(ipfsUri || ""),
     },
     {
       text: "View on xFeed",
-      icon: <BellIcon className="w-4 h-4" />,
+      icon: <XFeedLogo className="w-4 h-4" />,
       url: `https://crossbell.io/@${handle}`,
     },
     {
-      text: "View on Crossbell Scan",
-      icon: <BlockchainIcon />,
-      url: `https://scan.crossbell.io/address/${address}`,
+      text: "View on xLog",
+      icon: (
+        <div className="w-4 h-4">
+          <Image
+            alt="xLog"
+            src="/logos/xlog.svg"
+            className="rounded"
+            width={16}
+            height={16}
+          />
+        </div>
+      ),
+      url: `https://${handle}.xlog.app`,
     },
     {
-      text: "View on RSS3",
-      icon: <RSS3Icon />,
-      url: `https://rss3.io/result?search=${handle}.csb`,
+      text: "View on Hoot It",
+      icon: (
+        <div className="w-4 h-4">
+          <Image
+            alt="Hoot It"
+            src="/logos/hoot.svg"
+            className="rounded"
+            width={16}
+            height={16}
+          />
+        </div>
+      ),
+      url: `https://hoot.it/search/${handle}.csb/activities`,
+    },
+    {
+      text: "View on Crossbell Scan",
+      icon: <BlockchainIcon className="fill-[#c09526]" />,
+      url: `https://scan.crossbell.io/address/${address}`,
     },
   ]
 
