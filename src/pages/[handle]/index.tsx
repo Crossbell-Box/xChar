@@ -1,8 +1,8 @@
 import {
   useGetCharacter,
-  useGetNotes,
   useGetAchievements,
   useGetLatestMintedNotes,
+  useGetDistinctNoteSourcesOfCharacter,
 } from "~/queries/character"
 import {
   fetchGetCharacter,
@@ -68,12 +68,12 @@ export default function HandlePage() {
   const router = useRouter()
   const handle = router.query.handle as string
   const character = useGetCharacter(handle)
-  const notes = useGetNotes({
-    characterId: character.data?.characterId || 0,
-    limit: 10,
-  })
   const achievement = useGetAchievements(character.data?.characterId || 0)
   const latestMintedNotes = useGetLatestMintedNotes(character?.data?.owner)
+
+  const sourceList = useGetDistinctNoteSourcesOfCharacter(
+    character.data?.characterId,
+  )
 
   const tabs = [
     {
@@ -124,7 +124,9 @@ export default function HandlePage() {
             details={tabs[0].details}
           >
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-2 gap-y-3">
-              <Platform platform="xlog" username={handle} />
+              {sourceList.data?.list?.includes("xlog") && (
+                <Platform platform="xlog" username={handle} />
+              )}
               {character.data?.metadata?.content?.connected_accounts?.map(
                 (connected_account) => {
                   const match = (

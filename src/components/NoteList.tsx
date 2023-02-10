@@ -27,15 +27,6 @@ export const NoteList = ({
   )
 
   const toggleSource = (source: string) => {
-    // if (activeSources) {
-    //   if (activeSources.includes(source)) {
-    //     setActiveSources(activeSources.filter((s) => s !== source))
-    //   } else {
-    //     setActiveSources([...activeSources, source])
-    //   }
-    // } else {
-    //   setActiveSources(sourceList?.data?.list?.filter((s: string) => s !== source))
-    // }
     if (activeSources) {
       if (!activeSources.includes(source)) {
         setActiveSources([source])
