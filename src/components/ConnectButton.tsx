@@ -25,6 +25,7 @@ import {
   FaceSmileIcon,
   ArrowUpCircleIcon,
   ArrowPathRoundedSquareIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline"
 import { BellAlertIcon } from "@heroicons/react/24/solid"
 import { useRefCallback } from "@crossbell/util-hooks"
@@ -98,6 +99,11 @@ export const ConnectButton: React.FC<{
   }, [balance])
 
   const dropdownLinks = [
+    {
+      icon: <HomeIcon className="w-4 h-4" />,
+      label: "My Character",
+      url: `/${currentCharacter?.handle}`,
+    },
     {
       icon: <Square2StackIcon className="w-4 h-4" />,
       label: copyLabelDisplay,
@@ -269,6 +275,7 @@ export const ConnectButton: React.FC<{
                         return (
                           <UniLink
                             key={i}
+                            href={link.url}
                             onClick={link.onClick}
                             className={`${
                               size === "base"
