@@ -1,4 +1,3 @@
-import { useRouter } from "next/router"
 import { Button } from "~/components/ui/Button"
 import type { Variant } from "~/components/ui/Button"
 import { useEffect, useState } from "react"
@@ -8,6 +7,7 @@ import {
   useConnectModal,
   useFollowCharacter,
   useUnfollowCharacter,
+  useWalletMintNewCharacterModal,
 } from "@crossbell/connect-kit"
 import { useCharacterFollowRelation } from "@crossbell/indexer"
 
@@ -26,7 +26,7 @@ export const FollowingButton: React.FC<{
   const { show: openConnectModal } = useConnectModal()
   const [followProgress, setFollowProgress] = useState<boolean>(false)
   const character = useAccountCharacter()
-  const router = useRouter()
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const followRelation = useCharacterFollowRelation(
     character?.characterId,
@@ -39,7 +39,7 @@ export const FollowingButton: React.FC<{
       setFollowProgress(true)
       openConnectModal?.()
     } else if (!character) {
-      router.push("/new")
+      walletMintNewCharacterModal.show()
     } else if (characterId) {
       if (followRelation.data?.isFollowing) {
         unfollowCharacter.mutate({ characterId })
@@ -52,7 +52,7 @@ export const FollowingButton: React.FC<{
   useEffect(() => {
     if (followProgress && account && followRelation.isSuccess && characterId) {
       if (!character) {
-        router.push("/new")
+        walletMintNewCharacterModal.show()
       }
       if (!followRelation.data?.isFollowing) {
         followCharacter.mutate({ characterId })
@@ -61,7 +61,7 @@ export const FollowingButton: React.FC<{
     }
   }, [
     followRelation,
-    router,
+    walletMintNewCharacterModal,
     followProgress,
     account,
     characterId,

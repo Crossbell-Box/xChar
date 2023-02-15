@@ -10,6 +10,7 @@ import {
   useSelectCharactersModal,
   useAccountBalance,
   useAccountCharacter,
+  useWalletMintNewCharacterModal,
 } from "@crossbell/connect-kit"
 import { Avatar } from "~/components/ui/Avatar"
 import { Button } from "~/components/ui/Button"
@@ -34,6 +35,7 @@ import {
   useNotifications,
 } from "@crossbell/notification"
 import { Menu } from "~/components/ui/Menu"
+import { useRouter } from "next/router"
 
 export const ConnectButton: React.FC<{
   left?: boolean
@@ -70,6 +72,7 @@ export const ConnectButton: React.FC<{
     characterId: account?.characterId,
   })
 
+  const router = useRouter()
   const { show: openConnectModal } = useConnectModal()
   const { show: disconnect } = useDisconnectModal()
   const { balance } = useAccountBalance()
@@ -79,6 +82,7 @@ export const ConnectButton: React.FC<{
   const opSignSettingsModal = useOpSignSettingsModal()
   const upgradeAccountModal = useUpgradeAccountModal()
   const selectCharactersModal = useSelectCharactersModal()
+  const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 
   const showNotificationModal = useShowNotificationModal()
   const { isAllRead } = useNotifications()
@@ -102,7 +106,13 @@ export const ConnectButton: React.FC<{
     {
       icon: <HomeIcon className="w-4 h-4" />,
       label: "My Character",
-      url: `/${currentCharacter?.handle}`,
+      onClick: () => {
+        if (currentCharacter) {
+          router.push(`/${currentCharacter.handle}`)
+        } else {
+          walletMintNewCharacterModal.show()
+        }
+      },
     },
     {
       icon: <Square2StackIcon className="w-4 h-4" />,
@@ -190,7 +200,8 @@ export const ConnectButton: React.FC<{
             className="relative flex items-center space-x-2"
             style={{ height: avatarSize + "px" }}
           >
-            {currentCharacter ? (
+            {
+              // TODO
               <>
                 {!hideNotification && (
                   <>
@@ -225,9 +236,9 @@ export const ConnectButton: React.FC<{
                       <Avatar
                         className="align-middle"
                         images={
-                          currentCharacter.metadata?.content?.avatars || []
+                          currentCharacter?.metadata?.content?.avatars || []
                         }
-                        name={currentCharacter.metadata?.content?.name}
+                        name={currentCharacter?.metadata?.content?.name}
                         size={avatarSize}
                       />
                       {!hideName && (
@@ -244,10 +255,10 @@ export const ConnectButton: React.FC<{
                             } ${size === "base" ? "text-base" : "text-sm"}`}
                             style={{ marginBottom: "0.15rem" }}
                           >
-                            {currentCharacter.metadata?.content?.name ||
+                            {currentCharacter?.metadata?.content?.name ||
                               getAccountDisplayName(account)}
                           </span>
-                          {currentCharacter.handle && (
+                          {currentCharacter?.handle && (
                             <span
                               className={`text-left leading-none ${
                                 sizeDecrease === "sm" ? "text-sm" : "text-xs"
@@ -257,7 +268,7 @@ export const ConnectButton: React.FC<{
                                   : "text-gray-400"
                               }`}
                             >
-                              {"@" + currentCharacter.handle ||
+                              {"@" + currentCharacter?.handle ||
                                 getAccountDisplayName(account)}
                             </span>
                           )}
@@ -295,9 +306,7 @@ export const ConnectButton: React.FC<{
                   }
                 />
               </>
-            ) : (
-              ""
-            )}
+            }
           </div>
         )
       })()}
