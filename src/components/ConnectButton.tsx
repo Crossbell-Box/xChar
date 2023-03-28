@@ -136,7 +136,9 @@ export const ConnectButton: React.FC<{
             ),
             onClick: () => {
               if (account?.characterId) {
-                opSignSettingsModal.show(account?.characterId)
+                opSignSettingsModal.show({
+                  characterId: account?.characterId,
+                })
               }
             },
           },
@@ -286,7 +288,6 @@ export const ConnectButton: React.FC<{
                         return (
                           <UniLink
                             key={i}
-                            href={link.url}
                             onClick={link.onClick}
                             className={`${
                               size === "base"

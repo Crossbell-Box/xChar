@@ -7,7 +7,10 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { useState } from "react"
 import { createClient, WagmiConfig } from "wagmi"
 import { InitContractProvider } from "@crossbell/contract"
-import { ConnectKitProvider, contractConfig } from "@crossbell/connect-kit"
+import {
+  ConnectKitProvider,
+  getDefaultClientConfig,
+} from "@crossbell/connect-kit"
 import { Network } from "crossbell.js"
 
 import { Layout } from "~/components/Layout"
@@ -19,11 +22,7 @@ import { NotificationModal } from "@crossbell/notification"
 
 Network.setIpfsGateway(IPFS_GATEWAY)
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-})
+const wagmiClient = createClient(getDefaultClientConfig({ appName: "xChar" }))
 
 const persister = createIDBPersister()
 
@@ -36,19 +35,17 @@ export default function App({ Component, pageProps }: AppProps) {
         client={queryClient}
         persistOptions={{ persister }}
       >
-        <InitContractProvider {...contractConfig}>
-          <ConnectKitProvider ipfsLinkToHttpLink={toGateway}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <NextNProgress
-                options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
-              />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-              <NotificationModal />
-            </Hydrate>
-          </ConnectKitProvider>
-        </InitContractProvider>
+        <ConnectKitProvider ipfsLinkToHttpLink={toGateway}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <NextNProgress
+              options={{ easing: "linear", speed: 500, trickleSpeed: 100 }}
+            />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <NotificationModal />
+          </Hydrate>
+        </ConnectKitProvider>
       </PersistQueryClientProvider>
     </WagmiConfig>
   )
