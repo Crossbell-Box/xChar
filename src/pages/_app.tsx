@@ -6,7 +6,6 @@ import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { useState } from "react"
 import { createClient, WagmiConfig } from "wagmi"
-import { InitContractProvider } from "@crossbell/contract"
 import {
   ConnectKitProvider,
   getDefaultClientConfig,
@@ -16,7 +15,6 @@ import { Network } from "crossbell.js"
 import { Layout } from "~/components/Layout"
 import { createIDBPersister } from "~/lib/persister.client"
 import { toGateway } from "~/lib/ipfs-parser"
-import { connectors, provider } from "~/lib/wallet-config"
 import { IPFS_GATEWAY } from "~/lib/constant"
 import { NotificationModal } from "@crossbell/notification"
 
