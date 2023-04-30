@@ -11,7 +11,7 @@ specifiers:
   '@crossbell/util-metadata': 0.0.55
   '@ctrl/tinycolor': ^3.5.0
   '@emotion/react': ^11.10.5
-  '@floating-ui/react': ^0.19.1
+  '@floating-ui/react': ^0.24.0
   '@floating-ui/react-dom-interactions': ^0.13.3
   '@heroicons/react': ^2.0.15
   '@mantine/core': ^5.10.3
@@ -88,7 +88,7 @@ dependencies:
   '@crossbell/util-metadata': 0.0.55
   '@ctrl/tinycolor': 3.5.0
   '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
-  '@floating-ui/react': 0.19.1_5ndqzdd6t4rivxsukjv3i3ak2q
+  '@floating-ui/react': 0.24.0_5ndqzdd6t4rivxsukjv3i3ak2q
   '@floating-ui/react-dom-interactions': 0.13.3_5ndqzdd6t4rivxsukjv3i3ak2q
   '@heroicons/react': 2.0.15_react@18.2.0
   '@mantine/core': 5.10.3_ylq7zkqz7uvrjy7wd5cseqyxu4
@@ -946,14 +946,14 @@ packages:
     resolution: {integrity: sha512-J8TOSBq3SoZbDhM9+R/u77hP93gz/rajSA+K2kGyijPpORPWUXHUpTaleoj+92As0S9uPRP7Oi8IqMf0u+ro6A==}
     dev: false
 
-  /@floating-ui/core/1.2.0:
-    resolution: {integrity: sha512-GHUXPEhMEmTpnpIfesFA2KAoMJPb1SPQw964tToQwt+BbGXdhqTCWT1rOb0VURGylsxsYxiGMnseJ3IlclVpVA==}
+  /@floating-ui/core/1.2.6:
+    resolution: {integrity: sha512-EvYTiXet5XqweYGClEmpu3BoxmsQ4hkj3QaYA6qEnigCWffTP3vNRwBReTdrwDwo7OoJ3wM8Uoe9Uk4n+d4hfg==}
     dev: false
 
-  /@floating-ui/dom/1.2.0:
-    resolution: {integrity: sha512-QXzg57o1cjLz3cGETzKXjI3kx1xyS49DW9l7kV2jw2c8Yftd434t2hllX0sVGn2Q8MtcW/4pNm8bfE1/4n6mng==}
+  /@floating-ui/dom/1.2.7:
+    resolution: {integrity: sha512-DyqylONj1ZaBnzj+uBnVfzdjjCkFCL2aA9ESHLyUOGSqb03RpbLMImP1ekIQXYs4KLk9jAjJfZAU8hXfWSahEg==}
     dependencies:
-      '@floating-ui/core': 1.2.0
+      '@floating-ui/core': 1.2.6
     dev: false
 
   /@floating-ui/react-dom-interactions/0.13.3_5ndqzdd6t4rivxsukjv3i3ak2q:
@@ -978,7 +978,18 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/dom': 1.2.0
+      '@floating-ui/dom': 1.2.7
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@floating-ui/react-dom/2.0.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Ke0oU3SeuABC2C4OFu2mSAwHIP5WUiV98O9YWoHV4Q5aT6E9k06DV0Khi5uYspR8xmmBk08t8ZDcz3TR3ARkEg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@floating-ui/dom': 1.2.7
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -990,6 +1001,21 @@ packages:
       react-dom: '>=16.8.0'
     dependencies:
       '@floating-ui/react-dom': 1.2.2_biqbaboplfbrettd7655fr4n2y
+      aria-hidden: 1.2.2_3stiutgnnbnfnf3uowm5cip22i
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tabbable: 6.0.1
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
+  /@floating-ui/react/0.24.0_5ndqzdd6t4rivxsukjv3i3ak2q:
+    resolution: {integrity: sha512-/UxcKFV5WtD+CbInbosDmUwVpcKlTTo6sVllSWMYXiX/HHXWeMxbcUNIkilsj5EDlbKiw7nHQtHYHYQLQMsVdQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@floating-ui/react-dom': 2.0.0_biqbaboplfbrettd7655fr4n2y
       aria-hidden: 1.2.2_3stiutgnnbnfnf3uowm5cip22i
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
