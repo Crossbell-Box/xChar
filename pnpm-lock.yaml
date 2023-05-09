@@ -7,7 +7,7 @@ specifiers:
   '@crossbell/notification': ^0.0.55
   '@crossbell/ui': 0.0.55
   '@crossbell/util-ethers': 0.0.55
-  '@crossbell/util-hooks': 0.0.55
+  '@crossbell/util-hooks': 0.0.82
   '@crossbell/util-metadata': 0.0.55
   '@ctrl/tinycolor': ^3.5.0
   '@emotion/react': ^11.10.5
@@ -84,7 +84,7 @@ dependencies:
   '@crossbell/notification': 0.0.55_e4l26wd5n4hnjt55ggklw5ac64
   '@crossbell/ui': 0.0.55_g4igmxbvltr5xgg7k5qcnu5rbe
   '@crossbell/util-ethers': 0.0.55
-  '@crossbell/util-hooks': 0.0.55_biqbaboplfbrettd7655fr4n2y
+  '@crossbell/util-hooks': 0.0.82_biqbaboplfbrettd7655fr4n2y
   '@crossbell/util-metadata': 0.0.55
   '@ctrl/tinycolor': 3.5.0
   '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
@@ -477,6 +477,22 @@ packages:
 
   /@crossbell/util-hooks/0.0.55_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-VsY7hTbrSQ6GKoP5e1+KPhwiUDZBlv1vmSeVs5dNohpgPM3stpOHqsAcbCRL13sh2s8PPNcM3fyiSZoy/KtfDQ==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
+      crossbell.js: 0.19.5
+      react: 18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@crossbell/util-hooks/0.0.82_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-JF8yBWpt6YkeC2nUaLMg703Er0ub6qubvghklj3Bk+WGVokWvZwTfWn06kExE6drWmWWFXHbq1bUh85Ewt4xQg==}
     peerDependencies:
       react: ^18
     dependencies:
