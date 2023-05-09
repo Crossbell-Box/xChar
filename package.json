@@ -20,7 +20,7 @@
     "@crossbell/ui": "0.0.55",
     "@crossbell/util-ethers": "0.0.55",
     "@crossbell/util-hooks": "0.0.55",
-    "@crossbell/util-metadata": "0.0.55",
+    "@crossbell/util-metadata": "0.0.82",
     "@ctrl/tinycolor": "^3.5.0",
     "@emotion/react": "^11.10.5",
     "@floating-ui/react": "^0.19.1",
