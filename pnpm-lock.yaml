@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@crossbell/connect-kit': 0.0.55
   '@crossbell/contract': 0.0.55
-  '@crossbell/indexer': 0.0.55
+  '@crossbell/indexer': 0.0.82
   '@crossbell/notification': ^0.0.55
   '@crossbell/ui': 0.0.55
   '@crossbell/util-ethers': 0.0.55
@@ -80,7 +80,7 @@ specifiers:
 dependencies:
   '@crossbell/connect-kit': 0.0.55_hpbbwd4zmcyt4xxqqssjwtwnmu
   '@crossbell/contract': 0.0.55_4nc2cariun5trtm2ibnxmjrjo4
-  '@crossbell/indexer': 0.0.55_4nc2cariun5trtm2ibnxmjrjo4
+  '@crossbell/indexer': 0.0.82_biqbaboplfbrettd7655fr4n2y
   '@crossbell/notification': 0.0.55_e4l26wd5n4hnjt55ggklw5ac64
   '@crossbell/ui': 0.0.55_g4igmxbvltr5xgg7k5qcnu5rbe
   '@crossbell/util-ethers': 0.0.55
@@ -393,6 +393,25 @@ packages:
       lodash.compact: 3.0.1
       lru-cache: 8.0.4
       wagmi: 0.12.7_yynssaxuktequp23rtw4psznua
+    transitivePeerDependencies:
+      - bufferutil
+      - react
+      - react-dom
+      - react-native
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@crossbell/indexer/0.0.82_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-0YjeRX6PVwrDsneV0k4gQxe5BmgHgo2lygsYvY4COEcygOKgUJwnJA3YENbCS6vSifNZgBy2Ha2lP9XavX46mQ==}
+    peerDependencies:
+      ethers: ^5
+    dependencies:
+      '@tanstack/react-query': 4.24.4_biqbaboplfbrettd7655fr4n2y
+      crossbell.js: 0.19.5
+      dayjs: 1.11.7
+      lodash.compact: 3.0.1
+      lru-cache: 9.1.1
     transitivePeerDependencies:
       - bufferutil
       - react
@@ -5657,6 +5676,11 @@ packages:
   /lru-cache/8.0.4:
     resolution: {integrity: sha512-E9FF6+Oc/uFLqZCuZwRKUzgFt5Raih6LfxknOSAVTjNkrCZkBf7DQCwJxZQgd9l4eHjIJDGR+E+1QKD1RhThPw==}
     engines: {node: '>=16.14'}
+    dev: false
+
+  /lru-cache/9.1.1:
+    resolution: {integrity: sha512-65/Jky17UwSb0BuB9V+MyDpsOtXKmYwzhyl+cOa9XUiI4uV2Ouy/2voFP3+al0BjZbJgMBD8FojMpAf+Z+qn4A==}
+    engines: {node: 14 || >=16.14}
     dev: false
 
   /make-error/1.3.6:
