@@ -6,7 +6,7 @@ specifiers:
   '@crossbell/indexer': 0.0.55
   '@crossbell/notification': ^0.0.55
   '@crossbell/ui': 0.0.55
-  '@crossbell/util-ethers': 0.0.55
+  '@crossbell/util-ethers': 0.0.82
   '@crossbell/util-hooks': 0.0.55
   '@crossbell/util-metadata': 0.0.55
   '@ctrl/tinycolor': ^3.5.0
@@ -83,7 +83,7 @@ dependencies:
   '@crossbell/indexer': 0.0.55_4nc2cariun5trtm2ibnxmjrjo4
   '@crossbell/notification': 0.0.55_e4l26wd5n4hnjt55ggklw5ac64
   '@crossbell/ui': 0.0.55_g4igmxbvltr5xgg7k5qcnu5rbe
-  '@crossbell/util-ethers': 0.0.55
+  '@crossbell/util-ethers': 0.0.82
   '@crossbell/util-hooks': 0.0.55_biqbaboplfbrettd7655fr4n2y
   '@crossbell/util-metadata': 0.0.55
   '@ctrl/tinycolor': 3.5.0
@@ -473,6 +473,10 @@ packages:
 
   /@crossbell/util-ethers/0.0.55:
     resolution: {integrity: sha512-pgtcoV05CCzqryn3ie+JP6UXlYVCfhUqPuPUoLHVPPQhSQFFIIxRt2N8izo2bGKD7Q/3EpLzXPJlnXvgBHFMYA==}
+    dev: false
+
+  /@crossbell/util-ethers/0.0.82:
+    resolution: {integrity: sha512-IYHTM6dKEFQWdhSrcESGQ0rlnSSZBnbuNx8sOfGaV1ZyQGS2kL5t0bSgo40sUZQXArU7BJDtBiShUYOtgAvyng==}
     dev: false
 
   /@crossbell/util-hooks/0.0.55_biqbaboplfbrettd7655fr4n2y:
