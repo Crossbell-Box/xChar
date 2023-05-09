@@ -13,7 +13,7 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@crossbell/connect-kit": "0.0.55",
+    "@crossbell/connect-kit": "0.0.82",
     "@crossbell/contract": "0.0.55",
     "@crossbell/indexer": "0.0.55",
     "@crossbell/notification": "^0.0.55",
