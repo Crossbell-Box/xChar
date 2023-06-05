@@ -82,12 +82,14 @@ export async function getMintedNotes(input: {
 export const getFollowings = (characterId: number) => {
   return indexer.getLinks(characterId, {
     limit: 0,
+    linkType: "follow",
   })
 }
 
 export const getFollowers = (characterId: number) => {
   return indexer.getBacklinksOfCharacter(characterId, {
     limit: 0,
+    linkType: "follow",
   })
 }
 
