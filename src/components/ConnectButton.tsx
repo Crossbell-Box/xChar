@@ -6,7 +6,7 @@ import {
   useCsbDetailModal,
   useIsOpSignEnabled,
   useOpSignSettingsModal,
-  useUpgradeAccountModal,
+  useUpgradeEmailAccountModal,
   useSelectCharactersModal,
   useAccountBalance,
   useAccountCharacter,
@@ -80,7 +80,7 @@ export const ConnectButton: React.FC<{
   const currentCharacter = useAccountCharacter()
   const csbDetailModal = useCsbDetailModal()
   const opSignSettingsModal = useOpSignSettingsModal()
-  const upgradeAccountModal = useUpgradeAccountModal()
+  const upgradeAccountModal = useUpgradeEmailAccountModal()
   const selectCharactersModal = useSelectCharactersModal()
   const walletMintNewCharacterModal = useWalletMintNewCharacterModal()
 

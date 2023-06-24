@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import dayOfYear from "dayjs/plugin/dayOfYear"
 import weekOfYear from "dayjs/plugin/weekOfYear"
 import advancedFormat from "dayjs/plugin/advancedFormat"
-import type { NoteEntity, ListResponse } from "crossbell.js"
+import type { NoteEntity, ListResponse } from "crossbell"
 import { cacheGet } from "~/lib/redis.server"
 import * as characterModel from "~/models/character"
 

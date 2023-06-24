@@ -9,7 +9,7 @@ import {
   useUpdateCharacterMetadata,
   useUpdateCharacterHandle,
 } from "@crossbell/connect-kit"
-import { CharacterEntity } from "crossbell.js"
+import { CharacterEntity } from "crossbell"
 
 import * as characterModel from "../models/character"
 

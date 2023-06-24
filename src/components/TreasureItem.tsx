@@ -1,7 +1,7 @@
 import { Image } from "~/components/ui/Image"
 import { UniLink } from "~/components/ui/UniLink"
 import { UserIcon } from "@heroicons/react/24/solid"
-import type { MintedNoteEntity } from "crossbell.js"
+import type { MintedNoteEntity } from "crossbell"
 import { Note } from "~/lib/types"
 
 export const TreasureItem: React.FC<{

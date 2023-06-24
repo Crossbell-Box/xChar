@@ -5,7 +5,7 @@ import {
 import { HeatMap } from "~/components/HeatMap"
 import InfiniteScroll from "react-infinite-scroller"
 import { NoteItem } from "~/components/NoteItem"
-import type { CharacterEntity } from "crossbell.js"
+import type { CharacterEntity } from "crossbell"
 import { Source } from "~/components/Source"
 import { useState } from "react"
 

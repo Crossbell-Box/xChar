@@ -4,7 +4,7 @@ import { Note } from "~/lib/types"
 import dayjs from "~/lib/date"
 import { Source } from "~/components/Source"
 import { NoteModal } from "~/components/NoteModal"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export const NoteItem: React.FC<{
   note: Note

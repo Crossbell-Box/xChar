@@ -1,10 +1,10 @@
-import type { AchievementSection } from "crossbell.js"
+import type { AchievementSection } from "crossbell"
 import { Image } from "~/components/ui/Image"
 import dayjs from "dayjs"
 import { AchievementModal } from "~/components/AchievementModal"
 import { useEffect, useState } from "react"
 import { Indicator } from "@mantine/core"
-import type { CharacterEntity } from "crossbell.js"
+import type { CharacterEntity } from "crossbell"
 import { useAccountState } from "@crossbell/connect-kit"
 
 export const Badge = ({
@@ -87,7 +87,6 @@ export const AchievementItem: React.FC<{
           {achievementMintable ? (
             <Indicator
               inline
-              dot
               withBorder
               processing
               offset={-12}

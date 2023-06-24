@@ -30,12 +30,11 @@ export const NoteModal: React.FC<{
       onClose={() => setOpened(false)}
       centered
       size="auto"
-      transitionDuration={200}
-      exitTransitionDuration={200}
+      transitionProps={{ duration: 200, exitDuration: 200 }}
       withCloseButton={false}
       className="space-y-2"
       styles={(theme) => ({
-        modal: {
+        body: {
           maxWidth: "800px",
         },
       })}
