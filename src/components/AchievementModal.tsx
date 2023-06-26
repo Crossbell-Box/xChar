@@ -1,5 +1,5 @@
 import { Modal, Stepper } from "@mantine/core"
-import type { AchievementSection } from "crossbell.js"
+import type { AchievementSection } from "crossbell"
 import { Image } from "~/components/ui/Image"
 import dayjs from "dayjs"
 import Tilt from "react-parallax-tilt"
@@ -44,14 +44,17 @@ export const AchievementModal: React.FC<{
       onClose={() => setOpened(false)}
       centered
       size="auto"
-      transitionDuration={200}
-      exitTransitionDuration={200}
-      overlayOpacity={0.5}
+      transitionProps={{ duration: 200, exitDuration: 200 }}
       shadow="none"
       withCloseButton={false}
       styles={(theme) => ({
-        modal: {
+        content: {
           background: "none",
+          overflow: "initial !important",
+          boxShadow: "none",
+        },
+        overlay: {
+          opacity: 0.5,
         },
       })}
     >

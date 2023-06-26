@@ -1,4 +1,4 @@
-import type { NoteEntity } from "crossbell.js"
+import type { NoteEntity } from "crossbell"
 
 export type Note = NoteEntity & {
   cover?: string

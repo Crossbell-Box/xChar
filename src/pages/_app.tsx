@@ -1,16 +1,14 @@
 import "../styles/globals.css"
+import "@crossbell/connect-kit/colors.css"
 
 import type { AppProps } from "next/app"
 import NextNProgress from "nextjs-progressbar"
 import { Hydrate, QueryClient } from "@tanstack/react-query"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { useState } from "react"
-import { createClient, WagmiConfig } from "wagmi"
-import {
-  ConnectKitProvider,
-  getDefaultClientConfig,
-} from "@crossbell/connect-kit"
-import { Network } from "crossbell.js"
+import { WagmiConfig } from "wagmi"
+import { ConnectKitProvider, createWagmiConfig } from "@crossbell/connect-kit"
+import { setIpfsGateway } from "crossbell/ipfs"
 
 import { Layout } from "~/components/Layout"
 import { createIDBPersister } from "~/lib/persister.client"
@@ -18,9 +16,12 @@ import { toGateway } from "~/lib/ipfs-parser"
 import { IPFS_GATEWAY } from "~/lib/constant"
 import { NotificationModal } from "@crossbell/notification"
 
-Network.setIpfsGateway(IPFS_GATEWAY)
+setIpfsGateway(IPFS_GATEWAY)
 
-const wagmiClient = createClient(getDefaultClientConfig({ appName: "xChar" }))
+const wagmiConfig = createWagmiConfig({
+  appName: "xChar",
+  walletConnectV2ProjectId: "eb22ab0e8a4d59fde61dc87a426346ac",
+})
 
 const persister = createIDBPersister()
 
@@ -28,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig config={wagmiConfig}>
       <PersistQueryClientProvider
         client={queryClient}
         persistOptions={{ persister }}

@@ -1,5 +1,6 @@
 import { indexer } from "@crossbell/indexer"
 import { Notes, Note } from "~/lib/types"
+import { Address } from "viem"
 
 const expandPage = async (note: Note) => {
   note.cover = note?.metadata?.content?.attachments?.find((attachment) =>
@@ -21,7 +22,7 @@ const expandPage = async (note: Note) => {
 }
 
 export const getCharacter = (handle: string) => {
-  return indexer.getCharacterByHandle(handle)
+  return indexer.character.getByHandle(handle)
 }
 
 export async function getNotes(input: {
@@ -34,7 +35,7 @@ export async function getNotes(input: {
     return null
   }
 
-  const notes = (await indexer.getNotes({
+  const notes = (await indexer.note.getMany({
     characterId: input.characterId,
     limit: input.limit,
     cursor: input.cursor,
@@ -65,10 +66,13 @@ export async function getMintedNotes(input: {
     return null
   }
 
-  const notes = await indexer.getMintedNotesOfAddress(input.address, {
-    limit: input.limit,
-    ...(input.cursor && { cursor: input.cursor }),
-  })
+  const notes = await indexer.mintedNote.getManyOfAddress(
+    input.address as Address,
+    {
+      limit: input.limit,
+      ...(input.cursor && { cursor: input.cursor }),
+    },
+  )
   await Promise.all(
     notes?.list.map(async (note) => {
       await expandPage(note.note as Note)
@@ -80,38 +84,38 @@ export async function getMintedNotes(input: {
 }
 
 export const getFollowings = (characterId: number) => {
-  return indexer.getLinks(characterId, {
+  return indexer.link.getMany(characterId, {
     limit: 0,
     linkType: "follow",
   })
 }
 
 export const getFollowers = (characterId: number) => {
-  return indexer.getBacklinksOfCharacter(characterId, {
+  return indexer.link.getBacklinksOfCharacter(characterId, {
     limit: 0,
     linkType: "follow",
   })
 }
 
 export const getAchievements = (characterId: number) => {
-  return indexer.getAchievements(characterId)
+  return indexer.achievement.getMany(characterId)
 }
 
 export const mintAchievement = async (input: {
   characterId: number
   achievementId: number
 }) => {
-  return indexer.mintAchievement(input.characterId, input.achievementId)
+  return indexer.achievement.mint(input.characterId, input.achievementId)
 }
 
 export const getLinks = (characterId: number, toCharacterId: number) => {
-  return indexer.getLinks(characterId, {
+  return indexer.link.getMany(characterId, {
     toCharacterId: toCharacterId,
   })
 }
 
 export const getLatestMintedNotes = async (address: string) => {
-  const notes = await indexer.getMintedNotesOfAddress(address, {
+  const notes = await indexer.mintedNote.getManyOfAddress(address as Address, {
     limit: 8,
   })
   await Promise.all(

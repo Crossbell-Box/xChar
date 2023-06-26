@@ -5,7 +5,7 @@ import { indexer } from "@crossbell/indexer"
 import { useCombobox } from "downshift"
 import { Input } from "../components/ui/Input"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
-import type { CharacterEntity } from "crossbell.js"
+import type { CharacterEntity } from "crossbell"
 import { debounce } from "underscore"
 import Router from "next/router"
 import { Avatar } from "~/components/ui/Avatar"
@@ -16,7 +16,7 @@ export default function Home() {
 
   const searchChar = useMemo(() => {
     return debounce(async (inputValue: string) => {
-      const result = await indexer.searchCharacters(inputValue, {
+      const result = await indexer.search.characters(inputValue, {
         limit: 8,
       })
       setItems(result.list)
