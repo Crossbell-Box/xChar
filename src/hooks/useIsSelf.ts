@@ -1,7 +1,6 @@
 import React from "react"
 import { CharacterEntity } from "crossbell"
 import { useAccountState } from "@crossbell/connect-kit"
-import { isAddressEqual, Address } from "viem"
 
 export function useIsSelf(character: CharacterEntity | null | undefined) {
   const account = useAccountState((s) => s.computed.account)
@@ -11,10 +10,7 @@ export function useIsSelf(character: CharacterEntity | null | undefined) {
       case "email":
         return character?.characterId === account.characterId
       case "wallet":
-        return isAddressEqual(
-          account.handle as Address,
-          (character?.handle ?? "") as Address,
-        )
+        return account.handle === character?.handle
       default:
         return false
     }
