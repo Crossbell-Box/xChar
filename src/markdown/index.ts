@@ -4,6 +4,7 @@ import remarkRehype from "remark-rehype"
 import remarkFrontmatter from "remark-frontmatter"
 import rehypeStringify from "rehype-stringify"
 import remarkGfm from "remark-gfm"
+import remarkBreaks from "remark-breaks"
 import rehypeSanitize from "rehype-sanitize"
 import rehypeRaw from "rehype-raw"
 import { refractor } from "refractor"
@@ -62,19 +63,24 @@ export const renderPageContent = (
   try {
     result = unified()
       .use(remarkParse)
+      .use(remarkBreaks)
       .use(remarkFrontmatter, ["yaml"])
-      .use(() => (tree) => {
-        const yaml = tree.children.find((node) => node.type === "yaml")
-        try {
-          env.frontMatter = jsYaml.load((yaml as any)?.value) as Record<
-            string,
-            any
-          >
-        } catch (e) {
-          console.log(e)
+      .use(() => (tree: Root) => {
+        const yaml = tree.children.find((node) => (node as any).type === "yaml")
+        if ((yaml as any)?.value) {
+          try {
+            env.frontMatter = jsYaml.load((yaml as any)?.value) as Record<
+              string,
+              any
+            >
+          } catch (e) {
+            console.error(e)
+          }
         }
       })
-      .use(remarkGfm, {})
+      .use(remarkGfm, {
+        singleTilde: false,
+      })
       .use(remarkCallout)
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
@@ -100,7 +106,7 @@ export const renderPageContent = (
           img: Image,
         } as any,
       })
-      .use(() => (tree) => {
+      .use(() => (tree: Root) => {
         env.tree = tree
       })
       .processSync(content)
