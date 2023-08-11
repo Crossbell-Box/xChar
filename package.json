@@ -84,7 +84,7 @@
     "@types/react-scroll": "^1.8.7",
     "@types/underscore": "^1.11.5",
     "autoprefixer": "^10.4.14",
-    "eslint": "8.44.0",
+    "eslint": "8.47.0",
     "eslint-config-next": "13.4.9",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
