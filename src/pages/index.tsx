@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { Image } from "~/components/ui/Image"
-import { useState, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { indexer } from "@crossbell/indexer"
 import { useCombobox } from "downshift"
 import { Input } from "../components/ui/Input"
@@ -80,15 +80,15 @@ export default function Home() {
             >
               <Input
                 className="w-full focus:border-gray-300 focus:ring-0 border-0 rounded-none"
-                prefix={
+                prefixEle={
                   <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
                 }
                 {...getInputProps({
-                  onKeyDown: (event) => {
+                  onKeyDown: ((event) => {
                     if (event.key === "Enter" && !items.length) {
                       Router.push(`/${inputValue}`)
                     }
-                  },
+                  }) as React.KeyboardEventHandler<HTMLInputElement>,
                 })}
               />
               <>

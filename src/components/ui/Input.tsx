@@ -5,7 +5,7 @@ import { FieldLabel } from "./FieldLabel"
 type InputProps<TMultiline extends boolean> = {
   label?: string
   addon?: string
-  prefix?: JSX.Element
+  prefixEle?: JSX.Element
   isBlock?: boolean
   error?: string
   help?: React.ReactNode
@@ -18,7 +18,7 @@ export const Input = forwardRef(function Input<
   {
     label,
     addon,
-    prefix,
+    prefixEle,
     className,
     isBlock,
     error,
@@ -31,15 +31,15 @@ export const Input = forwardRef(function Input<
     : React.ForwardedRef<HTMLInputElement>,
 ) {
   const hasAddon = !!addon
-  const hasPrefix = !!prefix
+  const hasPrefix = !!prefixEle
   const Component = (multiline ? "textarea" : "input") as any
 
   return (
     <div>
       {label && <FieldLabel label={label} id={inputProps.id} />}
       <div className="flex items-center relative">
-        {prefix && (
-          <span className="text-gray-600 absolute left-3">{prefix}</span>
+        {prefixEle && (
+          <span className="text-gray-600 absolute left-3">{prefixEle}</span>
         )}
         <Component
           {...inputProps}
