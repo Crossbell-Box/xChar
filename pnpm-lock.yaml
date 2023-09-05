@@ -18,8 +18,8 @@ dependencies:
     specifier: ^1.5.7
     version: 1.5.7(@tanstack/react-query@4.32.6)(@types/react@18.2.20)(immer@10.0.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(wagmi@1.3.10)
   '@crossbell/ui':
-    specifier: 1.5.6
-    version: 1.5.6(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+    specifier: 1.5.13
+    version: 1.5.13(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
   '@crossbell/util-ethers':
     specifier: 1.5.2
     version: 1.5.2
@@ -250,6 +250,10 @@ packages:
     resolution: {integrity: sha512-iowxq3U30sghZotgl4s/oJRci6WPBfNO5YYgk2cIOMCHr3LeGPcsZjCEr+33Q4N+oV3OABDAtA+pyvWjbvBifQ==}
     dev: false
 
+  /@adraffy/ens-normalize@1.9.4:
+    resolution: {integrity: sha512-UK0bHA7hh9cR39V+4gl2/NnBBjoXIxkuWAPCaY4X7fbH4L/azIi7ilWOCjMUYfpJgraLUAqkRi2BqrjME8Rynw==}
+    dev: false
+
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
@@ -347,7 +351,7 @@ packages:
       '@crossbell/contract': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/indexer': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/react-account': 1.5.7(@tanstack/react-query@4.32.6)(@types/react@18.2.20)(react-dom@18.2.0)(typescript@5.1.6)
-      '@crossbell/ui': 1.5.6(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@crossbell/ui': 1.5.13(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/util-ethers': 1.5.2
       '@crossbell/util-hooks': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/util-metadata': 1.5.6(typescript@5.1.6)
@@ -411,6 +415,25 @@ packages:
       - zod
     dev: false
 
+  /@crossbell/indexer@1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
+    resolution: {integrity: sha512-L3yMY1NevNxWP5yBPCyXJgWIZzijjge7KkGF6hDra98qjle0rY1vmzX5fP+hdaN9yHZ/hkgQEf8cEPiXFtM+OQ==}
+    dependencies:
+      '@tanstack/react-query': 4.32.6(react-dom@18.2.0)(react@18.2.0)
+      crossbell: 1.6.4(typescript@5.1.6)
+      dayjs: 1.11.9
+      lodash.compact: 3.0.1
+      lru-cache: 10.0.1
+      viem: 1.10.3(typescript@5.1.6)
+    transitivePeerDependencies:
+      - bufferutil
+      - react
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
   /@crossbell/indexer@1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
     resolution: {integrity: sha512-SLCEDSVmrk8F1eu3hdrsk0pVdiVm7lCPiPzNk4PvTnoFWcGduwlzkgl7dYdUZ5HSsJW/9qnBM1a6nSaeRahRGQ==}
     dependencies:
@@ -443,7 +466,7 @@ packages:
     dependencies:
       '@crossbell/indexer': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/react-account': 1.5.7(@tanstack/react-query@4.32.6)(@types/react@18.2.20)(react-dom@18.2.0)(typescript@5.1.6)
-      '@crossbell/ui': 1.5.6(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@crossbell/ui': 1.5.13(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/util-hooks': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@crossbell/util-metadata': 1.5.6(typescript@5.1.6)
       '@tanstack/react-query': 4.32.6(react-dom@18.2.0)(react@18.2.0)
@@ -495,25 +518,25 @@ packages:
       - zod
     dev: false
 
-  /@crossbell/ui@1.5.6(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
-    resolution: {integrity: sha512-jfYuCFv+qUg0eG4xD6JhDQWlZNoK1DGp6M/v0v3P3KKCFYs320gt7viPYaXK/0rFAI8HJ9/lbbNI44BClTNZeg==}
+  /@crossbell/ui@1.5.13(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
+    resolution: {integrity: sha512-C3yh2i3FYwDwaqTDwE/n/5jouGp8zzfylF0kxCLmSWkDCp5QKNFwTdY8P3iFH0wq+p+KQRpQFn1t8+wdhQlBKQ==}
     peerDependencies:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@crossbell/indexer': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      '@crossbell/util-hooks': 1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      '@crossbell/util-metadata': 1.5.6(typescript@5.1.6)
+      '@crossbell/indexer': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@crossbell/util-hooks': 1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@crossbell/util-metadata': 1.5.13(typescript@5.1.6)
       '@tanstack/react-query': 4.32.6(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
-      crossbell: 1.5.9(typescript@5.1.6)
+      crossbell: 1.6.4(typescript@5.1.6)
       facepaint: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-intersection-observer: 9.5.2(react@18.2.0)
       react-remove-scroll: 2.5.6(@types/react@18.2.20)(react@18.2.0)
       react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      ts-essentials: 9.3.2(typescript@5.1.6)
+      ts-essentials: 9.4.0(typescript@5.1.6)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -523,8 +546,29 @@ packages:
       - zod
     dev: false
 
+  /@crossbell/util-ethers@1.5.13:
+    resolution: {integrity: sha512-IGzqQ1qX4o3W76u30ogJfB3eoIGqvA1tY7TFM1s+JsZ62x3MWzmJh2CNMSC2ptF8ki2B9QaGv2TiW0CtH4Jqsw==}
+    dev: false
+
   /@crossbell/util-ethers@1.5.2:
     resolution: {integrity: sha512-PUzv9h/I3pnw/C1EljR1Wh3sTspgVkimRNLpLnZ228zs1Be0w6rromZ80WOxjE6hZjJMjtnCQT1Vm4Bz5jBGMg==}
+    dev: false
+
+  /@crossbell/util-hooks@1.5.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
+    resolution: {integrity: sha512-s1QWyo0AH6jBDWLBqebIt/QF7GB2Gl1mr6VDRIhZfkxmeF4aYMj73lNAfuujtYXfaXo/LU+/qDi0jO219MdfpA==}
+    peerDependencies:
+      react: ^18
+    dependencies:
+      '@tanstack/react-query': 4.32.6(react-dom@18.2.0)(react@18.2.0)
+      crossbell: 1.6.4(typescript@5.1.6)
+      react: 18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - react-dom
+      - react-native
+      - typescript
+      - utf-8-validate
+      - zod
     dev: false
 
   /@crossbell/util-hooks@1.5.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
@@ -539,6 +583,19 @@ packages:
       - bufferutil
       - react-dom
       - react-native
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /@crossbell/util-metadata@1.5.13(typescript@5.1.6):
+    resolution: {integrity: sha512-9Sx5Hb2RSnjQnuZMGXb3n3SvS2dN5rs1h5JztqnjKeDbFabeIZsWEewE/h+C0fSgZc++naL4YNBrwIe8Eaii/w==}
+    dependencies:
+      '@crossbell/util-ethers': 1.5.13
+      '@fastify/deepmerge': 1.3.0
+      crossbell: 1.6.4(typescript@5.1.6)
+    transitivePeerDependencies:
+      - bufferutil
       - typescript
       - utf-8-validate
       - zod
@@ -1101,12 +1158,23 @@ packages:
       '@noble/hashes': 1.3.1
     dev: false
 
+  /@noble/curves@1.2.0:
+    resolution: {integrity: sha512-oYclrNgRaM9SsBUBVbb8M6DTV7ZHRTKugureoYEncY5c65HOmRzvSiTE3y5CYaPYJA/GVkrhXEoF0M3Ya9PMnw==}
+    dependencies:
+      '@noble/hashes': 1.3.2
+    dev: false
+
   /@noble/hashes@1.3.0:
     resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
     dev: false
 
   /@noble/hashes@1.3.1:
     resolution: {integrity: sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==}
+    engines: {node: '>= 16'}
+    dev: false
+
+  /@noble/hashes@1.3.2:
+    resolution: {integrity: sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==}
     engines: {node: '>= 16'}
     dev: false
 
@@ -1298,18 +1366,37 @@ packages:
     resolution: {integrity: sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA==}
     dev: false
 
+  /@scure/base@1.1.3:
+    resolution: {integrity: sha512-/+SgoRjLq7Xlf0CWuLHq2LUZeL/w65kfzAPG5NH9pcmBhs+nunQTn4gvdwgMTIXnt9b2C/1SeL2XiysZEyIC9Q==}
+    dev: false
+
   /@scure/bip32@1.3.0:
     resolution: {integrity: sha512-bcKpo1oj54hGholplGLpqPHRbIsnbixFtc06nwuNM5/dwSXOq/AAYoIBRsBmnZJSdfeNW5rnff7NTAz3ZCqR9Q==}
     dependencies:
       '@noble/curves': 1.0.0
-      '@noble/hashes': 1.3.0
+      '@noble/hashes': 1.3.1
       '@scure/base': 1.1.1
+    dev: false
+
+  /@scure/bip32@1.3.2:
+    resolution: {integrity: sha512-N1ZhksgwD3OBlwTv3R6KFEcPojl/W4ElJOeCZdi+vuI5QmTFwLq3OFf2zd2ROpKvxFdgZ6hUpb0dx9bVNEwYCA==}
+    dependencies:
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/base': 1.1.3
     dev: false
 
   /@scure/bip39@1.2.0:
     resolution: {integrity: sha512-SX/uKq52cuxm4YFXWFaVByaSHJh2w3BnokVSeUJVCv6K7WulT9u2BuNRBhuFl8vAuYnzx9bEu9WgpcNYTrYieg==}
     dependencies:
-      '@noble/hashes': 1.3.0
+      '@noble/hashes': 1.3.1
+      '@scure/base': 1.1.1
+    dev: false
+
+  /@scure/bip39@1.2.1:
+    resolution: {integrity: sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==}
+    dependencies:
+      '@noble/hashes': 1.3.2
       '@scure/base': 1.1.1
     dev: false
 
@@ -2229,6 +2316,20 @@ packages:
       typescript: 5.1.6
     dev: false
 
+  /abitype@0.9.8(typescript@5.1.6):
+    resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+    dependencies:
+      typescript: 5.1.6
+    dev: false
+
   /acorn-jsx@5.3.2(acorn@8.10.0):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -2911,6 +3012,23 @@ packages:
       exponential-backoff: 3.1.1
       p-limit: 3.1.0
       viem: 1.6.0(typescript@5.1.6)
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - zod
+    dev: false
+
+  /crossbell@1.6.4(typescript@5.1.6):
+    resolution: {integrity: sha512-6wjWaPW0HqePxKNjaC/YEcknHe5Kx4Icbtoo2p5LQd6c9ggXMpyGSXGnFqvWcU7vxdmcbEfdwYuzFeEPS3jXCA==}
+    engines: {node: '>=16.14.0'}
+    dependencies:
+      '@crossbell/ipfs-fetch': 0.0.19
+      async-retry: 1.3.3
+      eip1193-types: 0.2.1
+      exponential-backoff: 3.1.1
+      p-limit: 3.1.0
+      viem: 1.10.3(typescript@5.1.6)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -4492,6 +4610,14 @@ packages:
       ws: 8.12.0
     dev: false
 
+  /isomorphic-ws@5.0.0(ws@8.13.0):
+    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
+    peerDependencies:
+      ws: '*'
+    dependencies:
+      ws: 8.13.0(bufferutil@4.0.7)(utf-8-validate@5.0.10)
+    dev: false
+
   /jayson@4.1.0:
     resolution: {integrity: sha512-R6JlbyLN53Mjku329XoRT2zJAE6ZgOQ8f91ucYdMCD4nkGCF9kZSrcGXpHIU4jeKj58zUZke2p+cdQchU7Ly7A==}
     engines: {node: '>=8'}
@@ -4751,6 +4877,11 @@ packages:
 
   /lru-cache@10.0.0:
     resolution: {integrity: sha512-svTf/fzsKHffP42sujkO/Rjs37BCIsQVRCeNYIm9WN8rgT7ffoUnRtZCqU+6BqcSBdv8gwJeTz8knJpgACeQMw==}
+    engines: {node: 14 || >=16.14}
+    dev: false
+
+  /lru-cache@10.0.1:
+    resolution: {integrity: sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==}
     engines: {node: 14 || >=16.14}
     dev: false
 
@@ -6420,7 +6551,7 @@ packages:
   /rxjs@7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     dependencies:
-      tslib: 2.6.0
+      tslib: 2.6.1
 
   /sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
@@ -6963,6 +7094,17 @@ packages:
       typescript: 5.1.6
     dev: false
 
+  /ts-essentials@9.4.0(typescript@5.1.6):
+    resolution: {integrity: sha512-s4BzWZmTh926caZO7XF7MMbwCn1BioT3s3r9hT8ARnwW//30OD0XioEsMyq3ORAHP/deN4Zkst2ZvxXmL+tG6g==}
+    peerDependencies:
+      typescript: '>=4.1.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 5.1.6
+    dev: false
+
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
@@ -6980,12 +7122,8 @@ packages:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: false
 
-  /tslib@2.6.0:
-    resolution: {integrity: sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==}
-
   /tslib@2.6.1:
     resolution: {integrity: sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==}
-    dev: false
 
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
@@ -7371,6 +7509,30 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
+    dev: false
+
+  /viem@1.10.3(typescript@5.1.6):
+    resolution: {integrity: sha512-7L35k0JmxTa7xIx1s8lCsTLGrTEUXTYnLppZ56EVBjtvE2OKSfDjL8No0Fnedu6Ye0zi/VX2BQC3arhpKOVIlw==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@adraffy/ens-normalize': 1.9.4
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/bip32': 1.3.2
+      '@scure/bip39': 1.2.1
+      '@types/ws': 8.5.5
+      abitype: 0.9.8(typescript@5.1.6)
+      isomorphic-ws: 5.0.0(ws@8.13.0)
+      typescript: 5.1.6
+      ws: 8.13.0(bufferutil@4.0.7)(utf-8-validate@5.0.10)
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - zod
     dev: false
 
   /viem@1.6.0(typescript@5.1.6):
