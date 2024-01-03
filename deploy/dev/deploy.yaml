@@ -23,7 +23,7 @@ spec:
         tier: api
     spec:
       containers:
-        - image: $IMAGE_TAG_RELEASE
+        - image: flosspicks/xchar
           imagePullPolicy: Always
           name: xchar
           envFrom:

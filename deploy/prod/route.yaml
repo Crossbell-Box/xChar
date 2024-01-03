@@ -3,12 +3,14 @@ kind: IngressRoute
 metadata:
   name: xchar
   namespace: crossbell
+  annotations:
+    avp.kubernetes.io/path: "kv/data/crossbell/xchar"
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
-      match: "Host(`$XCHAR_DOMAIN`)"
+      match: Host(`<DOMAIN>`)
       services:
         - name: xchar
           port: 3000
