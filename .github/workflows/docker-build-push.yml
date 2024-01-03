@@ -27,7 +27,7 @@ jobs:
       cluster: dev
       namespace: crossbell
       releaseName: xchar
-      revision: develop
+      revision: dev
       dir: deploy/dev
     secrets:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
