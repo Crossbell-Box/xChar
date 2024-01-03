@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: xchar
+  namespace: crossbell
+  annotations:
+    avp.kubernetes.io/path: "kv/data/crossbell/xchar"
+spec:
+  dnsNames:
+    - "<DOMAIN>"
+  issuerRef:
+    kind: ClusterIssuer
+    name: cloudflare
+  secretName: xchar-cert
