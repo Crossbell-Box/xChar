@@ -30,7 +30,7 @@ jobs:
       revision: dev
       dir: deploy/dev
     secrets:
-      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   deploy-prod:
     if: github.ref == 'refs/heads/main'
     uses: NaturalSelectionLabs/Daedalus/.github/workflows/deploy-v3-tpl.yaml@main
@@ -45,4 +45,4 @@ jobs:
       revision: main
       dir: deploy/prod
     secrets:
-      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
